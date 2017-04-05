@@ -1,26 +1,149 @@
 html, body {
 	font-family: Consolas, monaco, monospace;
-	background-color: #272822;
-	color: #F8F8F2;
-}
-
-.container {
-	margin: 50px;
-}
-
-a {
-	text-decoration: none;
-	color: #A6E22E;
-}
-
-a:hover {
-	color: #F92672;
+	/* background-color: #272822; */
+	/* color: #F8F8F2; */
 }
 
 h1 {
-	color: #F92672;
+	font-family: 'Gochi Hand', cursive;
+	color: #41b6de;
+	text-shadow: 1px 1px #000;
 }
 
 h2 {
 	color: #66D9EF;
 }
+p{
+	font-family: 'PT Sans', sans-serif;
+	font-size: 1.5em;
+}
+header{
+	width: 100%;
+	z-index: 10;
+}
+
+main{
+	/* margin-top:  210px; */
+	height: 2000px;
+}
+
+.presentation{
+	width: 100%;
+	height:  520px;
+	background: url('../img/presentation_BG.jpg') no-repeat fixed;
+	background-position: bottom;
+	background-size: cover;
+}
+/* div qui permet un effet de screen color */
+.presentation .colored{
+	background-color: rgba(255, 255, 255, 0.4);
+	height: 100%;
+	width: 100%;
+}
+.howto{
+	height: 250px;
+	background: url('../img/madras2.jpg') fixed;
+}
+.howto .colored{
+	background-color: rgba(65, 182, 222, 0.9);
+	height: 100%;
+	width: 100%;
+}
+.howto h1{
+	color:  white;
+}
+
+.page-header a{
+	color:  white;
+}
+/**************************************************
+** Redefinition de ceertaines class de Bootstrap **
+**************************************************/
+.container-fluid{padding: 0;}
+
+.page-header{
+	margin:  0;
+	padding: 10px 0 0;
+	border:  none;
+	min-height: 150px;
+	background: url('../img/header_BG.jpg');
+}
+.affix{
+	top:  0;
+	width: 100%;
+}
+
+.navbar{
+	border-radius: 0;
+	z-index: 1000;
+	box-shadow: 2px 2px 5px 1px #555;
+}
+.navbar-default{
+	background-color: #f4d195;
+	border:  none;
+}
+
+.navbar-default .navbar-nav > li > a{
+	color:  black;
+	font-family: 'Oleo Script Swash Caps', cursive;
+	font-size: 2em;
+
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+	color: #41b6de;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover{
+	background-color: rgba(65, 182, 222, 0.7);
+	color:  white;
+}
+
+.carousel{
+	height: 350px;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+.carousel img {
+    width: 100%;
+    object-fit: contain;
+}
+.carousel-control{
+	height: 100%;
+}
+.carousel-indicators .active{
+	background-color: #41b6de;
+}
+
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+/*==========  Mobile First Method  ==========*/
+
+ /* Custom, iPhone Retina */ 
+ @media only screen and (min-width : 320px) {
+
+ }
+
+ /* Extra Small Devices, Phones */ 
+ @media only screen and (min-width : 480px) {
+
+ }
+
+ /* Small Devices, Tablets */
+ @media only screen and (min-width : 768px) {
+
+ }
+
+ /* Medium Devices, Desktops */
+ @media only screen and (min-width : 992px) {
+
+ }
+
+ /* Large Devices, Wide Screens */
+ @media only screen and (min-width : 1200px) {
+
+ }
