@@ -48,6 +48,8 @@
 							<h1>Bonjour, comment tu t'appel ?</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
               <br>
+              <a href="#" title="" class="btn btn-primary">Do IT</a>
+              <br>
               <img src="<?= $this->assetUrl('img/t_makeit.png') ?>" alt="">
 						</div>
             <div class="col-xs-12 col-sm-4 text-center">
