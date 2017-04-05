@@ -27,10 +27,10 @@
 				  	<div class="col-xs-12 col-sm-6">
 				  		<div class="col-xs-6 text-right">
 				  			<a href="#" title="user"><i class="fa fa-user-circle-o fa-4x" 
-				  			aria-hidden="true"></i></a>
+				  			aria-hidden="true"></i><br><h4>Connection</h4></a>
 				  		</div>
 				  		<div class="col-xs-6 text-left">
-				  			<a href="#" title="user"><i class="fa fa-shopping-cart fa-4x" aria-hidden="true"></i></a>
+				  			<a href="#" title="user"><i class="fa fa-shopping-cart fa-4x" aria-hidden="true"></i><br><h4>0 article(s)</h4></a>
 				  		</div>
 				  	</div>
 				  </div>

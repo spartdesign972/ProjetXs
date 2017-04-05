@@ -47,7 +47,17 @@
 						<div class="col-xs-12 col-sm-8 text-center">
 							<h1>Bonjour, comment tu t'appel ?</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
+              <br>
+              <img src="<?= $this->assetUrl('img/t_makeit.png') ?>" alt="">
 						</div>
+            <div class="col-xs-12 col-sm-4 text-center">
+              <img src="<?= $this->assetUrl('img/img_pres1.jpg') ?>" alt="" class="img-thumbnail">
+              <img src="<?= $this->assetUrl('img/img_pres2.jpg') ?>" alt="" class="img-thumbnail">
+              <img src="<?= $this->assetUrl('img/img_pres3.jpg') ?>" alt="" class="img-thumbnail">
+              <img src="<?= $this->assetUrl('img/img_pres4.jpg') ?>" alt="" class="img-thumbnail">
+              <img src="<?= $this->assetUrl('img/img_pres5.jpg') ?>" alt="" class="img-thumbnail">
+              <img src="<?= $this->assetUrl('img/img_pres6.jpg') ?>" alt="" class="img-thumbnail">
+            </div>
 					</div>
 				</div>
 			</div>
@@ -55,21 +65,68 @@
 
   <section class="howto">
     <div class="colored">
-      <div class="container">
+      <div class="container text-center">
         <h1>Comment creer votre tshirt ?!</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae velit sit, quae debitis ea ratione ex excepturi rem vero sequi enim minus inventore nulla et aut, laboriosam optio, officia. Iusto!</p> 
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae velit sit, quae debitis ea ratione ex excepturi rem vero sequi enim minus inventore nulla et aut, laboriosam optio, officia. Iusto!</p>
+        <div class="row">
+          <div class="col-xs-6 col-sm-3"><h3>etape 1</h3></div>
+          <div class="col-xs-6 col-sm-3"><h3>etape 2</h3></div>
+          <div class="col-xs-6 col-sm-3"><h3>etape 3</h3></div>
+          <div class="col-xs-6 col-sm-3"><h3>etape 4</h3></div>
+        </div> 
       </div>
     </div>
   </section>
 
   <section class="selection">
-    <h1>Sélection de la semaine</h1>
+    <div class="container text-center">
+      <h1>Sélection de la semaine</h1>
+      <div class="row">
+        
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
+            <div class="caption">
+              <h3>Thumbnail label</h3>
+              <p>...</p>
+              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+          </div>
+        </div>
 
-    
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
+            <div class="caption">
+              <h3>Thumbnail label</h3>
+              <p>...</p>
+              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
+            <div class="caption">
+              <h3>Thumbnail label</h3>
+              <p>...</p>
+              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+      </div>
+    </div>
   </section>
 
   <section class="infos">
-    <h1>Flash info !</h1>
+    <div class="container text-center">
+      <h1>Flash info !</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum odit, exercitationem molestiae quaerat expedita blanditiis, dolores eos nobis numquam nisi, fuga architecto aliquid a vitae laborum officia ratione enim quos.</p>
+    </div>
 
   </section>
 <?php $this->stop('main_content') ?>

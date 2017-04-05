@@ -56,6 +56,10 @@ main{
 .page-header a{
 	color:  white;
 }
+.infos{
+	background:  url('../img/info_BG.jpg') fixed;
+
+}
 /**************************************************
 ** Redefinition de ceertaines class de Bootstrap **
 **************************************************/
@@ -115,6 +119,17 @@ main{
 }
 .carousel-indicators .active{
 	background-color: #41b6de;
+}
+
+.btn-primary{
+	background-color: #41b6de;
+	border-color: #41b6de;
+}
+.img-thumbnail{
+	/* border:  2px solid #f4d195; */
+	background-color: #f4d195;
+	padding:  3px;
+	margin:  5px;
 }
 
 /*==================================================
