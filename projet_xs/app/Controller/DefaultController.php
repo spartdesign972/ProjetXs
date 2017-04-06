@@ -37,22 +37,18 @@ class DefaultController extends Controller
 
       $errors = array_filter($err);
       if (count($errors) === 0) {
-        $success = true;
-
         $User = new AuthentificationModel();
-        $id   = $User->isValidLoginInfo($post['ident'], $post['passwd']);
+        $id   = $User->isValidLoginInfo($post['email'], $post['password']);
         if ($id) {
           $ident   = new UsersModel();
           $tmpUser = $ident->find($id);
           $User->logUserIn($tmpUser);
           $success = true;
-          $this->flash('Vous etes bien connecté', 'info');
+          // $this->flash('Vous etes bien connecté', 'info');
         }
-
       }
     }
     $this->show('default/connect');
-
   }
 
   public function subscribe()
@@ -146,6 +142,7 @@ class DefaultController extends Controller
         var_dump($errors);
       }
     }
+
     $this->show('default/subscribe');
   }
 

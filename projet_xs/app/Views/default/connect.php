@@ -2,7 +2,7 @@
 <?php $this->start('main_content') ?>
 <div class="container">
   <h3>Veuillez vous identifier pour acceder a cette page !</h3>
-  <form method="post" action="<?=$this->url('login') ?>" class="form-horizontal jumbotron">
+  <form method="post" id="add" action="<?=$this->url('login') ?>" class="form-horizontal jumbotron">
     
     <div class="form-group">
       <label for="email">Email</label>
@@ -14,7 +14,7 @@
     </div>
     
     <div class="text-center">
-      <input type="submit" class="btn btn-default"></a>
+      <input type="submit" id="submitForm" class="btn btn-default"></a>
     </div>
   </form>
 </div>
