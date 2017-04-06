@@ -11,7 +11,12 @@ h1 {
 }
 
 h2 {
+	font-family: 'Gochi Hand', cursive;
 	color: #66D9EF;
+	text-shadow: 1px 1px #000;
+}
+.navbar h4{
+	margin-top: -23px;
 }
 p{
 	font-family: 'PT Sans', sans-serif;
@@ -24,8 +29,10 @@ header{
 
 main{
 	/* margin-top:  210px; */
-	height: 2000px;
+	/* height: 2000px; */
 }
+
+
 
 .presentation{
 	width: 100%;
@@ -34,12 +41,29 @@ main{
 	background-position: bottom;
 	background-size: cover;
 }
+
 /* div qui permet un effet de screen color */
 .presentation .colored{
 	background-color: rgba(255, 255, 255, 0.4);
 	height: 100%;
 	width: 100%;
 }
+/* bouton qui vient en remplacement de l'image "makeit" dans les basses résolution */
+#btnmakit{
+	display: none;
+}
+#makeit{
+	margin: 0 auto 0;
+	display: block;
+	height:  150px;
+	width: 370px;
+	background: url('../img/makeit_link.png') no-repeat;
+}
+#makeit:hover{
+	background: url('../img/makeit_link.png') no-repeat 0 -158px;
+}
+
+
 .howto{
 	height: 250px;
 	background: url('../img/madras2.jpg') fixed;
@@ -52,19 +76,46 @@ main{
 .howto h1{
 	color:  white;
 }
+.infos{
+	background:  url('../img/info_BG.jpg') fixed;
+}
+.foot{
+	background: url('../img/header_BG.jpg'); 
+}
+.foot h2{
+	color:  white;
+}
+.foot .colored{
+	background-color: rgba(65, 182, 222, 0.9);
+	height: 100%;
+	width: 100%;
+}
+
 
 .page-header a{
 	color:  white;
+	text-shadow: 2px 2px #000;
 }
-.infos{
-	background:  url('../img/info_BG.jpg') fixed;
+.page-header a:hover{
+	color: rgba(65, 182, 222, 0.9);
+}
+#user_brand{
+	padding: 15px 0 0 0;
+}
+.fa.user{
+	margin-left: 25px;
+}
+.fa.panier{
+	margin-left: 20px;
+}
 
-}
+
+
 /**************************************************
 ** Redefinition de ceertaines class de Bootstrap **
 **************************************************/
 .container-fluid{padding: 0;}
-
+.row{margin: 0; padding: 0;}
 .page-header{
 	margin:  0;
 	padding: 10px 0 0;
@@ -81,16 +132,26 @@ main{
 	border-radius: 0;
 	z-index: 1000;
 	box-shadow: 2px 2px 5px 1px #555;
+	margin-bottom: 0;
+	height: 60px;
 }
+
 .navbar-default{
-	background-color: #f4d195;
+	background-color: rgba(244, 209, 149, 0.5);
 	border:  none;
+}
+.navbar-default.affix{
+	background-color: #f4d195;
 }
 
 .navbar-default .navbar-nav > li > a{
 	color:  black;
 	font-family: 'Oleo Script Swash Caps', cursive;
 	font-size: 2em;
+	margin:  0;
+	padding-top:  0;
+	height: 60px;
+	line-height: 60px;
 
 }
 
@@ -106,16 +167,19 @@ main{
 }
 
 .carousel{
-	height: 350px;
-	margin-bottom: 20px;
+	height: calc(100vh - 210px);
+	/* margin-bottom: 20px; */
 	overflow: hidden;
 }
 .carousel img {
-    width: 100%;
-    object-fit: contain;
+   height: 100%;
+   object-fit: cover;
 }
 .carousel-control{
 	height: 100%;
+}
+.carousel-indicators li{
+	border:  1px solid #000;
 }
 .carousel-indicators .active{
 	background-color: #41b6de;
@@ -130,35 +194,68 @@ main{
 	background-color: #f4d195;
 	padding:  3px;
 	margin:  5px;
+	max-width: 43%;
+	-webkit-filter: opacity(30%); /* Safari */
+   filter: opacity(50%);
 }
-
+.img-thumbnail:hover{
+	-webkit-filter: none;
+   filter: none;
+}
+.thumbnail a > img, .thumbnail > img{
+	-webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+.thumbnail a > img:hover, .thumbnail > img:hover{
+	-webkit-filter: none;
+	filter: none;
+}
 /*==================================================
 =            Bootstrap 3 Media Queries             =
 ==================================================*/
 
 /*==========  Mobile First Method  ==========*/
-
+ 	
  /* Custom, iPhone Retina */ 
- @media only screen and (min-width : 320px) {
+ @media only screen and (max-width : 320px) {
 
  }
 
  /* Extra Small Devices, Phones */ 
- @media only screen and (min-width : 480px) {
-
+ @media only screen and (max-width : 480px) {
+		#makeit{
+ 		display: none;
+ 	}
+ 	#btnmakit{
+ 		display: inline-block;
+ 	}
+	p{
+		font-size: 1.3em;
+	}
+	.howto{
+		min-height: 420px;
+	}
  }
 
  /* Small Devices, Tablets */
- @media only screen and (min-width : 768px) {
+ @media only screen and (max-width : 768px) {
+	.logo{
+			margin:  0 auto;
+			text-align: center;
+	}
+	.howto{
+		height: 340px;
+	}
+
 
  }
 
  /* Medium Devices, Desktops */
- @media only screen and (min-width : 992px) {
+ @media only screen and (max-width : 992px) {
 
  }
 
  /* Large Devices, Wide Screens */
- @media only screen and (min-width : 1200px) {
+ @media only screen and (max-width : 1200px) {
 
  }

@@ -21,17 +21,17 @@
 			<div class="page-header">
 				<div class="container">
 					<div class="row">
-						<div class="col-xs-12 col-sm-6">
+						<div class="col-xs-12 col-sm-6 logo">
 				  		<img src="./assets/img/logo.png" alt="logo">
 				  	</div>
-				  	<div class="col-xs-12 col-sm-6">
+				  	<div class="col-xs-12 col-sm-6 " id="user_brand"><!-- 
 				  		<div class="col-xs-6 text-right">
-				  			<a href="#" title="user"><i class="fa fa-user-circle-o fa-4x" 
+				  			<a href="#" title="user"><i class="fa fa-user-circle-o fa-4x user" 
 				  			aria-hidden="true"></i><br><h4>Connection</h4></a>
 				  		</div>
 				  		<div class="col-xs-6 text-left">
-				  			<a href="#" title="user"><i class="fa fa-shopping-cart fa-4x" aria-hidden="true"></i><br><h4>0 article(s)</h4></a>
-				  		</div>
+				  			<a href="#" title="user"><i class="fa fa-shopping-cart fa-4x panier" aria-hidden="true"></i><br><h4>0 article(s)</h4></a>
+				  		</div> -->
 				  	</div>
 				  </div>
 			  </div>
@@ -47,7 +47,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">Title</a>
+						<!-- <a class="navbar-brand" href="#">Title</a> -->
 					</div>
 			
 					<!-- Collect the nav links, forms, and other content for toggling -->
@@ -55,6 +55,15 @@
 						<ul class="nav navbar-nav">
 							<li class="active"><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+								<a href="#"><i class="fa fa-user-circle-o user" 
+				  			aria-hidden="true"></i><h4>Connection</h4></a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-shopping-cart panier" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+							</li>
 						</ul>
 						<!-- <ul class="nav navbar-nav navbar-right">
 							<li><a href="#">Link</a></li>
