@@ -11,7 +11,7 @@
 		<?= $this->section('link') ?>
 	</head>
 	<body>
-		<div id="wrap">
+		<!-- <div id="wrap"> -->
 			<header>
 				<div class="page-header">
 					<div class="container">
@@ -64,7 +64,7 @@
 				<main class="container-fluid">
 				<?= $this->section('main_content') ?>
 				</main>
-			</div>
+			<!-- </div> -->
 			<footer>
 				<?= $this->section('footer') ?>
 			</footer>
