@@ -123,7 +123,9 @@
       </div>
     </div>
   </section>
-
+  <div class="clearfix">
+  
+  </div>
   <section class="infos">
     <div class="container text-center">
       <h1>Flash info !</h1>
