@@ -22,26 +22,31 @@ class DefaultController extends Controller
    */
   public function connect()
   {
-    $err = [
-      //-On verifie si l'email est valide
-      (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-      (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
-    ];
+    // si le post n'est pas vide, on récupère les données "nettoyées"
+    if (!empty($_POST)) {
+      $post = array_map('trim', array_map('strip_tags', $_POST));
 
-    $errors = array_filter($err);
-    if (count($errors) === 0) {
-      $success = true;
+      $err = [
+        //-On verifie si l'email est valide
+        (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
+        (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
+      ];
 
-      $User = new AuthentificationModel();
-      $id   = $User->isValidLoginInfo($post['ident'], $post['passwd']);
-      if ($id) {
-        $ident   = new UsersModel();
-        $tmpUser = $ident->find($id);
-        $User->logUserIn($tmpUser);
+      $errors = array_filter($err);
+      if (count($errors) === 0) {
         $success = true;
-        $this->flash('Vous etes bien connecté', 'info');
-      }
 
+        $User = new AuthentificationModel();
+        $id   = $User->isValidLoginInfo($post['ident'], $post['passwd']);
+        if ($id) {
+          $ident   = new UsersModel();
+          $tmpUser = $ident->find($id);
+          $User->logUserIn($tmpUser);
+          $success = true;
+          $this->flash('Vous etes bien connecté', 'info');
+        }
+
+      }
     }
     $this->show('default/connect');
 
