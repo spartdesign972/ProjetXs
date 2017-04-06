@@ -1,7 +1,8 @@
 <?php $this->layout('layout', ['title' => 'login']) ?>
 <?php $this->start('main_content') ?>
 <div class="container">
-    <form method="post" class="form-horizontal jumbotron" id="subscribe_form" enctype="multipart/form-data">
+
+    <form method="post" action="<?php echo $this->url('default_subscribe') ?>" class="form-horizontal jumbotron" id="subscribe_form" enctype="multipart/form-data">
 
     <div class="form-group">
       <label for="lastname">Nom</label>
@@ -67,7 +68,7 @@
   </div>
 
     <div class="form-group">
-      <button type="button" class="btn btn-primary">Envoyer</button>
+      <button type="submit" class="btn btn-primary">Envoyer</button>
     </div>
 
   </form>
