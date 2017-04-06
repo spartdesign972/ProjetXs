@@ -48,8 +48,13 @@
 								<li class="user-brand">
 									<div><i class="fa fa-user-circle-o user"
 									aria-hidden="true"></i></div>
+									<?php if(empty($w_user)): ?>
 									<a href="<?=$this->url('login')?>"><h4>Connection</h4></a>
 									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">inscription</h4></a>
+									<?php else: ?>
+										<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
+										<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
+									<?php endif; ?>
 								</li>
 								<li>
 									<a href="#"><i class="fa fa-shopping-cart panier" aria-hidden="true"></i><h4>0 article(s)</h4></a>

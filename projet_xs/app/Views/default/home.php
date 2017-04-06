@@ -44,7 +44,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-sm-8 text-center">
-							<h1>Bonjour, bienvenus sur ProjetXs</h1>
+							<h1>Bonjour, bienvenue sur ProjetXs</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
               <br>
               <a href="#" title="" id="makeit"></a>
