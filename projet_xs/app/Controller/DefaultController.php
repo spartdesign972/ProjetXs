@@ -5,7 +5,10 @@ namespace Controller;
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
+use \Model\UsersModel;
 use \W\Controller\Controller;
+use \W\Security\AuthentificationModel;
+use \W\Security\StringUtils;
 
 class DefaultController extends Controller
 {
@@ -67,14 +70,13 @@ class DefaultController extends Controller
         //-On verifie si l'input n'est pas vide, si il ne comporte pas de caracteres qu'on ne veut pas, et si la taille de la chaine est comprise entre 2 et 30 caracteres.
         (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['lastname'])) ? 'Le nom de famille est invalide' : null,
         (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['firstname'])) ? 'Le prénom est invalide' : null,
-        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le prénom est invalide' : null,
-        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le prénom est invalide' : null,
-        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le prénom est invalide' : null,
-        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le prénom est invalide' : null,
-        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le prénom est invalide' : null,
-        //-On verifie si l'email est valide
+        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
         (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
         (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
+        (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
+        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
+        (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le codepostal est invalide' : null,
+        (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
       ];
 
       $errors = array_filter($err);
@@ -84,15 +86,16 @@ class DefaultController extends Controller
         if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
           mkdir($upload_dir, 0755); // on le cree
         }
+        $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
         if ($img->filesize() > $maxSize) {
           //-Si la taille de l'image est superieure à la dimension donnée
           $errors[] = 'Image trop lourde, 2 Mo maximum';
         }
+
         if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
           //-On verifie si l'image est valide en verifiant son mimetype
           $errors[] = 'L\'avatar est une image invalide';
         } else {
-          $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
           switch ($img->mime()) {
             case 'image/jpg':
             case 'image/jpeg':
@@ -106,24 +109,41 @@ class DefaultController extends Controller
             case 'image/gif':
               $ext = '.gif';
               break;
+
           }
           $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
           $img->save($upload_dir . $save_name . $ext);
         }
       }
       if (count($errors) === 0) {
+        var_dump($_POST);
         $success = true;
-        $datas   = [
+
+        $passwordHash     = new StringUtils();
+        $post["password"] = $passwordHash->randomString($length = 80);
+
+        $datas = [
           // colonne sql => valeur à insérer
-          'username' => ucfirst($post['username']),
-          'lastname' => ucfirst($post['lastname']),
-          'lastname' => ucfirst($post['lastname']),
-          'email'    => $post['email'],
-          'password' => $passwordHash,
+          'firstname' => ucfirst($post['firstname']),
+          'lastname'  => ucfirst($post['lastname']),
+          'username'  => ucfirst($post['username']),
+          'email'     => $post['email'],
+          'password'  => $post['password'],
+          'street'    => ucfirst($post['street']),
+          'city'      => ucfirst($post['city']),
+          'zipcode'   => $post['zipcode'],
+          'country'   => ucfirst($post['country']),
+          'avatar'    => $save_name,
         ];
+
         $User = new UsersModel();
-        $User->insert($datas);
-        $this->flash('Bonjour vous etes bien inscrit', 'info');
+        if ($User->insert($datas)) {
+          $this->flash('Bonjour vous etes bien inscrit', 'info');
+        } else {
+          echo "l'insertion nest pas passée";
+        }
+      } else {
+        var_dump($errors);
       }
     }
     $this->show('default/subscribe');
