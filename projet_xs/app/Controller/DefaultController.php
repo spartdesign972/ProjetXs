@@ -116,7 +116,7 @@ class DefaultController extends Controller
         }
       }
       if (count($errors) === 0) {
-        var_dump($_POST);
+        // var_dump($_POST);
         $success = true;
 
         $passwordHash     = new StringUtils();
