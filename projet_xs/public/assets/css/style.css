@@ -1,7 +1,21 @@
 html, body {
 	font-family: Consolas, monaco, monospace;
+	height: 100%;
 	/* background-color: #272822; */
 	/* color: #F8F8F2; */
+}
+
+
+/* wrap pour le sticky footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -280px;
+}
+#push, footer{
+	height: 280px;
 }
 
 h1 {
@@ -32,6 +46,32 @@ main{
 	/* height: 2000px; */
 }
 
+
+.user-brand{
+	height: 120px;
+	background-color: #e47003;
+	box-shadow: 2px 2px 5px 1px #555;
+
+}
+.user-brand .fa{
+	display: inline-block;
+	margin:  5px 0 0 28px;
+	padding: 0;
+	font-size: 45px;
+	color:  white;
+	text-shadow: 2px 2px #000;
+}
+
+.user-brand h4{
+	color:  white;
+	margin-top:  10px;
+}
+.user-brand h4.second{
+	margin-top:  -30px;
+}
+.user-brand a:hover >h4{
+	color: #41b6de;
+}
 
 
 .presentation{
@@ -92,22 +132,14 @@ main{
 }
 
 
-.page-header a{
-	color:  white;
-	text-shadow: 2px 2px #000;
-}
 .page-header a:hover{
 	color: rgba(65, 182, 222, 0.9);
 }
-#user_brand{
-	padding: 15px 0 0 0;
-}
-.fa.user{
-	margin-left: 25px;
-}
+
 .fa.panier{
 	margin-left: 20px;
 }
+
 
 
 
@@ -132,7 +164,7 @@ main{
 	border-radius: 0;
 	z-index: 1000;
 	box-shadow: 2px 2px 5px 1px #555;
-	margin-bottom: 0;
+	margin-bottom: 0px;
 	height: 60px;
 }
 
@@ -167,13 +199,14 @@ main{
 }
 
 .carousel{
-	height: calc(100vh - 210px);
-	/* margin-bottom: 20px; */
+	position: relative;
+	height: 350px;
+	top:  -56px;
 	overflow: hidden;
 }
 .carousel img {
-   height: 100%;
-   object-fit: cover;
+   width: : 100%;
+   object-fit: fill;
 }
 .carousel-control{
 	height: 100%;

@@ -15,4 +15,15 @@ class DefaultController extends Controller
 		$this->show('default/home');
 	}
 
+		/**
+	 * Page de connection/identification
+	 */
+	public function connect(){
+		$this->show('default/connect');
+	}
+
+	public function subscribe(){
+		$this->show('default/subscribe');
+	}
+
 }

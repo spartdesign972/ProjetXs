@@ -1,7 +1,7 @@
 <?php $this->layout('layout', ['title' => 'Accueil']) ?>
 
 <?php $this->start('main_content') ?>
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<div id="myCarousel" class="carousel slide hidden-xs" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -39,13 +39,12 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-
 	<section class="presentation">
 			<div class="colored">
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-sm-8 text-center">
-							<h1>Bonjour, comment tu t'appel ?</h1>
+							<h1>Bonjour, bienvenus sur ProjetXs</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
               <br>
               <a href="#" title="" id="makeit"></a>
@@ -138,28 +137,29 @@
 <div class="foot">
   <div class="colored">
     <div class="row">
-      
-      <div class="col-xs-12 col-sm-4">
-        <h2>Qui somme nous !</h2><hr>
-        <p>Tshirt Factory XS <br>
-        21 rue des Rosier <br>
-        97200 Fort de France, Martinique <br>
-        tsfxs@orange.fr <br>
-        0596 25 36 65</p>
-      </div>
-      
-      <div class="col-xs-12 col-sm-4">
-        <h2>Nous Suivre !</h2><hr>
-        <ul>
-          <li><a href="#"></a>Facebook</li>
-          <li><a href="#"></a>Twitter</li>
-          <li><a href="#"></a>Instagram</li>
-          <li><a href="#"></a>Pinterest</li>
-        </ul>
-      </div>
-      
-      <div class="col-xs-12 col-sm-4">
-        <h2></h2><hr>
+      <div class="container">
+        <div class="col-xs-12 col-sm-4">
+          <h2>Qui somme nous !</h2><hr>
+          <p>Tshirt Factory XS <br>
+          21 rue des Rosier <br>
+          97200 Fort de France, Martinique <br>
+          tsfxs@orange.fr <br>
+          0596 25 36 65</p>
+        </div>
+        
+        <div class="col-xs-12 col-sm-4">
+          <h2>Nous Suivre !</h2><hr>
+          <ul>
+            <li><a href="#"></a>Facebook</li>
+            <li><a href="#"></a>Twitter</li>
+            <li><a href="#"></a>Instagram</li>
+            <li><a href="#"></a>Pinterest</li>
+          </ul>
+        </div>
+        
+        <div class="col-xs-12 col-sm-4">
+          <h2></h2><hr>
+        </div>
       </div>
 
     </div>
