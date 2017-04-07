@@ -1,12 +1,23 @@
-<?php $this->layout('layout', ['title' => 'login']) ?>
-<?php $this->start('main_content') ?>
+<?php $this->layout('layout', ['title' => 'login'])?>
+<?php $this->start('main_content')?>
+
 <div class="container">
 
-    <form method="post" action="<?php echo $this->url('default_subscribe') ?>" class="form-horizontal jumbotron" id="subscribe_form" enctype="multipart/form-data">
+ <br>
+        <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="alert alert-danger"><?=implode('<br>', $errors);?></div>
+        <?php elseif (isset($success) && $success == true): ?>
+            <div class="alert alert-success">Le formulaire a été validé.</div>
+        <?php endif;?>
+
+
+
+    <form method="post" id="subscribe_form" action="<?=$this->url('default_subscribe')?>" class="form-horizontal jumbotron" enctype="multipart/form-data">
+
 
     <div class="form-group">
       <label for="lastname">Nom</label>
-      <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre prénom.." required>
+      <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre nom.." required>
     </div>
 
     <div class="form-group">
@@ -16,7 +27,7 @@
 
     <div class="form-group">
       <label for="username">Pseudo</label>
-      <input class="form-control" type="text" id="username" name="username" placeholder="Votre prénom..." required>
+      <input class="form-control" type="text" id="username" name="username" placeholder="Votre pseudo..." required>
     </div>
 
     <div class="form-group">
@@ -51,9 +62,9 @@
 
     <div class="form-group">
       <label for="avatar">Avatar</label>
-      <input class="form-control" class="input-file" type="file" id="avatar" name="avatar" placeholder="Votre Avatar..." required>
+      <input class="form-control" class="input-file" accept="image/*" type="file" id="avatar" name="avatar" placeholder="Votre Avatar..." required>
     </div>
-    
+
     <div class="form-group" style="margin-bottom: 0;">
     <div id="image_preview" class="col-lg-10 col-lg-offset-2">
       <div class="thumbnail hidden">
@@ -68,13 +79,13 @@
   </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary">Envoyer</button>
+      <button type="submit" id="submitForm" class="btn btn-primary">Envoyer</button>
     </div>
 
   </form>
 </div>
-<?php $this->stop('main_content') ?>
-<?php $this->start('footer') ?>
+<?php $this->stop('main_content')?>
+<?php $this->start('footer')?>
 <div class="foot">
   <div class="colored">
     <div class="row">
@@ -87,7 +98,7 @@
             tsfxs@orange.fr <br>
           0596 25 36 65</p>
         </div>
-        
+
         <div class="col-xs-12 col-sm-4">
           <h2>Nous Suivre !</h2><hr>
           <ul>
@@ -97,7 +108,7 @@
             <li><a href="#"></a>Pinterest</li>
           </ul>
         </div>
-        
+
         <div class="col-xs-12 col-sm-4">
           <h2></h2><hr>
         </div>
@@ -105,7 +116,8 @@
     </div>
   </div>
 </div>
-<?php $this->stop('footer') ?>
-<?php $this->start('script') ?>
-<script src="<?= $this->assetUrl('js/monJs.js') ?>" type="text/javascript"></script>
-<?php $this->stop('script') ?>
+<?php $this->stop('footer')?>
+<?php $this->start('script')?>
+<script src="<?=$this->assetUrl('js/monJs.js')?>" type="text/javascript"></script>
+<script src="<?=$this->assetUrl('js/ajaxInsert.js')?>" type="text/javascript"></script>
+<?php $this->stop('script')?>

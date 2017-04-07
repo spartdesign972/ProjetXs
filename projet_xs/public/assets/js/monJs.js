@@ -23,6 +23,7 @@ $(function(){
 
         $('#subscribe_form').find('input[name="avatar"]').val('');
         $('#image_preview').find('.thumbnail').addClass('hidden');
-    })
+
+    });
 
 });

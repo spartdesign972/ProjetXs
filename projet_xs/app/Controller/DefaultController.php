@@ -2,11 +2,11 @@
 
 namespace Controller;
 
+use \W\Controller\Controller;
+use \Model\UsersModel;
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
-use \Model\UsersModel;
-use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
@@ -37,24 +37,21 @@ class DefaultController extends Controller
 
       $errors = array_filter($err);
       if (count($errors) === 0) {
-        $success = true;
-
         $User = new AuthentificationModel();
-        $id   = $User->isValidLoginInfo($post['ident'], $post['passwd']);
+        $id   = $User->isValidLoginInfo($post['email'], $post['password']);
         if ($id) {
           $ident   = new UsersModel();
           $tmpUser = $ident->find($id);
           $User->logUserIn($tmpUser);
           $success = true;
-          $this->flash('Vous etes bien connecté', 'info');
+          // $this->flash('Vous etes bien connecté', 'info');
         }
-
       }
     }
     $this->show('default/connect');
-
   }
 
+///////////////////////////////////////////////////////////////////////////
   public function subscribe()
   {
 //-Declaration des diff variables
@@ -81,7 +78,7 @@ class DefaultController extends Controller
 
       $errors = array_filter($err);
 
-      //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
       if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
         if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
           mkdir($upload_dir, 0755); // on le cree
@@ -91,7 +88,6 @@ class DefaultController extends Controller
           //-Si la taille de l'image est superieure à la dimension donnée
           $errors[] = 'Image trop lourde, 2 Mo maximum';
         }
-
         if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
           //-On verifie si l'image est valide en verifiant son mimetype
           $errors[] = 'L\'avatar est une image invalide';
@@ -109,15 +105,14 @@ class DefaultController extends Controller
             case 'image/gif':
               $ext = '.gif';
               break;
-
           }
           $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
           $img->save($upload_dir . $save_name . $ext);
         }
       }
+
       if (count($errors) === 0) {
-        var_dump($_POST);
-        $success = true;
+        // var_dump($_POST);
 
         $passwordHash     = new StringUtils();
         $post["password"] = $passwordHash->randomString($length = 80);
@@ -138,14 +133,17 @@ class DefaultController extends Controller
 
         $User = new UsersModel();
         if ($User->insert($datas)) {
-          $this->flash('Bonjour vous etes bien inscrit', 'info');
-        } else {
-          echo "l'insertion nest pas passée";
+          $success = true;
+          $result  = '<div class="alert alert-success">L\'utilisateur a été ajouté avec succès</div>';
+          // $this->flash('Bonjour vous etes bien inscrit', 'info');
         }
       } else {
-        var_dump($errors);
+        $result = '<div class="alert alert-danger">' . implode('<br>', $errors) . '</div>';
+
       }
+      echo $result;
     }
+
     $this->show('default/subscribe');
   }
 
