@@ -10,10 +10,9 @@ $(function() { // équivalent $(document).ready(function(){
       type: $form.attr('method'),
       contentType: false, // obligatoire pour de l'upload
       processData: false, // obligatoire pour de l'upload
-      dataType: 'json', // selon le retour attendu
+      // dataType: 'json', // selon le retour attendu
       data: data,
       success: function(resultat) {
-        alert("ok l'ajax passe");
         $('#result').html(resultat);
         $('#image_preview').remove().fadeOut(1600);
         $form[0].reset();
