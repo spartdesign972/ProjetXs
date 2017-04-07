@@ -3,7 +3,7 @@
 namespace Controller;
 
 use \W\Controller\Controller;
-use \Model\UsersModel;
+use \W\Model\UsersModel;
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
@@ -39,15 +39,22 @@ class DefaultController extends Controller
       $errors = array_filter($err);
       if (count($errors) === 0) {
         $User = new AuthentificationModel();
-        $id   = $User->isValidLoginInfo($post['email'], $post['password']);
-        if ($id) {
+        $id = $User->isValidLoginInfo($post['email'], $post['password']);
+        if (!empty($id)) {
           $ident   = new UsersModel();
-          $tmpUser = $ident->find($id);
+          $tmpUser = $ident->getUserByUsernameOrEmail($post['email']);
           $User->logUserIn($tmpUser);
           $success = true;
           $this->redirectToRoute('default_home');
           // $this->flash('Vous etes bien connecté', 'info');
+          echo '';
         }
+        else {
+        	echo '';
+        }
+      }
+      else {
+      	echo implode('<br>', $errors);
       }
     }
     $this->show('default/connect');
@@ -116,16 +123,15 @@ class DefaultController extends Controller
       if (count($errors) === 0) {
         // var_dump($_POST);
 
-        $passwordHash     = new StringUtils();
-        $post["password"] = $passwordHash->randomString($length = 80);
-
+        $passwordHash = new AuthentificationModel();
+        
         $datas = [
           // colonne sql => valeur à insérer
           'firstname' => ucfirst($post['firstname']),
           'lastname'  => ucfirst($post['lastname']),
           'username'  => ucfirst($post['username']),
           'email'     => $post['email'],
-          'password'  => $post['password'],
+          'password'  => $passwordHash->hashPassword($post["password"]),
           'street'    => ucfirst($post['street']),
           'city'      => ucfirst($post['city']),
           'zipcode'   => $post['zipcode'],
