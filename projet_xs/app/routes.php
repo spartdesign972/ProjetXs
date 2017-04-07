@@ -8,4 +8,7 @@
 
 		// route de la page de souscription
 		['GET|POST', '/subscribe', 'Default#subscribe', 'default_subscribe'],
+
+
+		['GET|POST', '/admin', 'admin#showadmin', 'admin_showadmin'],
 	);
