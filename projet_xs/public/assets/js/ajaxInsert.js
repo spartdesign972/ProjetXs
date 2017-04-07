@@ -1,20 +1,23 @@
-$(function(){ // équivalent $(document).ready(function(){
-// Pour l'ajout d'un article
-
-$('#submitForm').click(function(el){
-		el.preventDefault(); // On bloque l'action par défaut
-
-		var form = $('#add'); // On récupère le formulaire
-		var pseudo = $('#pseudo'); // On récupère le formulaire
-		var message = $('#message'); // On récupère le formulaire
-		$.ajax({
-			method: 'post',
-			url: form.attr('action'),
-			data: form.serialize(), // On récupère les données à envoyer
-			success: function(resultat){
-			 $('#result').html(resultat);
-				form.find('input').val(''); // Permet de vider les champs du formulaire..
-			}
-		});
-	});
+$(function() { // équivalent $(document).ready(function(){
+  // Pour l'ajout d'un article
+  $('#subscribe_form').on('submit', function(el) {
+    el.preventDefault(); // On bloque l'action par défaut
+    var $form = $(this);
+    var formdata = (window.FormData) ? new FormData($form[0]) : null;
+    var data = (formdata !== null) ? formdata : $form.serialize();
+    $.ajax({
+      url: $form.attr('action'),
+      type: $form.attr('method'),
+      contentType: false, // obligatoire pour de l'upload
+      processData: false, // obligatoire pour de l'upload
+      dataType: 'json', // selon le retour attendu
+      data: data,
+      success: function(resultat) {
+        alert("ok l'ajax passe");
+        $('#result').html(resultat);
+        $('#image_preview').remove().fadeOut(1600);
+        $form[0].reset();
+      }
+    });
+  });
 });

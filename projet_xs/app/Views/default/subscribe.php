@@ -12,7 +12,7 @@
 
 
 
-    <form method="post" id="add" action="<?=$this->url('default_subscribe')?>" class="form-horizontal jumbotron" enctype="multipart/form-data">
+    <form method="post" id="subscribe_form" action="<?=$this->url('default_subscribe')?>" class="form-horizontal jumbotron" enctype="multipart/form-data">
 
 
     <div class="form-group">
@@ -62,7 +62,7 @@
 
     <div class="form-group">
       <label for="avatar">Avatar</label>
-      <input class="form-control" class="input-file" type="file" id="avatar" name="avatar" placeholder="Votre Avatar..." required>
+      <input class="form-control" class="input-file" accept="image/*" type="file" id="avatar" name="avatar" placeholder="Votre Avatar..." required>
     </div>
 
     <div class="form-group" style="margin-bottom: 0;">
