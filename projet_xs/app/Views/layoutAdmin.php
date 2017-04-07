@@ -44,7 +44,7 @@
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href="#home"><span>Home</span></a>
+                        <a href=" <?=$this->url('default_home')  ?> "><span>Acceuil</span></a>
                     </li>
                     <li>
                         <a href="#anch1" data-scroll>

@@ -53,12 +53,18 @@
               
 						</div>
             <div class="col-xs-12 col-sm-4 hidden-xs text-center">
-              <img src="<?= $this->assetUrl('img/img_pres1.jpg') ?>" alt="" class="img-thumbnail">
+              <div class="wow slideInLeft">  
+                <img src="<?= $this->assetUrl('img/img_pres1.jpg') ?>" alt="" class="img-thumbnail">
               <img src="<?= $this->assetUrl('img/img_pres2.jpg') ?>" alt="" class="img-thumbnail">
+              </div>
+              <div class="wow slideInRight">
               <img src="<?= $this->assetUrl('img/img_pres3.jpg') ?>" alt="" class="img-thumbnail">
               <img src="<?= $this->assetUrl('img/img_pres4.jpg') ?>" alt="" class="img-thumbnail">
+              </div>
+              <div class="wow slideInLeft"> 
               <img src="<?= $this->assetUrl('img/img_pres5.jpg') ?>" alt="" class="img-thumbnail">
               <img src="<?= $this->assetUrl('img/img_pres6.jpg') ?>" alt="" class="img-thumbnail">
+              </div>
             </div>
 					</div>
 				</div>
@@ -67,7 +73,7 @@
 
   <section class="howto">
     <div class="colored">
-      <div class="container text-center">
+      <div class="container text-center wow bounceInUp">
         <h1>Comment creer votre tshirt ?!</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae velit sit, quae debitis ea ratione ex excepturi rem vero sequi enim minus inventore nulla et aut, laboriosam optio, officia. Iusto!</p>
         <div class="row">
@@ -85,7 +91,7 @@
       <h1>Sélection de la semaine</h1>
       <div class="row">
         
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-4 wow fadeInUp">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
             <div class="caption">
@@ -96,7 +102,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-4 wow fadeInUp">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
             <div class="caption">
@@ -107,7 +113,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-4 wow fadeInUp">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
             <div class="caption">
@@ -136,35 +142,5 @@
 <?php $this->stop('main_content') ?>
 
 <?php $this->start('footer') ?>
-<div class="foot">
-  <div class="colored">
-    <div class="row">
-      <div class="container">
-        <div class="col-xs-12 col-sm-4">
-          <h2>Qui somme nous !</h2><hr>
-          <p>Tshirt Factory XS <br>
-          21 rue des Rosier <br>
-          97200 Fort de France, Martinique <br>
-          tsfxs@orange.fr <br>
-          0596 25 36 65</p>
-        </div>
-        
-        <div class="col-xs-12 col-sm-4">
-          <h2>Nous Suivre !</h2><hr>
-          <ul>
-            <li><a href="#"></a>Facebook</li>
-            <li><a href="#"></a>Twitter</li>
-            <li><a href="#"></a>Instagram</li>
-            <li><a href="#"></a>Pinterest</li>
-          </ul>
-        </div>
-        
-        <div class="col-xs-12 col-sm-4">
-          <h2></h2><hr>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
+  <?php include './inc/footer.php'; ?>
 <?php $this->stop('footer') ?>

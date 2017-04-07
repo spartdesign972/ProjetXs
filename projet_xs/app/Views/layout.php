@@ -7,8 +7,15 @@
 		<link rel="stylesheet" href="<?= $this->assetUrl('css/style.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
+
+		<link rel="stylesheet" href="../bower_components/wow/css/libs/animate.css">
 		
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
+
+		<script src="../bower_components/wow/dist/wow.min.js"></script>
+    <script>
+    	new WOW().init();
+    </script>
 
 		<?= $this->section('link') ?>
 	</head>
