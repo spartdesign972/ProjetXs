@@ -18,7 +18,7 @@ class AdminController extends Controller
   public function showadmin()
   {
   	// Accessible que pour l'admin
-		// $this->allowTo('admin');
+		$this->allowTo('admin');
     
 
     $this->show('Admin/admin');

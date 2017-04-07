@@ -39,16 +39,25 @@ class DefaultController extends Controller
       if (count($errors) === 0) {
         $User = new AuthentificationModel();
         $id   = $User->isValidLoginInfo($post['email'], $post['password']);
-        if ($id) {
+        if (isset($id)) {
           $ident   = new UsersModel();
           $tmpUser = $ident->find($id);
           $User->logUserIn($tmpUser);
           $success = true;
-          // $this->flash('Vous etes bien connecté', 'info');
+          $this->flash('Vous etes bien connecté', 'info');
+          $this->redirectToRoute('admin_showadmin');
         }
       }
+    }else{
+      $this->show('default/connect');
     }
-    $this->show('default/connect');
+  }
+
+
+  public function Logout(){
+    $user = new AuthentificationModel();
+    $user->logUserOut();
+    $this->redirectToRoute('article_listearticle');
   }
 
 ///////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 								<ul class="nav navbar-nav navbar-right">
-								<li><a href="#"><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Deconnection</a></li>
+								<li><a href=" <?=$this->url('logout')?> "><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Deconnection</a></li>
 								</li>
 							</ul>
 							</div><!-- /.navbar-collapse -->
