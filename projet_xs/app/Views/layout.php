@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="<?= $this->assetUrl('css/style.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
-		
+
 		<?= $this->section('link') ?>
 	</head>
 	<body>
@@ -24,7 +24,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<nav class="navbar navbar-default" role="navigation" data-spy="affix" data-offset-top="150">
 					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
@@ -37,7 +37,7 @@
 							</button>
 							<!-- <a class="navbar-brand" href="#">Title</a> -->
 						</div>
-						
+
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
@@ -63,6 +63,7 @@
 				<div class="clearfix"></div>
 				<main class="container-fluid">
 				<?= $this->section('main_content') ?>
+
 				</main>
 			<!-- </div> -->
 			<footer>

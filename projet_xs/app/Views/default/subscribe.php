@@ -1,13 +1,23 @@
 <?php $this->layout('layout', ['title' => 'login'])?>
 <?php $this->start('main_content')?>
-<div class="container">
-<div id="rtesult"></div>
 
-    <form method="post" id="add" action="<?=$this->url('default_subscribe') ?>" class="form-horizontal jumbotron" enctype="multipart/form-data">
+<div class="container">
+
+ <br>
+        <?php if (isset($errors) && count($errors) > 0): ?>
+            <div class="alert alert-danger"><?=implode('<br>', $errors);?></div>
+        <?php elseif (isset($success) && $success == true): ?>
+            <div class="alert alert-success">Le formulaire a été validé.</div>
+        <?php endif;?>
+
+
+
+    <form method="post" id="add" action="<?=$this->url('default_subscribe')?>" class="form-horizontal jumbotron" enctype="multipart/form-data">
+
 
     <div class="form-group">
       <label for="lastname">Nom</label>
-      <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre prénom.." required>
+      <input class="form-control" type="text" id="lastname" name="lastname" placeholder="Votre nom.." required>
     </div>
 
     <div class="form-group">
@@ -17,7 +27,7 @@
 
     <div class="form-group">
       <label for="username">Pseudo</label>
-      <input class="form-control" type="text" id="username" name="username" placeholder="Votre prénom..." required>
+      <input class="form-control" type="text" id="username" name="username" placeholder="Votre pseudo..." required>
     </div>
 
     <div class="form-group">
@@ -109,4 +119,5 @@
 <?php $this->stop('footer')?>
 <?php $this->start('script')?>
 <script src="<?=$this->assetUrl('js/monJs.js')?>" type="text/javascript"></script>
+<script src="<?=$this->assetUrl('js/ajaxInsert.js')?>" type="text/javascript"></script>
 <?php $this->stop('script')?>
