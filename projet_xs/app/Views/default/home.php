@@ -91,7 +91,7 @@
       <h1>Sélection de la semaine</h1>
       <div class="row">
         
-        <div class="col-sm-12 col-md-4 wow fadeInUp">
+        <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
             <div class="caption">
@@ -102,7 +102,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-4 wow fadeInUp">
+        <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
             <div class="caption">
@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-4 wow fadeInUp">
+        <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
             <div class="caption">
