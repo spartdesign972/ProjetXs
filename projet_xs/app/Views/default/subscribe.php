@@ -36,7 +36,7 @@
     </div>
 
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="password">Mot de passe (minimum 8 caratéres)</label>
       <input class="form-control" type="password" id="password" name="password" placeholder="Un mot de passe... " required>
     </div>
 
