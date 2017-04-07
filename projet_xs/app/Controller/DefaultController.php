@@ -9,6 +9,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
+use \W\Security\AuthorizationModel;
 
 class DefaultController extends Controller
 {
@@ -44,6 +45,7 @@ class DefaultController extends Controller
           $tmpUser = $ident->find($id);
           $User->logUserIn($tmpUser);
           $success = true;
+          $this->redirectToRoute('default_home');
           // $this->flash('Vous etes bien connecté', 'info');
         }
       }
@@ -146,7 +148,7 @@ class DefaultController extends Controller
       $this->show('default/subscribe');
     }
 
-    
+
   }
 
 }
