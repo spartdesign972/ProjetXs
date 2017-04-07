@@ -47,7 +47,7 @@
 							<h1>Bonjour, bienvenue sur ProjetXs</h1>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
               <br>
-              <a href="#" title="" id="makeit"></a>
+              <a href="<?=$this->url('default_custom')?>" title="" id="makeit"></a>
               <br>
               <div id="btnmakit"><a href="#" title="" class="btn btn-primary">Réaliser</a></div>
               
