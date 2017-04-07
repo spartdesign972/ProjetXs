@@ -142,9 +142,11 @@ class DefaultController extends Controller
 
       }
       echo $result;
+    }else{
+      $this->show('default/subscribe');
     }
 
-    $this->show('default/subscribe');
+    
   }
 
 }
