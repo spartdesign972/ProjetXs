@@ -13,7 +13,7 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <img src="<?= $this->assetUrl('img/heart.jpg') ?>" alt="Chania">
+      <img src="<?= $this->assetUrl('img/heart.jpg') ?>" alt="Chania" class="img-responsive">
     </div>
 
     <div class="item">
