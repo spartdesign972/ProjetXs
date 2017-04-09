@@ -120,16 +120,18 @@ iframe{
 .infos{
 	background:  url('../img/info_BG.jpg') fixed;
 }
+
 .foot{
-	background: url('../img/header_BG.jpg'); 
-	height: 300px;
+	background: linear-gradient(rgba(65, 182, 222, 0.9) 0%, rgba(65, 182, 222, 0.9) 100%), url('../img/header_BG.jpg'); 
+	min-height: 300px;
+	height: auto;
 }
+
 .foot h2{
 	color:  white;
 	margin-bottom: -15px;
 }
 .foot .colored{
-	background-color: rgba(65, 182, 222, 0.9);
 	height: 100%;
 	width: 100%;
 }
@@ -171,7 +173,7 @@ iframe{
 	padding: 10px 0 0;
 	border:  none;
 	min-height: 150px;
-	background: url('../img/header_BG.jpg');
+	background: linear-gradient(rgba(65, 182, 222, 0.7) 0%, rgba(65, 182, 222, 0.2) 100%), url('../img/BG_seamless.jpg');
 }
 .affix{
 	top:  0;
@@ -207,7 +209,8 @@ iframe{
 }
 
 .navbar-default .navbar-nav > li > a:hover{
-	color: #41b6de;
+	color: #fff;
+	text-shadow: 1px 1px #000;
 }
 
 .navbar-default .navbar-nav > .active > a, 
@@ -261,6 +264,47 @@ iframe{
 	-webkit-filter: none;
 	filter: none;
 }
+
+/**************************************************
+** Redefinition de ceertaines class de Bootstrap **
+** pour la page de login
+**************************************************/
+.card-group .card {
+    display: table-cell;
+    vertical-align: top;
+
+}
+.card-group{
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+.card {
+  margin-bottom: 20px;
+  position: relative;
+  display: block;
+  background-color: #fff;
+  border: 1px solid #cfd8dc;
+}
+.text-muted {
+  color: #B0bec5 !important;
+}
+.text-muted {
+  color: #B0bec5 !important;
+}
+.card-primary {
+  background-color: #20a8d8;
+}
+.g-1, .g-2{
+	padding: 2rem;
+}
+.g-2{
+	color: white;
+}
+.input-group{
+	margin-bottom: 1rem;
+}
+
+
 /*==================================================
 =            Bootstrap 3 Media Queries             =
 ==================================================*/
@@ -274,8 +318,8 @@ iframe{
 
  /* Extra Small Devices, Phones */ 
  @media only screen and (max-width : 480px) {
-		#makeit{
- 		display: none;
+	#makeit{
+		display: none;
  	}
  	#btnmakit{
  		display: inline-block;
@@ -290,6 +334,10 @@ iframe{
 
  /* Small Devices, Tablets */
  @media only screen and (max-width : 768px) {
+	.nav > li{
+		background-color: #E47003;
+		margin-top: -10px;
+	}
 	.logo{
 			margin:  0 auto;
 			text-align: center;
