@@ -122,6 +122,7 @@ iframe{
 }
 .foot{
 	background: url('../img/header_BG.jpg'); 
+	height: 300px;
 }
 .foot h2{
 	color:  white;
