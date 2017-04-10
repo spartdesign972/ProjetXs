@@ -11,8 +11,22 @@ use \W\Model\UsersModel;
 use \W\Security\AuthentificationModel;
 use Model\OrdersModel;
 
+
+
+
+
 class UsersController extends Controller
 {
+
+    /**
+     * Page d'accueil par défaut
+     */
+    public function showuser()
+    {
+        $this->show('User/userAdmin');
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
 	{
@@ -27,6 +41,7 @@ $Order = [];
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
