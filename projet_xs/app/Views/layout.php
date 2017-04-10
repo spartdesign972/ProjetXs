@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 		<link rel="stylesheet" href="../bower_components/wow/css/libs/animate.css">
-		
+
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
 
@@ -31,7 +31,7 @@
 						<div class="col-xs-12 logo text-center">
 							<img src="./assets/img/logo2.png" alt="logo">
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
@@ -91,10 +91,10 @@
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
-				
+
 				var footerHeight = $('#footer').height();
 				positionfooter();
-				
+
 				function positionfooter(){
 					var docHeight = $(window).height();
 					var footerTop = $('#footer').position().top + footerHeight;
