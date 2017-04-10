@@ -1,5 +1,4 @@
 <div class="foot">
-  <div class="colored">
     <div class="row">
       <div class="container">
         <div class="col-xs-12 col-sm-4">
@@ -33,5 +32,4 @@
       </div>
 
     </div>
-  </div>
 </div>

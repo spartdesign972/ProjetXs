@@ -1,10 +1,5 @@
 <?php $this->layout('layoutAdmin', ['title' => 'login']) ?>
-<?php $this->start('main_content') ?>
-
-  <h3>Veuillez vous identifier pour acceder a cette page !</h3>
-  <div class="content-header">
-  
-  </div>        
+<?php $this->start('main_content') ?>      
 
   <div class="page-content inset" data-spy="scroll" data-target="#spy">
       <div class="row">
