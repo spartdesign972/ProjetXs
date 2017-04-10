@@ -11,6 +11,12 @@
 		
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
+
+		<?php if(!empty($w_user)): ?>
+			<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/stylecorectif.css') ?>">
+		<?php endif; ?>
+
+
 		<script>
 			new WOW().init();
 		</script>
