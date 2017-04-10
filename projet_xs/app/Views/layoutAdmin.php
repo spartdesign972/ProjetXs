@@ -23,11 +23,22 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="#">ProjectXs - Admin</a>
+							<a class="navbar-brand" href="#">ProjectXs-Admin</a>
+							<a id="menu-toggle" href="#" class="btn btn-menu btn-lg">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                  </a>
 						</div>
-						
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
+							<ul class="nav navbar-nav">
+								<li>
+									<a id="menu-toggle" href="#" class="btn btn-menu btn-lg">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </a>
+								</li>
+							</ul>
 								<ul class="nav navbar-nav navbar-right">
 								<li><a href=" <?=$this->url('logout')?> "><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Deconnection</a></li>
 								</li>
@@ -37,14 +48,14 @@
 					</nav>
 					<?= $this->section('header') ?>
 
-				<div id="wrapper">
+				<div id="wrapper" data-spy="scroll" data-target="#spy" class="">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href=" <?=$this->url('default_home')  ?> "><span>Acceuil</span></a>
+                        <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Acceuil</a>
                     </li>
                     <li>
                         <a href="#anch1" data-scroll>
@@ -82,5 +93,16 @@
 			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<?= $this->section('script') ?>
+			<script type="text/javascript">
+				$(document).ready(function() {
+        
+                
+	/*Menu-toggle*/
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("active");
+    });
+    });
+			</script>
 		</body>
 	</html>

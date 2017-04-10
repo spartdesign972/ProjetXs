@@ -7,33 +7,30 @@
 		<link rel="stylesheet" href="<?= $this->assetUrl('css/style.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
-
 		<link rel="stylesheet" href="../bower_components/wow/css/libs/animate.css">
 		
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
-
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
-    <script>
-    	new WOW().init();
-    </script>
-
+		<script>
+			new WOW().init();
+		</script>
 		<?= $this->section('link') ?>
 	</head>
 	<body>
 		<!-- <div id="page"> -->
-			<header>
-				<div class="page-header">
-					<div class="container">
-						<div class="row">
-							<div class="col-xs-12 col-sm-6 logo">
-								<img src="./assets/img/logo.png" alt="logo">
-							</div>
-							<div class="col-xs-12 col-sm-6">
-							</div>
+		<header>
+			<div class="page-header">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 logo text-center">
+							<img src="./assets/img/logo.png" alt="logo">
 						</div>
+						
 					</div>
 				</div>
-
+			</div>
+			<div class="row">
+				<!-- <div class="container"> -->
 				<nav class="navbar navbar-default" role="navigation" data-spy="affix" data-offset-top="150">
 					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
@@ -46,7 +43,6 @@
 							</button>
 							<!-- <a class="navbar-brand" href="#">Title</a> -->
 						</div>
-
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
@@ -61,8 +57,8 @@
 									<a href="<?=$this->url('login')?>"><h4>Connection</h4></a>
 									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">inscription</h4></a>
 									<?php else: ?>
-										<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
-										<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
+									<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
+									<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
 									<?php endif; ?>
 								</li>
 								<li>
@@ -72,40 +68,36 @@
 							</div><!-- /.navbar-collapse -->
 						</div>
 					</nav>
-					<?= $this->section('header') ?>
-				</header>
-				<div class="clearfix"></div>
-				<main class="container-fluid">
-				<?= $this->section('main_content') ?>
-
-				</main>
+					<!-- </div> -->
+				</div>
+				<?= $this->section('header') ?>
+			</header>
+			<div class="clearfix"></div>
+			<main class="container-fluid">
+			<?= $this->section('main_content') ?>
+			</main>
 			<!-- </div> -->
 			<div id="footer">
 				<?= $this->section('footer') ?>
 			</div>
 			
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
-
 			<script type="text/javascript">
-				 $(document).ready(function() {
-				   
-				   var footerHeight = $('#footer').height();
-
-				   positionfooter();
-				   
-				   function positionfooter(){
-					   var docHeight = $(window).height();
-					   var footerTop = $('#footer').position().top + footerHeight;
-
-					   if (footerTop < docHeight) {
-					    $('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
-					   }
-					 }
-
-					 $(window).resize(positionfooter);
-				  });
+				$(document).ready(function() {
+				
+				var footerHeight = $('#footer').height();
+				positionfooter();
+				
+				function positionfooter(){
+					var docHeight = $(window).height();
+					var footerTop = $('#footer').position().top + footerHeight;
+					if (footerTop < docHeight) {
+					$('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+					}
+					}
+					$(window).resize(positionfooter);
+				});
 			</script>
-
 			<?= $this->section('script') ?>
 		</body>
 	</html>
