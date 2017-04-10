@@ -42,15 +42,15 @@
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
 								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
-								<li><a href="#">Link</a></li>
+								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<li class="user-brand">
 									<div><i class="fa fa-user-circle-o user"
 									aria-hidden="true"></i></div>
 									<?php if(empty($w_user)): ?>
-									<a href="<?=$this->url('login')?>"><h4>Connection</h4></a>
-									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">inscription</h4></a>
+									<a href="<?=$this->url('login')?>"><h4>Connexion</h4></a>
+									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">Inscription</h4></a>
 									<?php else: ?>
 										<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
 										<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
@@ -74,7 +74,8 @@
 			<footer>
 				<?= $this->section('footer') ?>
 			</footer>
-			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
+<!--			Ce script doit être appelé dans la balise head pour la page custom -->
+<!--			<script type="text/javascript" src="<?//= $this->assetUrl('js/jquery.min.js') ?>"></script>-->
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<?= $this->section('script') ?>
 		</body>

@@ -157,5 +157,66 @@ class DefaultController extends Controller
 
     
   }
+    
+    //Page de personnalisation de tShirt
+    public function custom(){
+        
+        $params=[];
+        
+        //-Declaration des diff variables 
+    $upload_dir = 'assets/upload/';
+    $maxSize    = (1024 * 1000) * 2;
+        
+        //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+            if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
+              mkdir($upload_dir, 0755); // on le cree
+            }
+            
+            $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+            if ($img->filesize() > $maxSize) {
+              //-Si la taille de l'image est superieure à la dimension donnée
+              $errors[] = 'Image trop lourde, 2 Mo maximum';
+            }
+            if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
+              //-On verifie si l'image est valide en verifiant son mimetype
+              $errors[] = 'L\'avatar est une image invalide';
+            }
+            else {
+              switch ($img->mime()) {
+                case 'image/jpg':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                  $ext = '.jpg';
+                  break;
+
+                case 'image/png':
+                  $ext = '.png';
+                  break;
+                case 'image/gif':
+                  $ext = '.gif';
+                  break;
+              }
+                
+                $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
+                $img->save($upload_dir . $save_name . $ext);
+                $custom = $upload_dir . $save_name . $ext;
+                
+                echo '<script>
+                fabric.Image.fromURL(\''.$custom.'\',function(img){
+                img.scaleToWidth(200);
+                canvas.add(img);
+                });';
+                
+            }
+          
+        }
+        else{//la super Global $_FILES n'est pas definie
+            
+        $this->show('default/custom');
+            
+        }
+        
+    }//Fin de custom
 
 }

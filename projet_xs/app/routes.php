@@ -13,4 +13,8 @@
 
 
 		['GET|POST', '/admin', 'admin#showadmin', 'admin_showadmin'],
+        
+        
+        //Page de personnalisation des Tshirt
+        ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
 	);
