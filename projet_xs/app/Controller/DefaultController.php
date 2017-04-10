@@ -20,103 +20,60 @@ class DefaultController extends Controller
     {
         $this->show('default/home');
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Page de connection/identification
      */
     public function connect()
     {
+        $errorsText = '';
+        $logUser = $this->getUser();
+
+        if(!empty($logUser)){
+            $this->redirectToRoute('default_home');
+        }
         // si le post n'est pas vide, on récupère les données "nettoyées"
         if (!empty($_POST)) {
+
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
             $err = [
                 //-On verifie si l'email est valide
-                (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
+                (!v::notEmpty()->validate($post['email'])) ? 'L\'identifiant est incorrect' : null,
+                (!v::notEmpty()->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
             ];
 
             $errors = array_filter($err);
             if (count($errors) === 0) {
-                $User = new AuthentificationModel();
-                $id   = $User->isValidLoginInfo($post['email'], $post['password']);
-                if (isset($id)) {
-                    $ident   = new UsersModel();
-                    $tmpUser = $ident->find($id);
-                    $User->logUserIn($tmpUser);
-                    $success = true;
-                    $this->flash('Vous etes bien connecté', 'info');
+                $authentificationModel = new AuthentificationModel();
+                if(empty($authentificationModel->isValidLoginInfo($post['email'], $post['password']))){
+                    $errorsText = 'Identifiants invalides';
+
+                }else{
+
+                    $usersModel  = new UsersModel();
+
+                    $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
+
                     $this->redirectToRoute('admin_showadmin');
+
                 }
             }
-        } else {
-            $this->show('default/connect');
-        }
+            else{
+                $errorsText = implode('<br>', $errors);
+            }
+        } 
+        $this->show('User/connect',['errorsText' => $errorsText]);
     }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function Logout()
     {
         $user = new AuthentificationModel();
         $user->logUserOut();
-        $this->redirectToRoute('article_listearticle');
+        $this->redirectToRoute('default_home');
     }
-
-///////////////////////////////////////////////////////////////////////////
-    public function subscribe()
-    {
-//-Declaration des diff variables
-        $post       = [];
-        $upload_dir = 'upload/';
-        $maxSize    = (1024 * 1000) * 2;
-
-// si le post n'est pas vide, on récupère les données "nettoyées"
-        if (!empty($_POST)) {
-            $post = array_map('trim', array_map('strip_tags', $_POST));
-
-            $err = [
-                //-On verifie si l'input n'est pas vide, si il ne comporte pas de caracteres qu'on ne veut pas, et si la taille de la chaine est comprise entre 2 et 30 caracteres.
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['lastname'])) ? 'Le nom de famille est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['firstname'])) ? 'Le prénom est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
-                (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
-                (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
-                (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le codepostal est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
-            ];
-
-            $errors = array_filter($err);
-
-            $err = [
-                //-On verifie si l'email est valide
-                (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
-            ];
-
-            $errors = array_filter($err);
-            if (count($errors) === 0) {
-                $User = new AuthentificationModel();
-                $id   = $User->isValidLoginInfo($post['email'], $post['password']);
-                if (!empty($id)) {
-                    $ident   = new UsersModel();
-                    $tmpUser = $ident->getUserByUsernameOrEmail($post['email']);
-                    $User->logUserIn($tmpUser);
-                    // $success = true;
-                    $this->redirectToRoute('default_home');
-                    // $this->flash('Vous etes bien connecté', 'info');
-                    echo '';
-                } else {
-                    echo '';
-                }
-            } else {
-                echo implode('<br>', $errors);
-            }
-        }
-        $this->show('User/connect');
-    }
-
+ 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function contact()
     {
@@ -152,7 +109,7 @@ class DefaultController extends Controller
                 // $result = '<div class="alert alert-danger">' .  . '</div>';
             }
         }
-        $this->show('default/contact');
+        $this->show('User/contact');
 
     }
 

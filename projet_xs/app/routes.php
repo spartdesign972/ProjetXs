@@ -5,7 +5,7 @@
 		// Route ou les utilisateurs sont rediriger pour se connecter
 		['GET|POST', '/connection', 'Default#connect', 'login'],
 
-		['GET|POST', 'logout', 'Default#logout', 'logout'],
+		['GET|POST', '/logout', 'Default#logout', 'logout'],
 
 
 
@@ -21,5 +21,7 @@
 		['GET|POST', '/admin/listDesigns', 'Admin#showDesigns', 'admin_showDesigns'],
 		//Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
+    
+    ['GET|POST', '/listOrders', 'Users#listOrders', 'users_listOrders'],
 
 	);

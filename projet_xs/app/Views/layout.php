@@ -11,6 +11,12 @@
 		
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
+
+		<?php if(!empty($w_user)): ?>
+			<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/stylecorectif.css') ?>">
+		<?php endif; ?>
+
+
 		<script>
 			new WOW().init();
 		</script>
@@ -23,7 +29,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 logo text-center">
-							<img src="./assets/img/logo.png" alt="logo">
+							<img src="./assets/img/logo2.png" alt="logo">
 						</div>
 						
 					</div>
@@ -52,15 +58,15 @@
 
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
+									<?php if(empty($w_user)): ?>
 								<li class="user-brand">
 									<div><i class="fa fa-user-circle-o user"
 									aria-hidden="true"></i></div>
-									<?php if(empty($w_user)): ?>
-									<a href="<?=$this->url('login')?>"><h4>Connection</h4></a>
-									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">inscription</h4></a>
+									<a href="<?=$this->url('login')?>"><h4>Connexion</h4></a>
+									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">Inscription</h4></a>
 									<?php else: ?>
-									<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
-									<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
+									<li><a href="<?php // echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
+									<li><a href=" <?php echo $this->url('logout') ?> ">Vous Deconnecter</a></li>
 									<?php endif; ?>
 								</li>
 								<li>
