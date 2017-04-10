@@ -9,13 +9,14 @@ use Respect\Validation\Validator as v;
 use \W\Controller\Controller;
 use \W\Model\UsersModel;
 use \W\Security\AuthentificationModel;
+use Model\OrdersModel;
 
-class DefaultController extends Controller
+class UsersController extends Controller
 {
 
 public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
 	{
-
+$Order = [];
 		$listarticle = new OrdersModel();
 		$arti = $listarticle->findAll();
 		$params = [

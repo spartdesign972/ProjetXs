@@ -7,7 +7,7 @@ $this->layout('layout', ['title' => 'Voici vos Articles']); ?>
 //début du bloc main_content
 $this->start('main_content'); ?>
 
-<div class="container-fluid">
+<div class="container">
 
 <h1></h1>
 <!-- En-Tête de Présentation -->
