@@ -22,4 +22,6 @@
 		//Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
 
+    ['GET|POST', '/useradmin', 'Users#showuser', 'user_showuser'],
+
 	);
