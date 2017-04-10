@@ -251,7 +251,9 @@ iframe {
     background-color: rgba(65, 182, 222, 0.7);
     color: white;
 }
-
+.navbar-right{
+    font-size: 0.8em;
+}
 .carousel-wrapper {
     position: relative;
     min-width: 100%;
