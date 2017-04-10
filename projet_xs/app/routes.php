@@ -21,5 +21,7 @@
 		['GET|POST', '/admin/listDesigns', 'Admin#showDesigns', 'admin_showDesigns'],
 		//Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
+    
+    ['GET|POST', '/listOrders', 'Users#listOrders', 'users_listOrders'],
 
 	);
