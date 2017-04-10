@@ -1,19 +1,8 @@
-## W
+## Projet Xs
 
-W est un framework minimaliste. Il suit les structures et les grand thèmes des frameworks PHP OO MVC actuels, tout en en facilitant l'approche. 
+Projet de fin de formation de la grande école du digital a la Martinique. 
 
 ---
-
-####Pour télécharger le framework et en consulter la documentation :
-
-1. Dans un terminal : 
-
-  ```
-  cd c:/xampp/htdocs
-  composer create-project webforce3/w nom_de_mon_projet
-  ```
-
-2. Naviguez vers http://localhost/nom_de_mon_projet/docs/tuto/
 
 
 ####Auteurs :
