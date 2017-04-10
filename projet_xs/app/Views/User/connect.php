@@ -3,6 +3,12 @@
 <div class="container">
   
   <div class="row">
+  <?php if(!empty($errorsText)) : ?>
+
+    <div class="alert alert-danger"><?= $errorsText ?></div>
+
+  <?php endif; ?>
+
     <div class="col-xs-12">
       <div class="card-group ">
         <div class="card">
@@ -12,7 +18,7 @@
             <form method="post" id="add" action="<?=$this->url('login') ?>" class="form-horizontal">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input class="form-control" type="email" id="email" name="email" placeholder="votre@email.fr">
+                <input class="form-control" type="text" id="email" name="email" placeholder="votre@email.fr">
               </div>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>

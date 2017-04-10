@@ -27,32 +27,44 @@ class DefaultController extends Controller
      */
     public function connect()
     {
+        $errorsText = '';
+        $logUser = $this->getUser();
+
+        if(!empty($logUser)){
+            $this->redirectToRoute('default_home');
+        }
         // si le post n'est pas vide, on récupère les données "nettoyées"
         if (!empty($_POST)) {
+
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
             $err = [
                 //-On verifie si l'email est valide
-                (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
+                (!v::notEmpty()->validate($post['email'])) ? 'L\'identifiant est incorrect' : null,
+                (!v::notEmpty()->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
             ];
 
             $errors = array_filter($err);
             if (count($errors) === 0) {
-                $User = new AuthentificationModel();
-                $id   = $User->isValidLoginInfo($post['email'], $post['password']);
-                if (isset($id)) {
-                    $ident   = new UsersModel();
-                    $tmpUser = $ident->find($id);
-                    $User->logUserIn($tmpUser);
-                    $success = true;
-                    $this->flash('Vous etes bien connecté', 'info');
-                    // $this->redirectToRoute('admin_showadmin');
+                $authentificationModel = new AuthentificationModel();
+                if(empty($authentificationModel->isValidLoginInfo($post['email'], $post['password']))){
+                    $errorsText = 'Identifiants invalides';
+
+                }else{
+
+                    $usersModel  = new UsersModel();
+
+                    $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
+
+                    $this->redirectToRoute('admin_showadmin');
+
                 }
             }
-        } else {
-            $this->show('User/connect');
-        }
+            else{
+                $errorsText = implode('<br>', $errors);
+            }
+        } 
+        $this->show('User/connect',['errorsText' => $errorsText]);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function Logout()
