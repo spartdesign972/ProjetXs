@@ -55,7 +55,6 @@
 
 								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
-
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 									<?php if(empty($w_user)): ?>
@@ -88,7 +87,7 @@
 			<div id="footer">
 				<?= $this->section('footer') ?>
 			</div>
-			
+
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {

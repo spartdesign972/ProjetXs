@@ -10,6 +10,7 @@ use \W\Controller\Controller;
 use \W\Model\UsersModel;
 use \W\Security\AuthentificationModel;
 
+
 class UsersController extends Controller
 {
 
@@ -22,6 +23,23 @@ class UsersController extends Controller
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
+	{
+
+		$listarticle = new OrdersModel();
+		$arti = $listarticle->findAll();
+		$params = [
+		'Order' => $Order,
+		];
+		
+		$this->show('User/listOrders', $params);
+
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 
 
