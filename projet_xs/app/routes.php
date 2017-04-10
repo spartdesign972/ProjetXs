@@ -5,7 +5,7 @@
 		// Route ou les utilisateurs sont rediriger pour se connecter
 		['GET|POST', '/connection', 'Default#connect', 'login'],
 
-		['GET|POST', 'logout', 'Default#logout', 'logout'],
+		['GET|POST', '/logout', 'Default#logout', 'logout'],
 
 
 

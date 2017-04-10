@@ -60,7 +60,7 @@
 									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">Inscription</h4></a>
 									<?php else: ?>
 									<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
-									<li><a href=" <?php echo $this->url('user_logout') ?> ">Vous Deconnecter</a></li>
+									<li><a href=" <?php echo $this->url('logout') ?> ">Vous Deconnecter</a></li>
 									<?php endif; ?>
 								</li>
 								<li>
