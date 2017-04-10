@@ -9,15 +9,26 @@ use Respect\Validation\Validator as v;
 use \W\Controller\Controller;
 use \W\Model\UsersModel;
 use \W\Security\AuthentificationModel;
+use Model\OrdersModel;
 
-class DefaultController extends Controller
+class UsersController extends Controller
 {
+
+    /**
+     * Page d'accueil par défaut
+     */
+    public function showuser()
+    {
+        $this->show('User/userAdmin');
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
 	{
-
-		$listarticle = new OrdersModel();
-		$arti = $listarticle->findAll();
+$Order = [];
+		$listorders = new OrdersModel();
+		$Order = $listorders->findAll();
 		$params = [
 		'Order' => $Order,
 		];
@@ -26,6 +37,7 @@ public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
 
 	}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
