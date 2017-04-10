@@ -8,10 +8,19 @@
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 
+		<link rel="stylesheet" href="../bower_components/wow/css/libs/animate.css">
+		
+		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
+
+		<script src="../bower_components/wow/dist/wow.min.js"></script>
+    <script>
+    	new WOW().init();
+    </script>
+
 		<?= $this->section('link') ?>
 	</head>
 	<body>
-		<!-- <div id="wrap"> -->
+		<!-- <div id="page"> -->
 			<header>
 				<div class="page-header">
 					<div class="container">
@@ -41,8 +50,10 @@
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
-								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
-								<li><a href="#">Link</a></li>
+
+								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
+								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
+
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<li class="user-brand">
@@ -71,11 +82,32 @@
 
 				</main>
 			<!-- </div> -->
-			<footer>
+			<div id="footer">
 				<?= $this->section('footer') ?>
-			</footer>
-			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
+			</div>
+			
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
+
+			<script type="text/javascript">
+				 $(document).ready(function() {
+				   
+				   var footerHeight = $('#footer').height();
+
+				   positionfooter();
+				   
+				   function positionfooter(){
+					   var docHeight = $(window).height();
+					   var footerTop = $('#footer').position().top + footerHeight;
+
+					   if (footerTop < docHeight) {
+					    $('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+					   }
+					 }
+
+					 $(window).resize(positionfooter);
+				  });
+			</script>
+
 			<?= $this->section('script') ?>
 		</body>
 	</html>

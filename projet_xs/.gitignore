@@ -1,4 +1,5 @@
 /vendor/
 /phpDocumentor.phar
+/upload
 *.log
 .phpintel

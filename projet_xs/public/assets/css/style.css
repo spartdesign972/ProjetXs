@@ -1,21 +1,10 @@
 html, body {
 	font-family: Consolas, monaco, monospace;
 	height: 100%;
-	/* background-color: #272822; */
+	background: -webkit-linear-gradient(top, rgba(224, 226, 229, 1.0) 0%, rgba(224, 226, 229, 0.7) 100%), url('../img/BG_seamless.jpg') repeat fixed;
+	background: linear-gradient(to bottom, rgba(224, 226, 229, 1.0) 0%, rgba(224, 226, 229, 0.7) 100%), url('../img/BG_seamless.jpg') repeat fixed; 
 	/* color: #F8F8F2; */
-}
-
-
-/* wrap pour le sticky footer */
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Negative indent footer by it's height */
-  margin: 0 auto -280px;
-}
-#push, footer{
-	height: 280px;
+	background-attachment: fixed;
 }
 
 h1 {
@@ -42,8 +31,19 @@ header{
 }
 
 main{
-	/* margin-top:  210px; */
+	/* margin-top: -70px; */
 	/* height: 2000px; */
+}
+/*pour la google map du footer*/
+iframe{
+	width: 100%;
+}
+
+#footer{
+	height: 280px;
+	/* position: absolute;
+	bottom: 0;
+	width: 100%; */
 }
 
 
@@ -77,6 +77,7 @@ main{
 .presentation{
 	width: 100%;
 	height:  520px;
+	margin-top: -60px;
 	background: url('../img/presentation_BG.jpg') no-repeat fixed;
 	background-position: bottom;
 	background-size: cover;
@@ -124,13 +125,29 @@ main{
 }
 .foot h2{
 	color:  white;
+	margin-bottom: -15px;
 }
 .foot .colored{
 	background-color: rgba(65, 182, 222, 0.9);
 	height: 100%;
 	width: 100%;
 }
-
+.foot ul{
+	list-style: none;
+	padding: 0;
+}
+.foot ul li{
+	padding-top: 5px;
+}
+.foot ul li a{
+	font-family: 'PT Sans', sans-serif;
+	color: #333;
+	font-size: 1.5em;
+}
+.foot ul li a:hover{
+	color:  white;
+	text-decoration: none;
+}
 
 .page-header a:hover{
 	color: rgba(65, 182, 222, 0.9);
@@ -169,7 +186,8 @@ main{
 }
 
 .navbar-default{
-	background-color: rgba(244, 209, 149, 0.5);
+	background: -webkit-linear-gradient(top, rgba(228, 112, 3, 1.0) 0%,rgba(244, 209, 149, 0.5) 100%);
+	background: linear-gradient(to bottom, rgba(228, 112, 3, 1.0) 0%,rgba(244, 209, 149, 0.5) 100%);   
 	border:  none;
 }
 .navbar-default.affix{
@@ -177,9 +195,9 @@ main{
 }
 
 .navbar-default .navbar-nav > li > a{
-	color:  black;
+	color:  white;
 	font-family: 'Oleo Script Swash Caps', cursive;
-	font-size: 2em;
+	font-size: 1.5em;
 	margin:  0;
 	padding-top:  0;
 	height: 60px;
@@ -204,9 +222,8 @@ main{
 	top:  -56px;
 	overflow: hidden;
 }
-.carousel img {
-   width: : 100%;
-   object-fit: fill;
+.carousel-inner > .item > img {
+    min-width: 100%;
 }
 .carousel-control{
 	height: 100%;

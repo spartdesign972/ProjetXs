@@ -82,36 +82,7 @@
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
-<div class="foot">
-  <div class="colored">
-    <div class="row">
-      <div class="container">
-        <div class="col-xs-12 col-sm-4">
-          <h2>Qui somme nous !</h2><hr>
-          <p>Tshirt Factory XS <br>
-            21 rue des Rosier <br>
-            97200 Fort de France, Martinique <br>
-            tsfxs@orange.fr <br>
-          0596 25 36 65</p>
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-          <h2>Nous Suivre !</h2><hr>
-          <ul>
-            <li><a href="#"></a>Facebook</li>
-            <li><a href="#"></a>Twitter</li>
-            <li><a href="#"></a>Instagram</li>
-            <li><a href="#"></a>Pinterest</li>
-          </ul>
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-          <h2></h2><hr>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  <?php include './inc/footer.php'; ?>
 <?php $this->stop('footer')?>
 <?php $this->start('script')?>
 <script src="<?=$this->assetUrl('js/monJs.js')?>" type="text/javascript"></script>
