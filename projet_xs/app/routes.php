@@ -22,7 +22,6 @@ $w_routes = array(
 
     ['GET|POST', '/listOrders', 'Users#listOrders', 'users_listOrders'],
 
-    //Page de personnalisation des Tshirt
-    ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
-
+    
+  
 );
