@@ -1,6 +1,10 @@
 <?php $this->layout('layout', ['title' => 'login'])?>
 <?php $this->start('main_content')?>
 <div class="container">
+
+ <br>
+        <div id="result"></div>
+
   <br>
   <?php if (isset($errors) && count($errors) > 0): ?>
   <div class="alert alert-danger"><?=implode('<br>', $errors);?></div>
@@ -17,6 +21,7 @@
         <div class="form-group">
           <label for="firstname">Prénom</label>
           <input class="form-control" type="text" id="firstname" name="firstname" placeholder="Votre prénom..." required>
+
         </div>
         <div class="form-group">
           <label for="username">Pseudo</label>
