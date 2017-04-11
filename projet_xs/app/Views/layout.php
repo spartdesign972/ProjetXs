@@ -54,7 +54,8 @@
 									<?php else: ?>
 										<li><a href="#" class="text-muted"><?php echo 'Bonjour : '.$w_user['lastname'].'<br>' ?></a></li>
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
-									<li>----</li>
+									<li class="spacer">----</li>
+									<li class="spacer">----</li>
 									<?php endif; ?>
 								</li>
 								<li>
@@ -81,7 +82,7 @@
 			</div>
 			<div class="row">
 				<!-- <div class="container"> -->
-				<nav class="navbar navbar-default" role="navigation" data-spy="affix" data-offset-top="150">
+				<nav class="navbar navbar-default menu" role="navigation" data-spy="affix" data-offset-top="150">
 					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
