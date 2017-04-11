@@ -5,7 +5,7 @@
 		<title><?= $this->e($title) ?></title>
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/bootstrap.min.css') ?> ">
 		<!-- <link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>"> -->
-		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleUser.css') ?>">
+		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 		
@@ -15,7 +15,7 @@
 		<!-- <div id="wrap"> -->
 
 				<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-					<div class="container">
+					<div class="container-fluid">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
