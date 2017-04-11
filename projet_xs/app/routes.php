@@ -10,19 +10,19 @@ $w_routes = array(
     // route de la page de souscription
     ['GET|POST', '/subscribe', 'Default#subscribe', 'default_subscribe'],
 
-    ['GET|POST', '/modifInfos/[i:id]', 'Default#modifInfos', 'default_modifInfos'],
+    ['GET|POST', '/modifinfos/[i:id]', 'Default#modifInfos', 'default_modifInfos'],
 
     ['GET|POST', '/contactez-nous', 'Default#contact', 'default_contact'],
 
     ['GET|POST', '/admin', 'Admin#showadmin', 'admin_showadmin'],
 
-    ['GET|POST', '/admin/listDesigns', 'Admin#showDesigns', 'admin_showDesigns'],
     //Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
 
     ['GET|POST', '/useradmin', 'Users#showuser', 'user_showuser'],
 
     ['GET|POST', '/listorders', 'Users#listOrders', 'users_listOrders'],
+    
     ['GET|POST', '/vieworders/[i:id]','Users#viewOrder', 'users_viewOrder'],
     
     
