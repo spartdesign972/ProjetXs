@@ -44,20 +44,15 @@
 								<li><a href="<?=$this->url('default_modifInfos')?>">Modifier mes infos</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Mes Réalisations</a></li>
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
+								
+								<?php if($w_user['role'] == 'admin'): ?>
+									<li><a href="<?=$this->url('admin_showadmin')?>">Admin</a></li>	
+								<?php endif; ?>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
-									<?php if(empty($w_user)): ?>
-								<li class="user-brand">
-									<div><i class="fa fa-user-circle-o user"
-									aria-hidden="true"></i></div>
-									<a href="<?=$this->url('login')?>"><h4>Connexion</h4></a>
-									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">Inscription</h4></a>
-									<?php else: ?>
 										<li><span class="text-muted"><?php echo 'Bonjour '.$w_user['lastname'].'<br>' ?></span></li>
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
-									<li class="spacer">----</li>
-									<li class="spacer">----</li>
-									<?php endif; ?>
+									<li class="spacer">--</li>
 								</li>
 								<li>
 									<a href="#"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
