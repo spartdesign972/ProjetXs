@@ -23,9 +23,6 @@ $w_routes = array(
 	['GET|POST', '/admin/delete_user', 'Admin#delete_user', 'admin_delete_user'],
 	['GET|POST', '/admin/listDesigns', 'Admin#showDesigns', 'admin_showDesigns'],
 		
-	//Page de personnalisation des Tshirt
-    ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
-
     //Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],
 
