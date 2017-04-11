@@ -42,7 +42,7 @@
 							<ul class="nav-user navbar-nav">
 
 								<li><a href="<?=$this->url('default_modifInfos')?>">Modifier mes infos</a></li>
-								<li><a href="<?=$this->url('default_custom')?>">Mes Réalisations</a></li>
+								<li><a href="<?=$this->url('user_listDesigns')?>">Mes Réalisations</a></li>
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 								
 								<?php if($w_user['role'] == 'admin'): ?>
