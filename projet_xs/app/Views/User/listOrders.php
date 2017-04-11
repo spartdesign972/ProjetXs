@@ -1,10 +1,5 @@
- <?php
-//hérite du fichier layout.php à la racine de app/Views/
-$this->layout('layout', ['title' => 'Voici vos commandes']);?>
-
-<!-- début du bloc main_content -->
-<?php $this->start('main_content');?>
-
+<?php $this->layout('layout', ['title' => 'Vos commandes']) ?>
+<?php $this->start('main_content'); ?>
 <div class="container">
 
 <h1></h1>
@@ -12,7 +7,7 @@ $this->layout('layout', ['title' => 'Voici vos commandes']);?>
 
 <div class="contact col-xs-12">
 
-<h1 class="list">Les Articles</h1>
+<h1>Les Commandes</h1>
 
 	<br>
 
@@ -20,20 +15,19 @@ $this->layout('layout', ['title' => 'Voici vos commandes']);?>
 
 		<thead>
 			<tr>
-				<th class="list">Date de commande</th>
-				<th class="list">Commande</th>
-				<th class="list">Status</th>
-				<th class="list">Factures</th>
+				<th>Date de commande</th>
+				<th>Commande</th>
+				<th>Status</th>
+				<th>Factures</th>
 			</tr>
 		</thead>
-		<?php foreach ($Order as $viewOrder): ?>
+		<?php foreach($Order as $viewOrder): ?>
 		<tbody>
 
 				<tr>
-					<td class="list"><?=$viewOrder['date_create'];?></td>
-					<td class="list"><?='Commande N°: ' . $viewOrder['id'];?></td>
-					<td class="list"><?=$viewOrder['status'];?></td>
-					<!-- <td class="list"><img style="width: 350px" src="../uploads/<?=$viewOrder['picture'];?>"></td> -->
+					<td><?=$viewOrder['date_create'];?></td>
+					<td><?='Commande N°: ' . $viewOrder['id'];?></td>
+					<td><?=$viewOrder['status'];?></td>
 
 					<td>
 						<a href="<?=$this->url('#')?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
@@ -56,18 +50,15 @@ $this->layout('layout', ['title' => 'Voici vos commandes']);?>
 			</td>
 
 		</tr>
-
-
-
 </tbody>
-	<?php endforeach;?>
+	<?php endforeach; ?>
 </table>
 
 </div>
 
 </div>
 
-<?php
-//fin du bloc
-$this->stop('main_content');
-?>
+<?php $this->stop('main_content'); ?>
+<?php $this->start('footer'); ?>
+<?php include './inc/footer.php'; ?>
+<?php $this->stop('footer'); ?>
