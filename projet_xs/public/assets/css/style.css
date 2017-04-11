@@ -49,11 +49,12 @@ iframe {
 	width: 100%; */
 }
 .logo{
-    margin-top: -10px;
+    display: block;
+    margin: -10px auto 0;
 }
 
 .navbar .fa-user-circle-o {
-    margin: 5px 0 0 -135px;
+    margin: 5px 0 0 0;
     font-size: 45px;
     color: white;
     text-shadow: 2px 2px #000;
@@ -325,6 +326,7 @@ iframe {
 .card-group .card {
     display: table-cell;
     vertical-align: top;
+    padding: 20px;
 }
 
 .card-group {
@@ -396,10 +398,7 @@ iframe {
         background-color: #E47003;
         margin-top: -10px;
     }
-    .logo {
-        margin: 0 auto;
-        text-align: center;
-    }
+    
     .howto {
         height: 340px;
     }

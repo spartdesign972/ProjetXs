@@ -74,8 +74,8 @@
 			<div class="page-header">
 				<div class="container">
 					<div class="row">
-						<div class="col-xs-12 logo text-center">
-							<img src=" <?=$this->assetUrl('./img/logo2.png') ?>  " alt="logo">
+						<div class="col-xs-12">
+							<img src="<?=$this->assetUrl('./img/logo2.png') ?>" class="img-responsive logo" alt="logo">
 						</div>
 
 					</div>
@@ -104,7 +104,7 @@
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
-								<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
 								<li><a href="<?=$this->url('login')?>">Connexion</a>
 								</li>
 							</ul>
