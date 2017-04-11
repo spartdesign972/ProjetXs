@@ -183,6 +183,17 @@ iframe {
 .fa.panier {
     margin-left: 20px;
 }
+.s-panier{
+    display: inline-block;
+    top: -10px;
+    position: absolute;
+    width: 100px;
+}
+.user-ident {
+    line-height: 25px;
+    display: inline-block;
+    margin-top: 6px;
+}
 
 
 /**************************************************
@@ -284,7 +295,9 @@ iframe {
     height: 100%;
     opacity: 1;
 }
-
+.carousel-control:hover{
+    opacity: 1;
+}
 .carousel-control.right {
     height: 100%;
     background: url('../img/carousel-CR.png')-20px 0;
