@@ -7,7 +7,7 @@
 
 <div class="contact col-xs-12">
 
-<h1 class="list">Les Commandes</h1>
+<h1>Les Commandes</h1>
 
 	<br>
 
@@ -15,19 +15,19 @@
 
 		<thead>
 			<tr>
-				<th class="list">Date de commande</th>
-				<th class="list">Commande</th>
-				<th class="list">Status</th>
-				<th class="list">Factures</th>
+				<th>Date de commande</th>
+				<th>Commande</th>
+				<th>Status</th>
+				<th>Factures</th>
 			</tr>
 		</thead>
 		<?php foreach($Order as $viewOrder): ?>
 		<tbody>
 
 				<tr>
-					<td class="list"><?=$viewOrder['date_create'];?></td>
-					<td class="list"><?='Commande N°: ' . $viewOrder['id'];?></td>
-					<td class="list"><?=$viewOrder['status'];?></td>
+					<td><?=$viewOrder['date_create'];?></td>
+					<td><?='Commande N°: ' . $viewOrder['id'];?></td>
+					<td><?=$viewOrder['status'];?></td>
 
 					<td>
 						<a href="<?=$this->url('#')?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
