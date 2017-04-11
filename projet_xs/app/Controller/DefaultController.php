@@ -209,11 +209,13 @@ class DefaultController extends Controller
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function modifInfos($id)
+    public function modifInfos()
     {
 
+        $loggedUser = $this->getUser();
+
         $UserRecup = new UsersModel();
-        $newUser   = $UserRecup->find($id);
+        $newUser   = $UserRecup->find($loggedUser['id']);
 
         //-Declaration des diff variables
         $post       = [];
@@ -290,9 +292,8 @@ class DefaultController extends Controller
                     // 'avatar'    => $save_name,
                 ];
                 $User = new UsersModel();
-                if ($User->update($datas, $id)) {
+                if ($User->update($datas, $loggedUser['id'])) {
                     $success = true;
-                    echo 'l update est passée';
 
                 }
 
@@ -310,7 +311,7 @@ class DefaultController extends Controller
             'userModif' => $newUser,
             'result'    => $result,
         ];
-        $this->show('User/modifInfos', $param, ["id" => $id]);
+        $this->show('User/modifInfos', $param);
     }
 
     

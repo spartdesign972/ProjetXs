@@ -10,7 +10,7 @@ $w_routes = array(
     // route de la page de souscription
     ['GET|POST', '/subscribe', 'Default#subscribe', 'default_subscribe'],
 
-    ['GET|POST', '/modifInfos/[i:id]', 'Default#modifInfos', 'default_modifInfos'],
+    ['GET|POST', '/modifInfos', 'Default#modifInfos', 'default_modifInfos'],
 
     ['GET|POST', '/contactez-nous', 'Default#contact', 'default_contact'],
 
