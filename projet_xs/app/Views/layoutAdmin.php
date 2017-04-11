@@ -7,7 +7,9 @@
 		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
-		
+		<!-- Bootstrap SweetAlert CSS -->
+	    <link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.css') ?>">
+
 		<?= $this->section('link') ?>
 	</head>
 	<body>
@@ -40,7 +42,7 @@
 								</li>
 							</ul>
 								<ul class="nav navbar-nav navbar-right">
-								<li><a href=" <?=$this->url('logout')?> "><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Deconnection</a></li>
+								<li><a href="<?=$this->url('admin_logout')?>"><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Déconnexion</a></li>
 								</li>
 							</ul>
 							</div><!-- /.navbar-collapse -->
@@ -58,8 +60,8 @@
                         <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Acceuil</a>
                     </li>
                     <li>
-                        <a href="#anch1" data-scroll>
-                            <span>lien 1</span>
+                        <a href="<?= $this->url('admin_users') ?>" data-scroll>
+                            <span>Utilisateurs</span>
                         </a>
                     </li>
                     <li>
@@ -92,6 +94,9 @@
 			</footer>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
+			<!-- Bootstrap SweetAlert JS -->
+		    <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
+
 			<?= $this->section('script') ?>
 			<script type="text/javascript">
 				$(document).ready(function() {
