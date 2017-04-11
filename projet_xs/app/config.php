@@ -20,6 +20,14 @@ $w_config = [
 
 	// configuration globale
 	'site_name'	=> '', 								// contiendra le nom du site
+
+	// PHPMailer
+	'phpmailer_host' => 'smtp.mailtrap.io',
+	'phpmailer_port' => 25,
+	'phpmailer_SMTPSecure' => 'tls',
+	'phpmailer_SMTPAuth' => true,
+	'phpmailer_username' => '3721836baaa816',
+	'phpmailer_password' => '61fe9c7abd4482',
 ];
 
 require('routes.php');

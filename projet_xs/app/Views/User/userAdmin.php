@@ -51,5 +51,5 @@
 </div>
 <?php $this->stop('main_content') ?>
 <?php $this->start('footer') ?>
-<?php include './inc/footer.php'; ?>
+
 <?php $this->stop('footer') ?>

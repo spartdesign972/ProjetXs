@@ -1,61 +1,49 @@
 <?php $this->layout('layout', ['title' => 'Vos commandes']) ?>
 <?php $this->start('main_content'); ?>
-<div class="container">
 
-<h1></h1>
-<!-- En-Tête de Présentation -->
-
-<div class="contact col-xs-12">
-
-<h1>Les Commandes</h1>
-
-	<br>
-
-	<table class="table">
-
-		<thead>
-			<tr>
-				<th>Date de commande</th>
-				<th>Commande</th>
-				<th>Status</th>
-				<th>Factures</th>
-			</tr>
-		</thead>
-		<?php foreach($Order as $viewOrder): ?>
-		<tbody>
-
+	<h1></h1>
+	<div class="container">
+	<!-- En-Tête de Présentation -->
+	<div class="contact col-xs-12">
+		<h1>Les Commandes</h1>
+		<br>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Date de commande</th>
+					<th>Commande</th>
+					<th>Status</th>
+					<th>Factures</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach($Order as $viewOrder): ?>
 				<tr>
 					<td><?=$viewOrder['date_create'];?></td>
 					<td><?='Commande N°: ' . $viewOrder['id'];?></td>
 					<td><?=$viewOrder['status'];?></td>
-
 					<td>
-						<a href="<?=$this->url('#')?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
-							Visualiser cette commande</button>
-						</a>
-					</td>
-
-					<td>
-						<a href="admin/modif_recipe.php?id=<?=$viewOrder['id'];?>">
+						<a href="<?=$this->url('users_viewOrder', ['id' => $viewOrder['id']])?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
+						Visualiser cette commande</button>
+					</a>
+				</td>
+				<td>
+					<a href="admin/modif_recipe.php?id=<?=$viewOrder['id'];?>">
 						<button type="button" class="btn btn-info btn-sm">
-							<span class="glyphicon glyphicon-edit"></span> Modifier
+						<span class="glyphicon glyphicon-edit"></span> Modifier
 						</button>
 					</a>
 				</td>
-
 				<td>
 					<a href="admin/delete_recipe.php?id=<?=$viewOrder['id'];?>"><button type="button" class="btn btn-info btn-sm">
 						<span class="glyphicon glyphicon-remove"></span>Remove</button>
-				</a>
-			</td>
-
-		</tr>
-</tbody>
-	<?php endforeach; ?>
-</table>
-
+					</a>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
 </div>
-
 </div>
 
 <?php $this->stop('main_content'); ?>

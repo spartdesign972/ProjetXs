@@ -1,7 +1,12 @@
-<?php $this->layout('layoutAdmin', ['title' => 'login']) ?>
+<?php $this->layout('layoutAdmin', ['title' => 'Administration']) ?>
 <?php $this->start('main_content') ?>      
 
-  <div class="page-content inset" data-spy="scroll" data-target="#spy">
+<br>
+<div class="page-header">
+  <h1>Bienvenue <small>dans l'interface d'administration du site</small></h1>
+</div>
+
+  <!--<div class="page-content inset" data-spy="scroll" data-target="#spy">
       <div class="row">
 
           <div class="jumbotron text-center" >
@@ -42,7 +47,7 @@
       </div>
 
       
-  </div>
+  </div>-->
 
 <?php $this->stop('main_content') ?>
 <?php $this->start('footer') ?>
