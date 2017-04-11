@@ -52,7 +52,7 @@
 									<a href="<?=$this->url('login')?>"><h4>Connexion</h4></a>
 									<a href="<?=$this->url('default_subscribe')?>" title=""><h4 class="second">Inscription</h4></a>
 									<?php else: ?>
-										<li><a href="#" class="text-muted"><?php echo 'Bonjour : '.$w_user['lastname'].'<br>' ?></a></li>
+										<li><span class="text-muted"><?php echo 'Bonjour '.$w_user['lastname'].'<br>' ?></span></li>
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
 									<li class="spacer">----</li>
 									<li class="spacer">----</li>
