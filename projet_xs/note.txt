@@ -1,0 +1,3 @@
+PEut être un erreur ici users*
+
+<li><a href="<?php echo $this->url('users_admin') ?>"><?php echo 'Bonjour : '.$w_user['lastname'] ?> </a></li>
