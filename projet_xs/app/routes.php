@@ -28,7 +28,7 @@ $w_routes = array(
 
     ['GET|POST', '/useradmin', 'Users#showuser', 'user_showuser'],
 
-    ['GET|POST', '/listOrders', 'Users#listOrders', 'users_listOrders'],
+    ['GET|POST', '/listorders', 'Users#listOrders', 'users_listOrders'],
     
   
 );

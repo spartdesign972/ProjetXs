@@ -16,6 +16,11 @@
     margin: -27px 0 0 0;
     padding: 0;
 }
+.navbar-xs span.text-muted {
+    margin-top: 6px;
+    display: inline-block;
+}
+
 .navbar-xs .navbar-toggle{
 	margin-top: -4px;
 }
