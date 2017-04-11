@@ -80,6 +80,7 @@ $this->start('link');
 
 	 </style>
 	
+		<link href="<?= $this->assetUrl('css/styleCustom.css') ?>" rel="stylesheet">
 <?php $this->stop('link') ?>
 <!-- Fin de la balise head -->
 
@@ -88,6 +89,8 @@ $this->start('link');
 <!-- Ajouter du contenu dans la balise main-->
 <?php $this->start('main_content') ?>
 
+<div class="container">
+<div class="colored">
     <div class="col-sm-12 col-md-3">
         
         		    <div class="span3">
@@ -287,8 +290,9 @@ $this->start('link');
     </div>
     
 <div id="result"></div>
-
-
+<div class="clearfix"></div>
+</div>
+</div>
 <?php $this->stop('main_content') ?>
 <!-- Fin de la balise main-->
 
