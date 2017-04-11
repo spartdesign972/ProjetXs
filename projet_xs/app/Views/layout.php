@@ -41,8 +41,9 @@
 						<div class="collapse navbar-collapse navbar-user-collapse">
 							<ul class="nav-user navbar-nav">
 
-								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
-								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
+								<li><a href="<?=$this->url('default_modifInfos')?>">Modifier mes infos</a></li>
+								<li><a href="<?=$this->url('default_custom')?>">Mes Réalisations</a></li>
+								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
 									<?php if(empty($w_user)): ?>

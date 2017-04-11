@@ -158,6 +158,8 @@ class AdminController extends Controller
 	 */
   public function delete_user()
   {
+		$this->allowTo('admin');
+
     if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
 
       $user_id = (int) $_POST['user_id'];

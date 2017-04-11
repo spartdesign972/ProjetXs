@@ -7,11 +7,51 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Model\ContactFormModel;
 use Respect\Validation\Validator as v;
 use \W\Controller\Controller;
-use \W\Model\UsersModel;
+use Model\UsersModel;
 use \W\Security\AuthentificationModel;
+use \W\Security\StringUtils;
 
 class DefaultController extends Controller
 {
+	private $mail;
+
+	private function mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML)
+	{
+		$app = getApp();
+
+		//Create a new PHPMailer instance
+		$this->mail = new \PHPMailer;
+		//Tell PHPMailer to use SMTP
+		$this->mail->isSMTP();
+		$this->mail->CharSet = 'utf-8';
+		//Set the hostname of the mail server
+		$this->mail->Host = $app->getConfig('phpmailer_host');
+		// if your network does not support SMTP over IPv6
+		//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+		$this->mail->Port = $app->getConfig('phpmailer_port');
+		//Set the encryption system to use - ssl (deprecated) or tls
+		$this->mail->SMTPSecure = $app->getConfig('phpmailer_SMTPSecure');
+		//Whether to use SMTP authentication
+		$this->mail->SMTPAuth = $app->getConfig('phpmailer_SMTPAuth');
+		//Username to use for SMTP authentication - use full email address for gmail
+		$this->mail->Username = $app->getConfig('phpmailer_username');
+		//Password to use for SMTP authentication
+		$this->mail->Password = $app->getConfig('phpmailer_password');
+
+		//Set who the message is to be sent from
+		$this->mail->setFrom($fromAddress, $fromName);
+		//Set who the message is to be sent to
+		$this->mail->addAddress($toAddress, $toName);
+		//Set the subject line
+		$this->mail->Subject = $subject;
+		//Read an HTML message body from an external file, convert referenced images to embedded,
+		//convert HTML into a basic plain-text alternative body
+		$this->mail->msgHTML($msgHTML);
+		//send the message, check for errors
+		if (!$this->mail->send()) {
+			echo "Mailer Error: " . $this->mail->ErrorInfo;
+		}
+	}
 
     /**
      * Page d'accueil par défaut
@@ -67,6 +107,120 @@ class DefaultController extends Controller
         $this->show('User/connect',['errorsText' => $errorsText]);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Page d'oubli de mot de passe
+     */
+    public function forgot_password()
+    {
+        $errorsText = '';
+        $successText = '';
+
+        if(!empty($_POST)){
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->validate($post['email'])) ? 'L\'identifiant est incorrect' : null,
+            ];
+            $errors = array_filter($err);
+
+            if(count($errors) !== 0){
+                $errorsText = implode('<br>', $errors);
+            }
+
+            // données valides
+            else {
+                $usersModel = new UsersModel();
+
+                $user = $usersModel->getUserByUsernameOrEmail($post['email']);
+
+                if(empty($user)) {
+                    $errorsText = 'Utilisateur inexistant';
+                }
+                else {
+
+                    $fromAddress = 'noreply@factory-xs.com';
+                    $fromName = 'Tshirt Factory XS';
+                    $toAddress = $user['email'];
+                    $toName = $user['firstname'].' '.$user['lastname'];
+                    $subject = 'Nouveau mot de passe';
+                    $msgHTML = '<html><head><title>Nouveau mot de passe</title></head>';
+                    $msgHTML .= '<body><p>Veuillez cliquer sur le lien ci-dessous pour générer un nouveau mot de passe</p>';
+                    $msgHTML .= '<a href="/'.$_SERVER['HTTP_HOST'].$this->generateUrl('new_password').'?email='.$user['email'].'&token='.$user['token'].'">Nouveau mot de passe</a>';
+                    $msgHTML .= '</body></html>';
+
+                    $this->mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML);
+                    
+                    $successText = "La procédure vous a été envoyé par mail";
+                    header('refresh:3;url='.$this->generateUrl('login'));
+                }
+            }
+        }
+        $this->show('user/forgotPassword', ['errorsText' => $errorsText, 'successText' => $successText]);
+    }
+
+    /**
+     * Page de modification du mot de passe
+     */
+    public function new_password() 
+    {
+        $logUser = $this->getUser();
+        $user;
+
+        if(isset($_GET['email']) && isset($_GET['token']) && empty($logUser)) {
+
+            $usersModel = new UsersModel();
+            $user = $usersModel->getUserByEmailAndToken($_GET['email'], $_GET['token']);
+
+            if(empty($user)){
+                $this->redirectToRoute('default_home');
+            }
+        }
+        else {
+            $this->redirectToRoute('default_home');
+        }
+
+        $errorsText = '';
+        $successText = '';
+        if(!empty($_POST)){
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->validate($post['new'])) ? 'Le champ Nouveau Mot de passe est vide.' : null,
+                (!v::notEmpty()->validate($post['confirm'])) ? 'Le champ Confirmation du mot de passe est vide.' : null,
+            ];
+            $errors = array_filter($err);
+
+            
+            if(count($errors) !== 0){
+                $errorsText = implode('<br>', $errors);
+            }
+            elseif($post['confirm'] !== $post['new']) {
+                $errorsText = 'Les mots de passe ne correspondent pas.';
+            }
+            // données valides
+            else {
+                $authentificationModel = new AuthentificationModel();
+                $usersModel = new UsersModel();
+                $data = [
+                    'password'  => $authentificationModel->hashPassword($post['new']),
+                    'token'     => StringUtils::randomString(),
+                ];
+
+                if($usersModel->update($data, $user['id'])) {
+                    $successText = 'Le mot de passe a bien été changé !';
+                    header('refresh:3;url='.$this->generateUrl('login'));
+                }
+            }
+        }
+        $this->show('user/newPassword', ['errorsText' => $errorsText, 'successText' => $successText]);
+    }
+
+
     public function Logout()
     {
         $user = new AuthentificationModel();
@@ -190,6 +344,7 @@ class DefaultController extends Controller
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
                     'avatar'    => $save_name,
+                    'token'    => StringUtils::randomString(),
                 ];
                 $User = new UsersModel();
                 if ($User->insert($datas)) {
@@ -209,11 +364,13 @@ class DefaultController extends Controller
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function modifInfos($id)
+    public function modifInfos()
     {
 
+        $loggedUser = $this->getUser();
+
         $UserRecup = new UsersModel();
-        $newUser   = $UserRecup->find($id);
+        $newUser   = $UserRecup->find($loggedUser['id']);
 
         //-Declaration des diff variables
         $post       = [];
@@ -290,9 +447,8 @@ class DefaultController extends Controller
                     // 'avatar'    => $save_name,
                 ];
                 $User = new UsersModel();
-                if ($User->update($datas, $id)) {
+                if ($User->update($datas, $loggedUser['id'])) {
                     $success = true;
-                    echo 'l update est passée';
 
                 }
 
@@ -310,7 +466,7 @@ class DefaultController extends Controller
             'userModif' => $newUser,
             'result'    => $result,
         ];
-        $this->show('User/modifInfos', $param, ["id" => $id]);
+        $this->show('User/modifInfos', $param);
     }
 
     
