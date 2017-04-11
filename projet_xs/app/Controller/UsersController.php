@@ -75,16 +75,19 @@ class UsersController extends \W\Controller\Controller
     {
         // $this->allowTo('admin');
 
-        if (isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])) {
+        if ($_POST['design_id'] && !empty($_POST['design_id']) && is_numeric($_POST['design_id'])) {
 
-            $id = (int) $_POST['id'];
+            $design_id = (int) $_POST['design_id'];
 
-            $deletedesign = new UsersModel();
-            if ($deletedesign->delete($id)) {
-                $this->showJson(['status' => 'success', 'message' => 'Design #' . $id . ' supprimé']);
+            $deletedesign = new ProductsCustomModel();
+            if ($deletedesign->delete($design_id)) {
+                $this->showJson(['status' => 'success', 'message' => 'Design #' . $design_id . ' supprimé']);
             }
         } else {
             $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
         }
+        $this->redirectToRoute('User/listDesigns');
     }
+
+
 }

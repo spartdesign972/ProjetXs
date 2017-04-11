@@ -15,6 +15,7 @@
       <div class="row">
 
         <?php foreach ($design as $designsFinal): ?>
+          <?php var_dump($designsFinal); ?>
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
@@ -22,7 +23,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="<?=$this->url('user_deleteDesign', ['id' => $designsFinal['id']]) ?>" class="btn btn-default deleteUser" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
+              <p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteUser" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
             </div>
           </div>
         </div>
@@ -58,7 +59,7 @@
                             $.ajax({
                                 method: 'post',
                                 url: $this.attr('href'),
-                                data: {id: $this.data('id')},
+                                data: {design_id: $this.data('id')},
                                 dataType: 'json',
                                 success: function(result){
                                     swal('', result.message, result.status);
