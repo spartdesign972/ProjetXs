@@ -56,7 +56,7 @@ class DefaultController extends Controller
 
                     $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
 
-                    $this->redirectToRoute('admin_showadmin');
+                    $this->redirectToRoute('default_home');
 
                 }
             }
