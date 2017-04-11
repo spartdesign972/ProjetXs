@@ -25,5 +25,6 @@ $w_routes = array(
     
     ['GET|POST', '/vieworders/[i:id]','Users#viewOrder', 'users_viewOrder'],
     
+    ['GET|POST', '/listdesigns', 'Users#listDesigns', 'user_listDesigns'],
     
 );
