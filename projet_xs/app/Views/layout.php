@@ -41,7 +41,8 @@
 						<div class="collapse navbar-collapse navbar-user-collapse">
 							<ul class="nav-user navbar-nav">
 
-								<li><a href="<?=$this->url('default_modifInfos')?>">Modifier mes infos</a></li>
+								<li><a href="<?=$this->url('default_modifInfos')?>">Mes informations</a></li>
+								<li><a href="<?=$this->url('default_password')?>">Mon mot de passe</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Mes Réalisations</a></li>
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 								

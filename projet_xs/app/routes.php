@@ -4,7 +4,8 @@ $w_routes = array(
 
     ['GET', '/', 'Default#home', 'default_home'],
     // Route ou les utilisateurs sont rediriger pour se connecter
-    ['GET|POST', '/connection', 'Default#connect', 'login'],
+    ['GET|POST', '/login', 'Default#connect', 'login'],
+    ['GET|POST', '/password', 'Default#password', 'default_password'],
     ['GET|POST', '/forgot-password', 'Default#forgot_password', 'forgot_password'],
     ['GET|POST', '/new-password', 'Default#new_password', 'new_password'],
 
@@ -12,9 +13,9 @@ $w_routes = array(
     // route de la page de souscription
     ['GET|POST', '/subscribe', 'Default#subscribe', 'default_subscribe'],
 
-    ['GET|POST', '/modifInfos', 'Default#modifInfos', 'default_modifInfos'],
+    ['GET|POST', '/informations', 'Default#modifInfos', 'default_modifInfos'],
 
-    ['GET|POST', '/contactez-nous', 'Default#contact', 'default_contact'],
+    ['GET|POST', '/contact', 'Default#contact', 'default_contact'],
     // Administration BACK
     ['GET|POST', '/admin', 'Admin#showadmin', 'admin_showadmin'],
     ['GET|POST', '/admin/login', 'Admin#login', 'admin_login'],		

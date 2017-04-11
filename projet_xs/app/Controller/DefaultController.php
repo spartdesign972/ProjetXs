@@ -109,6 +109,57 @@ class DefaultController extends Controller
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Page de changement de mot de passe
+     */
+    public function password()
+    {
+        $authentificationModel = new AuthentificationModel();
+        $logUser = $this->getUser();
+
+        if(empty($logUser)){
+            $this->redirectToRoute('default_home');
+        }
+
+        $errorsText = '';
+        $successText = '';
+        if(!empty($_POST)){
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->validate($post['old'])) ? 'Le champ Ancien Mot de passe est vide.' : null,
+                (!v::notEmpty()->validate($post['new'])) ? 'Le champ Nouveau Mot de passe est vide.' : null,
+                (!v::notEmpty()->validate($post['confirm'])) ? 'Le champ Confirmation du mot de passe est vide.' : null,
+            ];
+            $errors = array_filter($err);
+
+            
+            if(count($errors) !== 0){
+                $errorsText = implode('<br>', $errors);
+            }
+            elseif($post['confirm'] !== $post['new']) {
+                $errorsText = 'Les Mots de passe ne correspondent pas.';
+            }
+            elseif(empty($authentificationModel->isValidLoginInfo($logUser['email'], $post['old']))){
+                $errorsText = 'L\'Ancien mot de passe est incorrect.';
+            }
+            // données valides
+            else {
+                $usersModel = new UsersModel();
+                $data = [
+                    'password'  => $authentificationModel->hashPassword($post['new']),
+                ];
+
+                if($usersModel->update($data, $logUser['id'])) {
+                    $successText = 'Le mot de passe a bien été changé !';
+                }
+            }
+        }
+        $this->show('user/password', ['errorsText' => $errorsText, 'successText' => $successText]);
+    }
+    
+    /**
      * Page d'oubli de mot de passe
      */
     public function forgot_password()
