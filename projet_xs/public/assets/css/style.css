@@ -316,8 +316,19 @@ iframe {
     -webkit-filter: none;
     filter: none;
 }
-
-
+.nb-like{
+    font-size: 1.1em;
+    line-height: 2.5em;
+}
+.design-author-name{
+    font-size: 0.9em;
+}
+.like-yes{
+    color: #E47003;
+}
+.like-no{
+    color: rgba(0, 0, 0, 0.4);
+}
 /**************************************************
 ** Redefinition de ceertaines class de Bootstrap **
 ** pour la page de login

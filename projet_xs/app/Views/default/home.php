@@ -100,37 +100,52 @@
     <div class="colored">
       <h1>Sélection de la semaine</h1>
       <div class="row">
-        
+
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
             <div class="caption">
-              <h3>Thumbnail label</h3>
-              <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <h3>Design label</h3>
+              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <div class="row">  
+                <p class="col-xs-6 text-left nb-like">100 <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
+</a></p>
+              </div>
             </div>
           </div>
         </div>
+
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
             <div class="caption">
-              <h3>Thumbnail label</h3>
-              <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <h3>Design label</h3>
+              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <div class="row">  
+                <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
+</a></p>
+              </div>
             </div>
           </div>
         </div>
+        
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
             <div class="caption">
-              <h3>Thumbnail label</h3>
-              <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <h3>Design label</h3>
+              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <div class="row">  
+                <p class="col-xs-6 text-left nb-like">54 <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-no" aria-hidden="true"></i>
+</a></p>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

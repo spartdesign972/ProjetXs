@@ -101,7 +101,7 @@
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
 								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-								<li><a href="<?=$this->url('login')?>">Connexion</a>
+								<li><a href="<?=$this->url('login')?>">Connexion / inscription</a>
 								</li>
 							</ul>
 							<?php endif; ?>
