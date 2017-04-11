@@ -42,6 +42,9 @@
 .navbar-default .navbar-nav > li > a{
   color:  white;
 }
+.navbar-default .navbar-nav > li > a:hover{
+  color:  #999;
+}
 .sidebar-nav {
   position: absolute;
   top: 0;

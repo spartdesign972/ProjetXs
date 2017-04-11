@@ -5,7 +5,7 @@
 		<title><?= $this->e($title) ?></title>
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/bootstrap.min.css') ?> ">
 		<!-- <link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>"> -->
-		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleUser.css') ?>">
+		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 		

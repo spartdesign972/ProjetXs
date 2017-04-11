@@ -1,0 +1,40 @@
+.carousel-wrapper {
+	margin-top: 120px;
+}
+
+
+/********************************************************
+** bar de nav pour les info de l'utilisateur connecter **
+********************************************************/
+.navbar-xs { min-height:30px !important; height: 30px !important; padding:0 10px 0;}
+.navbar-xs .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 28px; }
+.navbar-xs .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 28px; }
+.navbar-xs .navbar-nav > li{margin-right: 10px;}
+
+/***************************************************************
+** redefinition des styles de certain éléments pour s'harmoniser
+avec la bar de nav de l'utilisateur connecter **
+***************************************************************/
+.page-header {
+    margin: 30px 0 0 0;
+}
+.fa.panier {
+    margin-left: -30px;
+}
+
+.affix {
+    top: 30px;
+}
+
+.carousel-wrapper {
+margin: 0;
+}
+
+.navbar-header-user .navbar-toggle-user {
+    margin-top:0px;
+    margin-bottom:0px;
+    padding-bottom:0px;
+}
+.navbar-nav {
+    margin: 0.5px -15px;
+}

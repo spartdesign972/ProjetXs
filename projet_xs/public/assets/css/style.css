@@ -20,10 +20,6 @@ h2 {
     text-shadow: 1px 1px #000;
 }
 
-.navbar h4 {
-    margin-top: -23px;
-}
-
 p {
     font-family: 'PT Sans', sans-serif;
     font-size: 1.5em;
@@ -55,38 +51,17 @@ iframe {
 .logo{
     margin-top: -10px;
 }
-.user-brand {
-    position: absolute;
-    height: 120px;
-    background-color: #e47003;
-    box-shadow: 2px 1px 3px 0px #555;
-}
 
-.user-brand .fa {
-    display: inline-block;
-    margin: 5px 0 0 28px;
-    padding: 0;
+.navbar .fa-user-circle-o {
+    margin: 5px 0 0 -135px;
     font-size: 45px;
     color: white;
     text-shadow: 2px 2px #000;
 }
 
-.user-brand h4 {
-    color: white;
-    margin-top: 10px;
-}
-
-.user-brand h4.second {
-    margin-top: -30px;
-}
-
-.user-brand a:hover >h4 {
-    color: #41b6de;
-}
-
 .presentation {
     width: 100%;
-    margin: -100px 0 30px;
+    margin: 0 0 30px;
     background: linear-gradient(rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 100%), url('../img/presentation_BG.jpg') no-repeat fixed;
     background-position: bottom;
     background-size: cover;
@@ -179,23 +154,6 @@ iframe {
     text-decoration: none;
 }
 
-
-.fa.panier {
-    margin-left: 20px;
-}
-.s-panier{
-    display: inline-block;
-    top: -10px;
-    position: absolute;
-    width: 100px;
-}
-.user-ident {
-    line-height: 25px;
-    display: inline-block;
-    margin-top: 6px;
-}
-
-
 /**************************************************
 ** Redefinition de ceertaines class de Bootstrap **
 **************************************************/
@@ -217,7 +175,7 @@ iframe {
 }
 
 .affix {
-    top: 0;
+    top: 0px;
 }
 
 .navbar {
@@ -228,7 +186,6 @@ iframe {
     width: 100%;
     margin: 0 auto;
 }
-
 
 .navbar-default {
     background-color: rgba(228, 112, 3, 1.0);
@@ -265,11 +222,12 @@ iframe {
 .navbar-right{
     font-size: 0.8em;
 }
+.navbar-default .navbar-collapse{border: none;}
+
 .carousel-wrapper {
     position: relative;
     min-width: 100%;
     height: 400px;
-    top: -120px;
     background-color: #222222;
     overflow: hidden;
 }
@@ -387,14 +345,6 @@ iframe {
     background-color: #20a8d8;
 }
 
-.g-1,
-.g-2 {
-    padding: 2rem;
-}
-
-.g-2 {
-    color: white;
-}
 
 .input-group {
     margin-bottom: 1rem;
@@ -449,6 +399,9 @@ iframe {
     .presentation {
         margin-top: 0px;
     }
+    .nav-user{background-color: #333;}
+
+
 }
 
 
