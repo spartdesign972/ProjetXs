@@ -13,8 +13,8 @@
       <div class="card-group ">
         <div class="card">
           <div class="card-block g-1 text-center">
-            <h1 class="login-page">Login</h1>
-            <p class="text-muted">Sign In to your account</p>
+            <h1 class="login-page">Connexion</h1>
+            <p class="text-muted">Accéder à votre compte</p>
             <form method="post" id="add" action="<?=$this->url('login') ?>" class="form-horizontal">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -29,7 +29,7 @@
                   <input type="submit" id="submitForm" class="btn btn-primary"></input>
                 </div>
                 <div class="col-xs-6">
-                  <a href="#" title="" class="btn btn-link">Forgot password?</a>
+                  <a href="<?= $this->url('forgot_password') ?>" title="" class="btn btn-link">Mot de passe oublié ?</a>
                 </div>
               </div>
             </form>

@@ -4,6 +4,8 @@ $w_routes = array(
     ['GET', '/', 'Default#home', 'default_home'],
     // Route ou les utilisateurs sont rediriger pour se connecter
     ['GET|POST', '/connection', 'Default#connect', 'login'],
+    ['GET|POST', '/forgot-password', 'Default#forgot_password', 'forgot_password'],
+    ['GET|POST', '/new-password', 'Default#new_password', 'new_password'],
 
     ['GET|POST', '/logout', 'Default#logout', 'logout'],
 
