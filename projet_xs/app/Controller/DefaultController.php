@@ -272,7 +272,7 @@ class DefaultController extends Controller
     {
         //-Declaration des diff variables
         $post       = [];
-        $upload_dir = 'upload/';
+        $upload_dir = 'assets/upload/';
         $maxSize    = (1024 * 1000) * 2;
 
         // si le post n'est pas vide, on récupère les données "nettoyées"
