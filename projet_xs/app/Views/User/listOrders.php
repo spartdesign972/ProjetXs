@@ -2,11 +2,12 @@
 <?php $this->start('main_content'); ?>
 
 	<h1></h1>
+	<div class="container">
 	<!-- En-Tête de Présentation -->
 	<div class="contact col-xs-12">
 		<h1>Les Commandes</h1>
 		<br>
-		<table class="table">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th>Date de commande</th>
@@ -42,6 +43,7 @@
 		<?php endforeach; ?>
 		</tbody>
 	</table>
+</div>
 </div>
 
 <?php $this->stop('main_content'); ?>
