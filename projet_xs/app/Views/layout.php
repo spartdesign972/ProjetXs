@@ -43,7 +43,7 @@
 
 								<li><a href="<?=$this->url('default_modifInfos')?>">Mes informations</a></li>
 								<li><a href="<?=$this->url('default_password')?>">Mon mot de passe</a></li>
-								<li><a href="<?=$this->url('default_custom')?>">Mes Réalisations</a></li>
+								<li><a href="<?=$this->url('user_listDesigns')?>">Mes Réalisations</a></li>
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 								
 								<?php if($w_user['role'] == 'admin'): ?>
