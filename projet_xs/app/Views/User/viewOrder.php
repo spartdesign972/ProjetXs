@@ -24,7 +24,11 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
   <?php else: ?>
     Aucune commande trouvée !
   <?php endif;?>
-  <?php $this->stop('main_content')?>s
+  </div>
+  <?php $this->stop('main_content')?>
+  <?php $this->start('footer'); ?>
+<?php include './inc/footer.php'; ?>
+<?php $this->stop('footer'); ?>
 
 
 

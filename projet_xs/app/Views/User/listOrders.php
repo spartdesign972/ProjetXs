@@ -15,14 +15,14 @@
 					<th>Factures</th>
 				</tr>
 			</thead>
-			<?php foreach($Order as $viewOrder): ?>
 			<tbody>
+			<?php foreach($Order as $viewOrder): ?>
 				<tr>
 					<td><?=$viewOrder['date_create'];?></td>
 					<td><?='Commande N°: ' . $viewOrder['id'];?></td>
 					<td><?=$viewOrder['status'];?></td>
 					<td>
-						<a href="<?=$this->url('users_viewOrder')?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
+						<a href="<?=$this->url('users_viewOrder', ['id' => $viewOrder['id']])?>"><button type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>
 						Visualiser cette commande</button>
 					</a>
 				</td>
@@ -39,8 +39,8 @@
 					</a>
 				</td>
 			</tr>
-		</tbody>
 		<?php endforeach; ?>
+		</tbody>
 	</table>
 </div>
 

@@ -74,7 +74,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 logo text-center">
-							<img src="./assets/img/logo2.png" alt="logo">
+							<img src=" <?=$this->assetUrl('./img/logo2.png') ?>  " alt="logo">
 						</div>
 
 					</div>

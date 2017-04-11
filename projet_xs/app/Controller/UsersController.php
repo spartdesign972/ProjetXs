@@ -20,13 +20,14 @@ class UsersController extends \W\Controller\Controller
 
     public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
     {
+    	$this->allowTo('admin');
+        $loggedUser = $this->getUser();
 
         $listorders = new OrdersModel();
-        $Order      = $listorders->findAll();
+        $Order      = $listorders->findUserOrder($loggedUser['id']);
         $params     = [
             'Order' => $Order,
         ];
-
         $this->show('User/listOrders', $params);
 
     }
@@ -54,5 +55,6 @@ class UsersController extends \W\Controller\Controller
         //affiche un template
         $this->show('User/viewOrder', $params);
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
