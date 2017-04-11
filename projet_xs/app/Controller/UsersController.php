@@ -3,8 +3,9 @@
 namespace Controller;
 
 use Model\OrdersModel;
-use \W\Controller\Controller;
 use Model\ProductsCustomModel;
+use \W\Controller\Controller;
+use \W\Model\UsersModel;
 
 class UsersController extends \W\Controller\Controller
 {
@@ -63,10 +64,27 @@ class UsersController extends \W\Controller\Controller
 
         $listdesigns = new ProductsCustomModel();
         $design      = $listdesigns->findUserDesign($loggedUser['id']);
-        $params     = [
+        $params      = [
             'design' => $design,
         ];
         $this->show('User/listDesigns', $params);
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public function deleteDesign()
+    {
+        // $this->allowTo('admin');
+
+        if (isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])) {
+
+            $id = (int) $_POST['id'];
+
+            $deletedesign = new UsersModel();
+            if ($deletedesign->delete($id)) {
+                $this->showJson(['status' => 'success', 'message' => 'Design #' . $id . ' supprimé']);
+            }
+        } else {
+            $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+        }
+    }
 }

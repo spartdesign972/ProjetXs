@@ -35,4 +35,6 @@ $w_routes = array(
 
     ['GET|POST', '/listdesigns', 'Users#listDesigns', 'user_listDesigns'],
     
+    ['GET|POST', '/deletedesign/[i:id]', 'Users#deleteDesign', 'user_deleteDesign'],
+    
 );
