@@ -308,7 +308,7 @@ $this->start('link');
 							
 				        </div>
 	
-                    	
+                    <label>Nom du Design : </label><input id="designLabel" type="text" name="designLabel" placeholder="Nom Design">
 						<input id="commander" type="button" value="Commander votre création" data-reference=''>
 						<input id="enregistrer" type="button" value="Enregistrer votre création" data-reference=''>
 						<input id="telecharger" type="button" value="Télécharger votre création">

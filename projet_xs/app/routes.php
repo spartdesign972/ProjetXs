@@ -38,4 +38,6 @@ $w_routes = array(
     
     ['GET|POST', '/deletedesign', 'Users#deleteDesign', 'user_deleteDesign'],
     
+    ['GET|POST', '/cart', 'Default#showcart', 'default_showcart'],
+    
 );
