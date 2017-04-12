@@ -86,7 +86,7 @@ class UsersController extends \W\Controller\Controller
         } else {
             $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
         }
-        $this->redirectToRoute('User/listDesigns');
+       
     }
 
 

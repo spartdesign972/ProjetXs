@@ -11,7 +11,8 @@
 
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
-
+			<!-- Bootstrap SweetAlert CSS -->
+	    <link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.css') ?>">
 		<?php if(!empty($w_user)): ?>
 			<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/styleconnecter.css') ?>">
 		<?php endif; ?>
@@ -122,6 +123,8 @@
 			</div>
 
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
+			<!-- Bootstrap SweetAlert JS -->
+		  <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
 

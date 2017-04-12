@@ -23,7 +23,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteUser" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
+              <p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
  $(function(){
 
       // Supprimer un utilisateur
-            $('body').on('click', 'deleteUser', function(e){
+            $('body').on('click', '.deleteDesign', function(e){
                 e.preventDefault();
 
         var $this = $(this);
