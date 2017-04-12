@@ -9,7 +9,7 @@
   top:  50px;
   width: 250px;
   background: #2e3a47;
-  background: linear-gradient(to bottom, rgba(69,85,101,1.0) 0%,rgba(69,85,101,0.7) 100%), url('../img/madras2.jpg') repeat-y;
+
   position: fixed;
   height: 100%;
   overflow-y: auto;
@@ -27,9 +27,26 @@
 
 #page-content-wrapper {
   width: 100%;
-  background-color: #e0e2e5;
+  height: 100vh;
+  padding-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: -webkit-linear-gradient(to bottom, rgba(224, 226, 229, 0.1) 0%, rgba(224, 226, 229, 0.8) 100%), url('../img/BG_seamless.jpg') repeat fixed;
+  background: linear-gradient(to top, rgba(224, 226, 229, 1.0) 0%, rgba(224, 226, 229, 0.7) 100%), url('../img/BG_seamless.jpg') repeat fixed;
 }
-
+.navbar{
+    background-color: #333;
+    border: none;
+}
+.navbar-default .navbar-brand{
+  color:  white;
+}
+.navbar-default .navbar-nav > li > a{
+  color:  white;
+}
+.navbar-default .navbar-nav > li > a:hover{
+  color:  #999;
+}
 .sidebar-nav {
   position: absolute;
   top: 0;
@@ -61,7 +78,7 @@
 
 .sidebar-nav li a:hover,
 .sidebar-nav li.active {
-  color: #fff;
+  color: rgba(228, 112, 3, 1.0);
   background: rgba(255,255,255,0.2);
   text-decoration: none;
 }
@@ -78,11 +95,11 @@
 }
 
 .sidebar-nav > .sidebar-brand a {
-  color: #999999;
+  color: #fff;
 }
 
 .sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
+  color: rgba(228, 112, 3, 1.0);
   background: none;
 }
 
@@ -103,7 +120,7 @@
 
 #menu-toggle {
     text-decoration: none;
-    color: #999;
+    color: #fff;
     line-height: 30px;
 }
 
