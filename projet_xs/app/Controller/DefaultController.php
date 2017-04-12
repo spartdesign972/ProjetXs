@@ -664,4 +664,60 @@ class DefaultController extends Controller
     }//Fin de custom
 
 
-}
+    public function showAlldesignMembres(){
+
+        $order = '';
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findDesign($order);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('default/designMembre', $params);
+    }
+
+
+    public function designMembres($column, $ord){
+
+        // $this->allowTo('admin');
+        $loggedUser = $this->getUser();
+
+        // On instancie nos variables pour éviter les erreurs de type notices
+
+        $order = '';
+
+            if($column == 'username'){
+                $order = ' ORDER BY U.username';
+            }
+
+            elseif($column == 'like'){
+                $order = ' ORDER BY P.like';
+            }
+            elseif($column == 'date'){
+                $order = ' ORDER BY P.date_create';
+            }
+
+            if($ord == 'asc'){
+                $order.= ' ASC';
+            }
+            elseif($ord == 'desc'){
+                $order.= ' DESC';
+            }
+
+
+
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findDesign($order);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('default/designMembre', $params);
+    
+     
+    }//****************** Fin methode designMembres **********************
+
+
+
+
+
+
+}//******************** fin du controller ****************************

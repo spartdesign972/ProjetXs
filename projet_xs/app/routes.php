@@ -3,6 +3,12 @@
 $w_routes = array(
 
     ['GET', '/', 'Default#home', 'default_home'],
+
+    //Route qui affiche la liste des design mis a disposition par le utilisateurs
+    ['GET|POST', '/creation-des-membres', 'Default#showAlldesignMembres', 'default_showalldesignmembre'],
+
+    ['GET|POST', '/creation-des-membres/[:column]/[:ord]', 'Default#designMembres', 'default_designmembre'],
+    
     // Route ou les utilisateurs sont rediriger pour se connecter
     ['GET|POST', '/login', 'Default#connect', 'login'],
     ['GET|POST', '/password', 'Default#password', 'default_password'],

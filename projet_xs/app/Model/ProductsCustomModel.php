@@ -22,4 +22,20 @@ class ProductsCustomModel extends \W\Model\Model
 	}
 
 
+	/**
+	 * 
+	 * @param  string choix de tri
+	 * @return mixed Les données sous forme de tableau associatif
+	 */
+	public function findDesign($order){
+		$sql = 'SELECT P.*, U.username FROM '.$this->table.' as P RIGHT JOIN users as U ON U.id = P.user_id WHERE P.public = 1'. $order;
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll();
+	}
+
+
+
+
+
 }
