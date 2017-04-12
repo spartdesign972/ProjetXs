@@ -103,9 +103,7 @@ class DefaultController extends Controller
                 }else{
 
                     $usersModel  = new UsersModel();
-
                     $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
-
                     $this->redirectToRoute('default_home');
 
                 }
