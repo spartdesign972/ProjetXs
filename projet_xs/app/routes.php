@@ -9,6 +9,8 @@ $w_routes = array(
 
     ['GET|POST', '/creation-des-membres/[:column]/[:ord]', 'Default#designMembres', 'default_designmembre'],
     
+    ['GET|POST', '/creation-des-membres/[i:id]', 'Default#membredesignMembres', 'default_membredesignmembre'],
+    
     // Route ou les utilisateurs sont rediriger pour se connecter
     ['GET|POST', '/login', 'Default#connect', 'login'],
     ['GET|POST', '/password', 'Default#password', 'default_password'],

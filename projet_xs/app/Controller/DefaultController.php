@@ -711,12 +711,19 @@ class DefaultController extends Controller
             'design' => $design,
         ];
         $this->show('default/designMembre', $params);
-    
      
     }//****************** Fin methode designMembres **********************
 
+      public function membreDesignMembre($id)
+    {
 
-
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findUserDesign($id);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('design/designMembre', $params);
+    }
 
 
 
