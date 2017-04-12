@@ -265,11 +265,13 @@ $this->start('link');
 							
 				        </div>
 
+
 <?php
   
     if(!empty($_SESSION['user'])){
         
         echo'
+        <label>Nom du Design : </label><input id="designLabel" type="text" name="designLabel" placeholder="Nom Design">
         <input id="enregistrer" type="button" value="Enregistrer votre création">
         <input id="telecharger" type="button" value="Télécharger votre création">
         '
@@ -279,6 +281,7 @@ $this->start('link');
     
 ?>	
 					             
+
                     </div>
 <!--                    Fin de l'éditeur     -->
 								

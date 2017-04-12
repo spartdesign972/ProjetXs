@@ -57,7 +57,7 @@
 									<li class="spacer">--</li>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+									<a href="<?= $this->url('default_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
 									
 								</li>
 							</ul>
