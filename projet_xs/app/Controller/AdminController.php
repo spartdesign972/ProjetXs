@@ -170,7 +170,7 @@ class AdminController extends Controller
       }
     }
     else {
-      $this->showJson(['status' => 'danger', 'message' => 'Erreur: ID invalide']);
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
     }
   }
 
@@ -197,11 +197,11 @@ class AdminController extends Controller
 				}
 			}
 			else{
-				$this->showJson(['status' => 'danger', 'message' => 'Erreur: Rôle invalide']);	
+				$this->showJson(['status' => 'error', 'message' => 'Erreur: Rôle invalide']);	
 			}
     }
     else {
-      $this->showJson(['status' => 'danger', 'message' => 'Erreur: ID invalide']);
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
     }
   }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

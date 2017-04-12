@@ -97,8 +97,9 @@
 					data: {user_id: $roleChange.data('id'), user_role: $roleChange.find(':selected').val()},
 					dataType: 'json',
 					success: function(result){
-						if(result.status == 'danger') {
+						if(result.status == 'error') {
 							swal('', result.message, result.status);
+							loadUsers();
 						}
 					}
 				});
