@@ -2,6 +2,11 @@
 
 namespace Controller;
 
+
+
+use \Model\ProductsCustomModel;
+
+
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Model\ContactFormModel;
@@ -60,6 +65,11 @@ class DefaultController extends Controller
     {
         $this->show('default/home');
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public function showcart()
+    {
+        $this->show('default/cart');
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -93,9 +103,7 @@ class DefaultController extends Controller
                 }else{
 
                     $usersModel  = new UsersModel();
-
                     $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
-
                     $this->redirectToRoute('default_home');
 
                 }
@@ -325,6 +333,7 @@ class DefaultController extends Controller
         $post       = [];
         $upload_dir = 'assets/upload/';
         $maxSize    = (1024 * 1000) * 2;
+        $extAllowed = ['jpg','jpeg','png','gif'];
 
         // si le post n'est pas vide, on récupère les données "nettoyées"
         if (!empty($_POST)) {
@@ -350,31 +359,39 @@ class DefaultController extends Controller
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-                if ($img->filesize() > $maxSize) {
-                    //-Si la taille de l'image est superieure à la dimension donnée
-                    $errors[] = 'Image trop lourde, 2 Mo maximum';
-                }
-                if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
-                    //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
-                } else {
-                    switch ($img->mime()) {
-                        case 'image/jpg':
-                        case 'image/jpeg':
-                        case 'image/pjpeg':
-                            $ext = '.jpg';
-                            break;
-
-                        case 'image/png':
-                            $ext = '.png';
-                            break;
-                        case 'image/gif':
-                            $ext = '.gif';
-                            break;
+                
+                $x = explode('.',$_FILES['avatar']['name']);
+                if(in_array($x[1],$extAllowed)){
+                    
+                    $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+                    if ($img->filesize() > $maxSize) {
+                        //-Si la taille de l'image est superieure à la dimension donnée
+                        $errors[] = 'Image trop lourde, 2 Mo maximum';
                     }
-                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
-                    $img->save($upload_dir . $save_name . $ext);
+                    if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
+                        //-On verifie si l'image est valide en verifiant son mimetype
+                        $errors[] = 'L\'avatar est une image invalide';
+                    } else {
+                        switch ($img->mime()) {
+                            case 'image/jpg':
+                            case 'image/jpeg':
+                            case 'image/pjpeg':
+                                $ext = '.jpg';
+                                break;
+
+                            case 'image/png':
+                                $ext = '.png';
+                                break;
+                            case 'image/gif':
+                                $ext = '.gif';
+                                break;
+                        }
+                        $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
+                        $img->save($upload_dir . $save_name . $ext);
+                    }
+                }
+                else{
+                    $errors[] = 'L\'avatar est une image invalide';
                 }
             }
 
@@ -454,31 +471,39 @@ class DefaultController extends Controller
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-                if ($img->filesize() > $maxSize) {
-                    //-Si la taille de l'image est superieure à la dimension donnée
-                    $errors[] = 'Image trop lourde, 2 Mo maximum';
-                }
-                if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
-                    //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
-                } else {
-                    switch ($img->mime()) {
-                        case 'image/jpg':
-                        case 'image/jpeg':
-                        case 'image/pjpeg':
-                            $ext = '.jpg';
-                            break;
-
-                        case 'image/png':
-                            $ext = '.png';
-                            break;
-                        case 'image/gif':
-                            $ext = '.gif';
-                            break;
+                
+                $x = explode('.',$_FILES['avatar']['name']);
+                if(in_array($x[1],$extAllowed)){
+                    $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+                    if ($img->filesize() > $maxSize) {
+                        //-Si la taille de l'image est superieure à la dimension donnée
+                        $errors[] = 'Image trop lourde, 2 Mo maximum';
                     }
-                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
-                    $img->save($upload_dir . $save_name . $ext);
+                    if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
+                        //-On verifie si l'image est valide en verifiant son mimetype
+                        $errors[] = 'L\'avatar est une image invalide';
+                    } else {
+                        switch ($img->mime()) {
+                            case 'image/jpg':
+                            case 'image/jpeg':
+                            case 'image/pjpeg':
+                                $ext = '.jpg';
+                                break;
+
+                            case 'image/png':
+                                $ext = '.png';
+                                break;
+                            case 'image/gif':
+                                $ext = '.gif';
+                                break;
+                        }
+                        $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
+                        $img->save($upload_dir . $save_name . $ext);
+                    }
+                }else{
+                    
+                    $errors[] = 'L\'avatar est une image invalide';
+                    
                 }
             }
 
@@ -527,11 +552,47 @@ class DefaultController extends Controller
     public function custom(){
         
         $params=[];
-        
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
         //-Declaration des diff variables 
     $upload_dir = 'assets/upload/';
     $maxSize    = (1024 * 1000) * 2;
         
+        if(!empty($_POST)){
+            if(isset($_POST['img'])){
+                
+                $img = $_POST['img'];
+                $img = str_replace('data:image/png;base64,', '', $img);
+                
+                $img = str_replace(' ', '+', $img);
+               
+                $fileData = base64_decode($img);
+                //saving
+                $name = time().'-model.png';
+                $fileName = $upload_dir.$name;
+                file_put_contents($fileName, $fileData);
+                
+                $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
+                
+                $infos = [
+                    'user_id'=> '2',//Récupérer dans $_SESSION
+                    'product_reference'=>$reference,
+                    'picture_source'=> $_SESSION['picture_source'],
+                    'model'=>$name,
+                         ];
+                
+                $product = new ProductsCustomModel();
+                
+                if($product->insert($infos)){
+                    
+                    $success= true;
+                }
+                
+            }
+            
+            //getLoggedUser()
+            
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
         if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
             if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
@@ -566,17 +627,33 @@ class DefaultController extends Controller
                 $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
                 $img->save($upload_dir . $save_name . $ext);
                 $custom = $upload_dir . $save_name . $ext;
+                $_SESSION['picture_source'] = $save_name.$ext;
                 
                 echo '<script>
                 fabric.Image.fromURL(\''.$custom.'\',function(img){
                 img.scaleToWidth(200);
                 canvas.add(img);
-                });';
+                });
+                </script>';
                 
             }
           
         }
-        else{//la super Global $_FILES n'est pas definie
+
+// 
+//        if(!empty($_SESSION['user'])){//Si il y a un utilsateur connecté
+//            $params[] =[
+//                'log' => true, 
+//            ];
+//        }
+//        else{//Pas d'utilisateur connecté
+//            $params[] =[
+//                'log' => false,  
+//            ];
+//        }
+        
+        
+        if(empty($_POST)){//la super Global $_FILES n'est pas definie
             
         $this->show('default/custom');
             
@@ -585,4 +662,67 @@ class DefaultController extends Controller
     }//Fin de custom
 
 
-}
+    public function showAlldesignMembres(){
+
+        $order = '';
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findDesign($order);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('default/designMembre', $params);
+    }
+
+
+    public function designMembres($column, $ord){
+
+        // $this->allowTo('admin');
+        $loggedUser = $this->getUser();
+
+        // On instancie nos variables pour éviter les erreurs de type notices
+
+        $order = '';
+
+            if($column == 'username'){
+                $order = ' ORDER BY U.username';
+            }
+
+            elseif($column == 'like'){
+                $order = ' ORDER BY P.like';
+            }
+            elseif($column == 'date'){
+                $order = ' ORDER BY P.date_create';
+            }
+
+            if($ord == 'asc'){
+                $order.= ' ASC';
+            }
+            elseif($ord == 'desc'){
+                $order.= ' DESC';
+            }
+
+
+
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findDesign($order);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('default/designMembre', $params);
+     
+    }//****************** Fin methode designMembres **********************
+
+      public function membreDesignMembre($id)
+    {
+
+        $listdesigns = new ProductsCustomModel();
+        $design      = $listdesigns->findUserDesign($id);
+        $params      = [
+            'design' => $design,
+        ];
+        $this->show('design/designMembre', $params);
+    }
+
+
+
+}//******************** fin du controller ****************************
