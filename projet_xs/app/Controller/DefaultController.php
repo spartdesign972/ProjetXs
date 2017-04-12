@@ -3,8 +3,7 @@
 namespace Controller;
 
 
-use \W\Controller\Controller;
-use \Model\UsersModel;
+
 use \Model\ProductsCustomModel;
 
 
