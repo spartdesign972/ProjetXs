@@ -276,6 +276,7 @@ $this->start('link');
         <input id="telecharger" type="button" value="Télécharger votre création">
         '
         ;
+        var_dump($_SESSION);
         
     }
     
@@ -427,5 +428,5 @@ Le javascript
 <?php
                          
 $this->stop('script'); 
-var_dump($_SESSION);
+
 ?>

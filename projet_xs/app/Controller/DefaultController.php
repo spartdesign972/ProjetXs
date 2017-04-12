@@ -335,6 +335,7 @@ class DefaultController extends Controller
         $post       = [];
         $upload_dir = 'assets/upload/';
         $maxSize    = (1024 * 1000) * 2;
+        $extAllowed = ['jpg','jpeg','png','gif'];
 
         // si le post n'est pas vide, on récupère les données "nettoyées"
         if (!empty($_POST)) {
@@ -360,31 +361,39 @@ class DefaultController extends Controller
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-                if ($img->filesize() > $maxSize) {
-                    //-Si la taille de l'image est superieure à la dimension donnée
-                    $errors[] = 'Image trop lourde, 2 Mo maximum';
-                }
-                if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
-                    //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
-                } else {
-                    switch ($img->mime()) {
-                        case 'image/jpg':
-                        case 'image/jpeg':
-                        case 'image/pjpeg':
-                            $ext = '.jpg';
-                            break;
-
-                        case 'image/png':
-                            $ext = '.png';
-                            break;
-                        case 'image/gif':
-                            $ext = '.gif';
-                            break;
+                
+                $x = explode('.',$_FILES['avatar']['name']);
+                if(in_array($x[1],$extAllowed)){
+                    
+                    $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+                    if ($img->filesize() > $maxSize) {
+                        //-Si la taille de l'image est superieure à la dimension donnée
+                        $errors[] = 'Image trop lourde, 2 Mo maximum';
                     }
-                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
-                    $img->save($upload_dir . $save_name . $ext);
+                    if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
+                        //-On verifie si l'image est valide en verifiant son mimetype
+                        $errors[] = 'L\'avatar est une image invalide';
+                    } else {
+                        switch ($img->mime()) {
+                            case 'image/jpg':
+                            case 'image/jpeg':
+                            case 'image/pjpeg':
+                                $ext = '.jpg';
+                                break;
+
+                            case 'image/png':
+                                $ext = '.png';
+                                break;
+                            case 'image/gif':
+                                $ext = '.gif';
+                                break;
+                        }
+                        $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
+                        $img->save($upload_dir . $save_name . $ext);
+                    }
+                }
+                else{
+                    $errors[] = 'L\'avatar est une image invalide';
                 }
             }
 
@@ -464,31 +473,39 @@ class DefaultController extends Controller
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-                if ($img->filesize() > $maxSize) {
-                    //-Si la taille de l'image est superieure à la dimension donnée
-                    $errors[] = 'Image trop lourde, 2 Mo maximum';
-                }
-                if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
-                    //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
-                } else {
-                    switch ($img->mime()) {
-                        case 'image/jpg':
-                        case 'image/jpeg':
-                        case 'image/pjpeg':
-                            $ext = '.jpg';
-                            break;
-
-                        case 'image/png':
-                            $ext = '.png';
-                            break;
-                        case 'image/gif':
-                            $ext = '.gif';
-                            break;
+                
+                $x = explode('.',$_FILES['avatar']['name']);
+                if(in_array($x[1],$extAllowed)){
+                    $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+                    if ($img->filesize() > $maxSize) {
+                        //-Si la taille de l'image est superieure à la dimension donnée
+                        $errors[] = 'Image trop lourde, 2 Mo maximum';
                     }
-                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
-                    $img->save($upload_dir . $save_name . $ext);
+                    if (!v::image()->validate($_FILES['avatar']['tmp_name'])) {
+                        //-On verifie si l'image est valide en verifiant son mimetype
+                        $errors[] = 'L\'avatar est une image invalide';
+                    } else {
+                        switch ($img->mime()) {
+                            case 'image/jpg':
+                            case 'image/jpeg':
+                            case 'image/pjpeg':
+                                $ext = '.jpg';
+                                break;
+
+                            case 'image/png':
+                                $ext = '.png';
+                                break;
+                            case 'image/gif':
+                                $ext = '.gif';
+                                break;
+                        }
+                        $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
+                        $img->save($upload_dir . $save_name . $ext);
+                    }
+                }else{
+                    
+                    $errors[] = 'L\'avatar est une image invalide';
+                    
                 }
             }
 
