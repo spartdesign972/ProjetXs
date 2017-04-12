@@ -15,7 +15,7 @@
       <div class="row">
 
         <?php foreach ($design as $designsFinal): ?>
-          <?php var_dump($designsFinal); ?>
+
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
