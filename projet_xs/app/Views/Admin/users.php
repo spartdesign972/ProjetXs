@@ -39,10 +39,10 @@
 						resHTML+= '<td>'+value.firstname+'</td>';
 						resHTML+= '<td>'+value.username+'</td>';
 						resHTML+= '<td>'+value.email+'</td>';
-						resHTML+= '<td><select class="btn btn-mini roleChange" data-id="'+value.id+'"'+(value.id == <?= $w_user['id'] ?> ? ' disabled' : '')+'>';
+						resHTML+= '<td><div class="form-group-sm"><select class=" form-control roleChange" data-id="'+value.id+'"'+(value.id == <?= $w_user['id'] ?> ? ' disabled' : '')+'>';
 						resHTML+= '<option value="admin"'+(value.role == 'admin' ? ' selected' : '')+'>Administrateur</option>';
 						resHTML+= '<option value="user"'+(value.role == 'user' ? ' selected' : '')+'>Utilisateur</option>'
-						resHTML+= '</select></td>';
+						resHTML+= '</select></div></td>';
 						resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user_details/'+value.id+'">Visualiser</a></td>';
 						resHTML+= '<td><a href="<?= $this->url('admin_delete_user') ?>" class="deleteUser" data-id="'+value.id+'">Supprimer</a></td>';
 						resHTML+= '</tr>';
@@ -97,9 +97,15 @@
 					data: {user_id: $roleChange.data('id'), user_role: $roleChange.find(':selected').val()},
 					dataType: 'json',
 					success: function(result){
-						if(result.status == 'error') {
-							swal('', result.message, result.status);
-							loadUsers();
+						switch (result.status) {
+							case 'error':
+								swal('', result.message, result.status);
+								loadUsers();
+								break;
+							
+							case 'success':
+								$roleChange.parent().addClass('has-success has-feedback');
+								break;
 						}
 					}
 				});
