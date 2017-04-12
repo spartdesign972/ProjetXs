@@ -19,9 +19,14 @@ class AdminController extends Controller
   {
   	// Accessible que pour l'admin
 		$this->allowTo('admin');
-    
-
     $this->show('Admin/admin');
   }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+
+  
+
+ 
+
 
  }

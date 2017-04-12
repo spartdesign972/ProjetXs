@@ -2,4 +2,4 @@
 /phpDocumentor.phar
 /upload
 *.log
-.phpintel
+/.phpintel

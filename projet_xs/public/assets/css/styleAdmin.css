@@ -8,7 +8,8 @@
   left: 250px;
   top:  50px;
   width: 250px;
-  background: #000;
+  background: #2e3a47;
+  background: linear-gradient(to bottom, rgba(69,85,101,1.0) 0%,rgba(69,85,101,0.7) 100%), url('../img/madras2.jpg') repeat-y;
   position: fixed;
   height: 100%;
   overflow-y: auto;
@@ -26,9 +27,8 @@
 
 #page-content-wrapper {
   width: 100%;
+  background-color: #e0e2e5;
 }
-
-
 
 .sidebar-nav {
   position: absolute;
@@ -41,14 +41,13 @@
 
 .sidebar-nav li {
   line-height: 40px;
-  text-indent: 20px;
 }
 
 .sidebar-nav li a {
-  color: #999999;
+  color: #fff;
   display: block;
   text-decoration: none;
-  padding-left: 60px;
+  text-align: center;
 }
 
 .sidebar-nav li a span:before {
@@ -104,10 +103,12 @@
 
 #menu-toggle {
     text-decoration: none;
+    color: #999;
+    line-height: 30px;
 }
 
 .btn-menu {
-  color: #000;
+  color: #fff;
 } 
 
 .inset {
