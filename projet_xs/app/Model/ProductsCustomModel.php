@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 class ProductsCustomModel extends \W\Model\Model
@@ -19,5 +20,6 @@ class ProductsCustomModel extends \W\Model\Model
 
 		return $sth->fetchAll();
 	}
+
 
 }

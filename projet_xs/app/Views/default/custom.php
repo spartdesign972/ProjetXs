@@ -44,8 +44,29 @@ $this->start('link');
 	        padding-top: 60px;	        
 	      }
 */
+         
+         .model-preview,
+         .size{
+            border: 3px solid #CCC;
+            border-radius: 2px;
+	      	margin: 2px;
+            padding:5px;
+            background:#fff;
+	      	zoom: 1;
+             text-align:center;
+	      	vertical-align: top;
+	      	display: inline-block !important;
+	      	cursor: pointer;
+	      	overflow: hidden;    
+         }
+         
+         .size{
+             width:36px;
+         }
+         
 	      .color-preview {
-	      	border: 1px solid #CCC;
+	      	border: 3px solid #CCC;
+            border-radius:2px;
 	      	margin: 2px;
 	      	zoom: 1;
 	      	vertical-align: top;
@@ -101,48 +122,88 @@ $this->start('link');
 				    <li><a href="#tab2" data-toggle="tab">Gravatar</a></li>
 				  </ul>
 				  <div class="tab-content">
+<!--                 Onglet 1 : TShirt option -->
 				     <div class="tab-pane active" id="tab1">
-				     	<div class="well">
+				     	
+				     	
+<!--				    Modèle de T-Shirt -->
+<!--				     	<div class="well">
 <!--					      	<h3>Tee Styles</h3>-->
 <!--						      <p>-->
+<!--
 						      	<select id="">                        
 				                    <option value="1" selected="selected">Short Sleeve Shirts</option>
 				                    <option value="2">Long Sleeve Shirts</option>                                        
 				                    <option value="3">Hoodies</option>                    
 				                    <option value="4">Tank tops</option>
 								</select>				
+-->
 <!--						      </p>-->								
-					      </div>
+<!--					      </div>-->
+					      
+<!--					  Remplacer le texte par des aperçus    -->
 					      <div class="well">
+					          
+					          <ul class="nav">
+					              
+					              <li class="model-preview" title="" data-id="model" data-info="BC-TU004">T-Shirt Manches Courtes</li>
+					              <li class="model-preview" title="" data-id="model" data-info="">T-Shirt Manches Longues</li>
+					              <li class="model-preview" title="" data-id="model" data-info="">Débardeur</li>
+					              <li class="model-preview" title="" data-id="model" data-info="">Sweat Shirt</li>
+					              
+					          </ul>
+					          
+					      </div>
+					      
+<!--					  Taille de T-shirt -->
+<!--
+					      <div class="well">
+
+						      	<select id="">                        
+				                    <option value="1" selected="selected">S</option>
+				                    <option value="2">M</option>                                        
+				                    <option value="3">L</option>                    
+				                    <option value="4">XL</option>
+				                    <option value="5">XXL</option>
+								</select>				
+						
+					      </div>
+					      
+-->
+					      
+					      <div class="well">
+					          
+					          <ul class="nav">
+					              
+					              <li class="size" title="taille S" data-id="size" data-info="S">S</li>
+					              <li class="size" title="taille M" data-id="size" data-info="M">M</li>
+					              <li class="size" title="taille L" data-id="size" data-info="L">L</li>
+					              <li class="size" title="taille XL" data-id="size" data-info="XL">XL</li>
+					              <li class="size" title="taille XXL" data-id="size" data-info="XXL">XXL</li>
+					              
+					          </ul>
+					          
+					      </div>
+					      
+<!--					  Couleur du T-Shirt -->
+					      <div class="well">
+<!--					    Liste des couleurs-->
 							<ul class="nav">
-								<li class="color-preview" title="White" style="background-color:#ffffff;"></li>
-<!--								<li class="color-preview" title="Dark Heather" style="background-color:#616161;"></li>-->
-								<li class="color-preview" title="Gray" style="background-color:#f0f0f0;"></li>
-<!--								<li class="color-preview" title="Charcoal" style="background-color:#5b5b5b;"></li>-->
-								<li class="color-preview" title="Black" style="background-color:#222222;"></li>
-<!--
-								<li class="color-preview" title="Heather Orange" style="background-color:#fc8d74;"></li>
-								<li class="color-preview" title="Heather Dark Chocolate" style="background-color:#432d26;"></li>
-								<li class="color-preview" title="Salmon" style="background-color:#eead91;"></li>
-								<li class="color-preview" title="Chesnut" style="background-color:#806355;"></li>
-								<li class="color-preview" title="Dark Chocolate" style="background-color:#382d21;"></li>
-								<li class="color-preview" title="Citrus Yellow" style="background-color:#faef93;"></li>
-								<li class="color-preview" title="Avocado" style="background-color:#aeba5e;"></li>
-								<li class="color-preview" title="Kiwi" style="background-color:#8aa140;"></li>
--->
-								<li class="color-preview" title="Irish Green" style="background-color:#1f6522;"></li>
-<!--
-								<li class="color-preview" title="Scrub Green" style="background-color:#13afa2;"></li>
-								<li class="color-preview" title="Teal Ice" style="background-color:#b8d5d7;"></li>
-								<li class="color-preview" title="Heather Sapphire" style="background-color:#15aeda;"></li>
-								<li class="color-preview" title="Sky" style="background-color:#a5def8;"></li>
-								<li class="color-preview" title="Antique Sapphire" style="background-color:#0f77c0;"></li>
--->
-								<li class="color-preview" title="Heather Navy" style="background-color:#3469b7;"></li>							
-								<li class="color-preview" title="Cherry Red" style="background-color:#c50404;"></li>
+								<li class="color-preview" title="White" style="background-color:#ffffff;" data-id="color" data-info="00"></li>
+
+								<li class="color-preview" title="Black" style="background-color:#222222;" data-id="color" data-info="01"></li>
+
+								<li class="color-preview" title="Irish Green" style="background-color:#1f6522;" data-id="color" data-info="04"></li>
+                               
+                				<li class="color-preview" title="Heather Navy" style="background-color:#3469b7;" data-id="color" data-info="02"></li>
+                											
+								<li class="color-preview" title="Cherry Red" style="background-color:#c50404;" data-id="color" data-info="03"></li>
 							</ul>
-						</div>			      
-				     </div>				   
+						</div>
+                 			      
+				     </div>	
+				     
+<!--				Onglet 2 : Gravatar			   -->
 				    <div class="tab-pane" id="tab2">
 				    	<div class="well">
 				    		<div class="input-append">
@@ -234,23 +295,29 @@ $this->start('link');
 
 					</div>
 									  		
-				<!--	EDITOR      -->					
+<!--                Editeur     -->					
 					<div id="shirtDiv" class="page" style="width: 530px; height: 630px; position: relative; background-color: rgb(255, 255, 255);margin:0 auto;">
+						
+                    <!--  T-Shirt Vierge	-->
 						<img id="tshirtFacing" src="<?= $this->assetUrl('img/custom/crew_front.png') ?>">
+						
 						<div id="drawingArea" style="position: absolute;top: 100px;left: 160px;z-index: 10;width: 200px;height: 400px;">					
+							
+                            <!--	Image de personnalisation		-->
 							<canvas id="tcanvas" width=200 height="400" class="hover" style="-webkit-user-select: none;"></canvas>
-						</div>
-						<input id="b" type="button" value="Enregistrer votre création">
-						<input id="c" type="button" value="Télécharger votre création">
-					</div>
-<!--					<div id="shirtBack" class="page" style="width: 530px; height: 630px; position: relative; background-color: rgb(255, 255, 255); display:none;">-->
-<!--						<img src="<?//= $this->assetUrl('img/custom/crew_front.png') ?>"></img>-->
-<!--						<div id="drawingArea" style="position: absolute;top: 100px;left: 160px;z-index: 10;width: 200px;height: 400px;">					-->
-<!--							<canvas id="backCanvas" width=200 height="400" class="hover" style="-webkit-user-select: none;"></canvas>-->
-<!--						</div>-->
-<!--					</div>						-->
+							
+				        </div>
+	
+                    	
+						<input id="commander" type="button" value="Commander votre création" data-reference=''>
+						<input id="enregistrer" type="button" value="Enregistrer votre création" data-reference=''>
+						<input id="telecharger" type="button" value="Télécharger votre création">
+					
+                    
+                    </div>
+<!--                    Fin de l'éditeur     -->
 								
-				<!--	/EDITOR		-->
+				
 
            
     </div>
@@ -312,6 +379,8 @@ Le javascript
 
     $(function() {
         
+        var reference = [];
+        
   // Pour l'ajout d'une image
       $('#uploadImage').on('submit', function(el) {
         el.preventDefault(); // On bloque l'action par défaut
@@ -333,25 +402,45 @@ Le javascript
         });
       });
         
-    $("#b").click(function(){
+//Pour l'enregistrement des données dans la bdd (la référence du t-shirt, l'image à utiliser pour la personnalisation)
+//Pour la visibilité des options choisies
+    $('.nav>li').click(function(e){
+        $(this).siblings().css('border','solid #ccc 3px');
+        $(this).css('border','solid #000 3px');
         
+        var key = $(this).data('id');
+        var value = $(this).data('info');
+        
+        reference[key] = value;
+        
+    });
+        
+        
+//Pour l'enregistrement de l'image sur le serveur        
+    $('#enregistrer').click(function(){
+        //Ajouter une vérification : l'existence des 3 entrées de reference
         var dataURL = canvas.toDataURL();
-        //var dataURL = $("#shirtDiv").toDataURL();
 
         $.ajax({
           type: 'post',
-          url: '<?= $this->assetUrl('test.php') ?>',
+          url: '<?=$this->url('default_custom')?>',
           data: { 
-             img : dataURL,
+              img : dataURL,
+              ref1 : reference['model'],
+              ref2 : reference['color'],
+              ref3 : reference['size'],
           }
         }).done(function(o) {
           $('#result').html('<p>Votre création a été enregistrée</p>');
+          console.log(o);
+            
         });
             
     });//Fin de $("#b").click
         
-        
-    $("#c").click(function(){
+ 
+//Pour le téléchargement de l'image 
+    $('#telecharger').click(function(){
         
         $("#tcanvas").get(0).toBlob(function(blob){
            console.log(blob);
@@ -361,12 +450,6 @@ Le javascript
     });
 
  });//Fin de $(function)
-        
-
-//        $("#tcanvas").get(0).toBlob(function(blob){
-//            console.log(blob);
-//            saveAs(blob, "myIMG.png");
-//        });
      
 
 
@@ -374,6 +457,6 @@ Le javascript
 
 <?php
                          
-$this->stop('script') 
-
+$this->stop('script'); 
+var_dump($_SESSION);
 ?>
