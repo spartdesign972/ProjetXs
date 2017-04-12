@@ -13,7 +13,6 @@ class UsersModel extends \W\Model\UsersModel
 	 */
 	public function getUserByEmailAndToken($userEmail, $userToken)
 	{
-
 		$app = getApp();
 
 		$sql = 'SELECT id, email, token FROM ' . $this->table . 
@@ -30,6 +29,33 @@ class UsersModel extends \W\Model\UsersModel
 			if($foundUser){
 				return $foundUser;
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Récupère tous les rôles définis
+	 * @return mixed Les rôles, ou false si non trouvé
+	 */
+	public function findAllRoles()
+	{
+		$sql = 'desc ' . $this->table . ' role';
+
+		$sth = $this->dbh->prepare($sql);
+		if($sth->execute()){
+
+			$row = $sth->fetch();
+
+			preg_match('/enum\((.*)\)$/', $row['Type'], $matches);
+			$vals = explode(',', $matches[1]);
+
+			$trimmedvals = [];			
+			foreach($vals as $key => $value) {
+				$value = trim($value, "'");
+				$trimmedvals[] = $value;
+			}
+			return $trimmedvals;
 		}
 
 		return false;

@@ -5,7 +5,7 @@ namespace Controller;
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
-use \W\Model\UsersModel;
+use Model\UsersModel;
 use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
@@ -164,13 +164,44 @@ class AdminController extends Controller
 
       $user_id = (int) $_POST['user_id'];
 
-			$deleteUser = new UsersModel();
-      if($deleteUser->delete($user_id)){
+			$usersModel = new UsersModel();
+      if($usersModel->delete($user_id)){
         $this->showJson(['status' => 'success', 'message' => 'Utilisateur #'.$user_id.' supprimé']);
       }
     }
     else {
-      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+      $this->showJson(['status' => 'danger', 'message' => 'Erreur: ID invalide']);
+    }
+  }
+
+	/**
+	 * Supprimer utilisateur
+	 */
+  public function change_role()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
+
+      $user_id = (int) $_POST['user_id'];
+
+			$usersModel = new UsersModel();
+			$roleAvailables = $usersModel->findAllRoles();
+
+			if(isset($_POST['user_role']) && !empty($_POST['user_role']) && in_array($_POST['user_role'], $roleAvailables)){
+
+      	$user_role = $_POST['user_role'];
+
+				if($usersModel->update(['role' => $user_role], $user_id)){
+					$this->showJson(['status' => 'success', 'message' => 'Le rôle de l\'Utilisateur #'.$user_id.' a bien été changé en '.$user_role]);
+				}
+			}
+			else{
+				$this->showJson(['status' => 'danger', 'message' => 'Erreur: Rôle invalide']);	
+			}
+    }
+    else {
+      $this->showJson(['status' => 'danger', 'message' => 'Erreur: ID invalide']);
     }
   }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
