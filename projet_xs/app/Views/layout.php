@@ -98,7 +98,7 @@
 
 								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
-								<li><a href="<?=$this->url('default_designmembre')?>">Inspiration</a></li>
+								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
