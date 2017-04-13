@@ -22,7 +22,7 @@ class UsersController extends \W\Controller\Controller
 
     public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
     {
-        $this->allowTo('admin');
+        // $this->allowTo('admin');
         $loggedUser = $this->getUser();
 
         $listorders = new OrdersModel();

@@ -48,6 +48,7 @@ $w_routes = array(
     
     // ['GET|POST', '/cart', 'Default#showcart', 'default_showcart'],
     
-    ['GET|POST', '/cart', 'Cart#creationPanier', 'cart_creationPanier'],
+    ['GET|POST', '/cart/[:id]/[:qte]/[:price]', 'Cart#fonctionsPanier', 'cart_fonctionsPanier'],
+    ['GET|POST', '/cart', 'Cart#showcart', 'cart_showcart'],
     
 );

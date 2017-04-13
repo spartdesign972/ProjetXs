@@ -1,11 +1,12 @@
-<?php $this->layout('layout', ['title' => 'Laissez un message'])?>
+<?php $this->layout('layout', ['title' => 'Votre Panier'])?>
 <?php $this->start('main_content')?>
+
 
 <div class="container">
 <h1>Votre Panier</h1>
 	<br>
-<form method="post" action="<?=$this->url(cart_creationPanier) ?>">
-<table class="table table-striped">
+<form method="post" action="">
+<table class="table">
 <thead>
 	<tr>
 		<td>Libellé</td>
@@ -15,39 +16,27 @@
 	</tr>
 </thead>
 <tbody>
-<?php
-if (creationPanier()) {
-    $nbArticles = count($_SESSION['panier']['libelleProduit']);
-    if ($nbArticles <= 0) {
-        echo "<tr><td>Votre panier est vide </ td></tr>";
-    } else {
-        for ($i = 0; $i < $nbArticles; $i++) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['libelleProduit'][$i]) . "</ td>";
-            echo "<td><input type=\"text\" size=\"4\" name=\"q[]\" value=\"" . htmlspecialchars($_SESSION['panier']['qteProduit'][$i]) . "\"/></td>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['prixProduit'][$i]) . "</td>";
-            echo "<td><a href=\"" . htmlspecialchars("panier.php?action=suppression&l=" . rawurlencode($_SESSION['panier']['libelleProduit'][$i])) . "\">XX</a></td>";
-            echo "</tr>";
-        }
+<?php foreach ($_SESSION['cart'] as $designsFinal): var_dump($_SESSION) ?>
+<?php var_dump($w_user) ?>
+	<tr>
+				<td><div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
+					<div class="thumbnail">
+						<img src="<?=$this->assetUrl('upload/' . $designsFinal['image']);?>" alt="">
+					</div>
+				</div></td>
 
-        echo "<tr><td colspan=\"2\"> </td>";
-        echo "<td colspan=\"2\">";
-        echo "Total : " . MontantGlobal();
-        echo "</td></tr>";
 
-        echo "<tr><td colspan=\"4\">";
-        echo "<input type=\"submit\" value=\"Rafraichir\"/>";
-        echo "<input type=\"hidden\" name=\"action\" value=\"refresh\"/>";
-
-        echo "</td></tr>";
-    }
-}
-?>
+				<td><input class="form-control" type="number" min="1" name="qte"></td>
+				<td></td>
+				<td><p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p></td>
+				
+				</tr>
+<?php endforeach;?>
 </tbody>
 </table>
 </form>
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
-
+<?php include './inc/footer.php';?>
 <?php $this->stop('footer')?>
