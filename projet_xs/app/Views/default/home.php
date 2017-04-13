@@ -103,10 +103,10 @@
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl('img/sel1.jpg') ?>" alt="">
             <div class="caption">
               <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like">100 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
@@ -118,10 +118,10 @@
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl('img/sel2.jpg') ?>" alt="">
             <div class="caption">
               <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
@@ -131,20 +131,23 @@
           </div>
         </div>
         
+        <?php foreach($productsSelection as $product) : ?>
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl($product['picture_source']) ?>" alt="">
             <div class="caption">
-              <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <h3><?= $product['model'] ?></h3>
+              <p class="design-author-name">par <a href="#" title=""><?= $product['username'] ?></a></p>
               <div class="row">  
-                <p class="col-xs-6 text-left nb-like">54 <i class="fa fa-heart" aria-hidden="true"></i></p>
-                <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-no" aria-hidden="true"></i>
-</a></p>
+                <p class="col-xs-6 text-left nb-like"><?= $product['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <?php if(!empty($w_user)) : ?>
+                  <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?= $product['id'] ?>"></p>
+                <?php endif; ?>
               </div>
             </div>
           </div>
         </div>
+        <?php endforeach; ?>
 
       </div>
     </div>
@@ -165,3 +168,45 @@
 <?php $this->start('footer') ?>
 <?php include './inc/footer.php'; ?>
 <?php $this->stop('footer') ?>
+
+<?php $this->start('script') ?>
+<script>
+
+  $(function(){
+
+    // Chargement du bouton Like
+    var $likeButton = $('.my-like');
+    var resHTML = '';
+    $.ajax({
+      method: 'post',
+      url: '<?= $this->url('i_like') ?>',
+      data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id'), action: 'search'},
+      dataType: 'json',
+      success: function(result){
+        if(result.status == 'success') {
+          $likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
+        }
+      }
+    });
+
+    // Click sur bouton Like
+    $likeButton.click(function(e){
+      e.preventDefault();
+
+      $.ajax({
+        method: 'post',
+        url: $likeButton.find('a').attr('href'),
+        data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id')},
+        dataType: 'json',
+        success: function(result){
+          if(result.status == 'success') {
+            $likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
+            $likeButton.prev('.nb-like').html(result.likes_count + ' <i class="fa fa-heart" aria-hidden="true"></i>')
+          }
+        }
+      });
+    });
+
+  })
+</script>
+<?php $this->stop('script') ?>
