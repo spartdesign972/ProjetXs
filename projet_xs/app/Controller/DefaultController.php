@@ -503,6 +503,7 @@ class DefaultController extends Controller
 
         $UserRecup = new UsersModel();
         $newUser   = $UserRecup->find($loggedUser['id']);
+        $extAllowed = ['jpg','jpeg','png','gif'];
 
         //-Declaration des diff variables
         $post       = [];
@@ -610,38 +611,108 @@ class DefaultController extends Controller
     }
 
     
-///////////////////////////////////////////////////////////////////////////////////////////  
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     //Page de personnalisation de tShirt
     public function custom(){
         
-        $params=[];
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        //-Declaration des diff variables 
-    $upload_dir = 'assets/upload/';
-    $maxSize    = (1024 * 1000) * 2;
+        $upload_dir = 'assets/upload/';//Dossier d'upload
         
-        if(!empty($_POST)){
-            if(isset($_POST['img'])){
+            //Upload de l'image       
+            if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+                
+                //Déclaration des variables
+                
+                $maxSize    = (1024 * 1000) * 2;//Taille Maximal du fichier uploadé
+                $extAllowed = ['jpg','jpeg','png','gif'];//Extensions acceptés pour l'upload
+                
+                if (!is_dir($upload_dir)) { //-Si le dossier de destination n'existe pas
+                  mkdir($upload_dir, 0755); // on le crée
+                }
+             
+                $x = explode('.',$_FILES['picture']['name']);//Récupérer le nom de l'extension du fichier  
+                if(in_array($x[1],$extAllowed)){//Vérifier si l'extension du fichier source est accepté
+                    $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+                    
+                    if ($img->filesize() > $maxSize) {
+                      //-Si la taille de l'image est superieure à la dimension donnée
+                      $errors[] = 'Image trop lourde, 2 Mo maximum';
+                    }
+
+                    if(!v::image()->validate($_FILES['picture']['tmp_name'])){
+                      //-On verifie si l'image est valide en verifiant son mimetype
+                      $errors[] = 'L\'avatar est une image invalide';
+                    }
+                    else {
+                      switch ($img->mime()) {
+                        case 'image/jpg':
+                        case 'image/jpeg':
+                        case 'image/pjpeg':
+                          $ext = '.jpg';
+                          break;
+
+                        case 'image/png':
+                          $ext = '.png';
+                          break;
+                        case 'image/gif':
+                          $ext = '.gif';
+                          break;
+                      }
+
+                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
+                    $img->save($upload_dir . $save_name . $ext);
+                    $custom = $upload_dir . $save_name . $ext;
+                    $_SESSION['picture'] = [
+                        'source' => $save_name.$ext,
+                    ];
+                        //echo $_SESSION['picture']['source'];
+                    echo '<script>
+                    fabric.Image.fromURL(\''.$custom.'\',function(img){
+                    img = img;
+                    img.scaleToWidth(200);
+                    canvas.add(img);
+                    console.log(\'ajouter\');
+                    //canvas.remove(img);
+                    });
+                    </script>';
+
+                    }
+          
+                }
+                else{//L'extension du fichier source n'est pas accepté
+
+                    $errors[] = 'L\'avatar est une image invalide';
+
+                }
+                
+                
+                
+            }//Fin de l'upload d'image
+            elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
                 
                 $img = $_POST['img'];
                 $img = str_replace('data:image/png;base64,', '', $img);
-                
                 $img = str_replace(' ', '+', $img);
                
                 $fileData = base64_decode($img);
-                //saving
+                
                 $name = time().'-model.png';
                 $fileName = $upload_dir.$name;
                 file_put_contents($fileName, $fileData);
                 
+                var_dump($_POST);
+                
+                //Construire la référence à partir du modele,de la taille et la couleur
                 $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
                 
+                //Informations à transmettre en bdd
                 $infos = [
-                    'user_id'=> '2',//Récupérer dans $_SESSION
-                    'product_reference'=>$reference,
-                    'picture_source'=> $_SESSION['picture_source'],
-                    'model'=>$name,
+                    'user_id'           => $_SESSION['user']['id'],
+                    'design_label'      => $_POST['label'],
+                    'picture_source'    => $_SESSION['picture']['source'],
+                    'product_reference' => $reference,
+                    'model'             => $name,
+                    'date_create'       => date("Y-m-d H:i:s"),
                          ];
                 
                 $product = new ProductsCustomModel();
@@ -650,78 +721,15 @@ class DefaultController extends Controller
                     
                     $success= true;
                 }
+             
+                unset($_SESSION['picture']); 
                 
-            }
-            
-            //getLoggedUser()
-            
-        }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
-        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-            if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
-              mkdir($upload_dir, 0755); // on le cree
-            }
-            
-            $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-            if ($img->filesize() > $maxSize) {
-              //-Si la taille de l'image est superieure à la dimension donnée
-              $errors[] = 'Image trop lourde, 2 Mo maximum';
-            }
-            if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
-              //-On verifie si l'image est valide en verifiant son mimetype
-              $errors[] = 'L\'avatar est une image invalide';
-            }
-            else {
-              switch ($img->mime()) {
-                case 'image/jpg':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                  $ext = '.jpg';
-                  break;
+            }//Fin des enregistrements
+            else{//Affichage de la page 
+                
+                $this->show('default/custom');
 
-                case 'image/png':
-                  $ext = '.png';
-                  break;
-                case 'image/gif':
-                  $ext = '.gif';
-                  break;
-              }
-                
-                $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
-                $img->save($upload_dir . $save_name . $ext);
-                $custom = $upload_dir . $save_name . $ext;
-                $_SESSION['picture_source'] = $save_name.$ext;
-                
-                echo '<script>
-                fabric.Image.fromURL(\''.$custom.'\',function(img){
-                img.scaleToWidth(200);
-                canvas.add(img);
-                });
-                </script>';
-                
             }
-          
-        }
-
-// 
-//        if(!empty($_SESSION['user'])){//Si il y a un utilsateur connecté
-//            $params[] =[
-//                'log' => true, 
-//            ];
-//        }
-//        else{//Pas d'utilisateur connecté
-//            $params[] =[
-//                'log' => false,  
-//            ];
-//        }
-        
-        
-        if(empty($_POST)){//la super Global $_FILES n'est pas definie
-            
-        $this->show('default/custom');
-            
-        }
         
     }//Fin de custom
 
