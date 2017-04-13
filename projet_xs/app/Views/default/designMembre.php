@@ -25,8 +25,8 @@
           <div class="thumbnail">
             <img src="<?=$this->assetUrl('upload/' . $designsFinal['model']);?>" alt="">
             <div class="caption">
-              <h3><?= $designsFinal['design_label'] ?></h3>
-              <p class="design-author-name">Créer par : <a href="<?= $this->url('default_membredesignmembre', ['id'=>$designsFinal[id_user]]); ?>" title=""><?= $designsFinal['username'] ?></a></p>
+              <h3 class="text-center"><?= $designsFinal['design_label'] ?></h3>
+              <p class="design-author-name">Créer par : <a href="<?= $this->url('default_membredesignmembre', ['id'=>$designsFinal['user_id']]); ?>" title=""><?= $designsFinal['username'] ?></a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>

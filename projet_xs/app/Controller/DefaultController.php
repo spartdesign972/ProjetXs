@@ -661,7 +661,7 @@ class DefaultController extends Controller
         
     }//Fin de custom
 
-
+//******************************** Methode pour afficher les design creer par les membres ***********************
     public function showAlldesignMembres(){
 
         $order = '';
@@ -712,7 +712,7 @@ class DefaultController extends Controller
      
     }//****************** Fin methode designMembres **********************
 
-      public function membreDesignMembre($id)
+      public function membreDesignMembres($id)
     {
 
         $listdesigns = new ProductsCustomModel();
@@ -720,7 +720,7 @@ class DefaultController extends Controller
         $params      = [
             'design' => $design,
         ];
-        $this->show('design/designMembre', $params);
+        $this->show('default/designMembre', $params);
     }
 
 

@@ -12,7 +12,7 @@ class ProductsCustomModel extends \W\Model\Model
 	public function findUserDesign($id)
 	{
 
-		$sql = 'SELECT * FROM ' . $this->table . ' WHERE user_id = :id ';
+		$sql = 'SELECT P.*, U.username FROM '. $this->table .' as P LEFT JOIN users as U ON P.user_id = U.id WHERE P.user_id = :id';
 		$sth = $this->dbh->prepare($sql);
 		$sth->bindValue(':id', $id, \PDO::PARAM_INT);
 		$sth->execute();
@@ -28,14 +28,10 @@ class ProductsCustomModel extends \W\Model\Model
 	 * @return mixed Les données sous forme de tableau associatif
 	 */
 	public function findDesign($order){
-		$sql = 'SELECT P.*, U.username FROM '.$this->table.' as P RIGHT JOIN users as U ON U.id = P.user_id WHERE P.public = 1'. $order;
+		$sql = 'SELECT P.*, U.username FROM '.$this->table.' as P RIGHT JOIN users as U ON U.id = P.user_id WHERE P.public = 1 '. $order;
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
 		return $sth->fetchAll();
 	}
-
-
-
-
 
 }
