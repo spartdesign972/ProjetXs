@@ -1,11 +1,13 @@
 <?php $this->layout('layout', ['title' => 'Laissez un message'])?>
 <?php $this->start('main_content')?>
+	
+<div class="container">
+
 	<div id="result"></div>
+
+	<h1>Contacter nous</h1>
 	<form class="jumbotron form-horizontal" action="<?=$this->url('default_contact') ?>" method="post" id="subscribe_form">
 					<fieldset>
-						<!-- Form Name -->
-						<legend class="nameForm">Contactez-nous!</legend>
-
 						<!-- last_name-->
 						<div class="form-group">
 							<label class="col-md-3 control-label" >Nom</label>
@@ -67,7 +69,7 @@
 					</fieldset>
 				</form>
 
-
+</div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
 

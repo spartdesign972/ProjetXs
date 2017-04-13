@@ -169,13 +169,7 @@
 </section>
 <!--*************************** fin selection *******************************-->
 <div class="clearfix"></div>
-<section class="infos">
-<div class="container text-center">
-<h1>Dernières News !</h1>
-  <a class="twitter-timeline"  href="https://twitter.com/hashtag/tshirt" data-widget-id="852209827136905221">Tweets sur #tshirt</a>
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     
-</div>
-</section>
+
 
 <?php $this->stop('main_content') ?>
 <?php $this->start('footer') ?>

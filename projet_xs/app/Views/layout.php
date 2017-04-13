@@ -102,6 +102,8 @@
 								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
 								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
+								<li><a href="#">Nous Situer</a></li>
+								<li><a href="<?=$this->url('default_contact')?>">Nous Contacter</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">

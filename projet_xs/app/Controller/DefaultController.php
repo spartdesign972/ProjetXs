@@ -322,7 +322,7 @@ class DefaultController extends Controller
                 // $result = '<div class="alert alert-danger">' .  . '</div>';
             }
         }
-        $this->show('User/contact');
+        $this->show('default/contact');
 
     }
 
