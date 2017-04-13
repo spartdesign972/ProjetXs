@@ -1,9 +1,10 @@
-<?php $this->layout('layout', ['title' => 'Mot de passe oublié']) ?>
+<?php $this->layout('layout', ['title' => 'Mot de passe oublié ?']) ?>
 <?php $this->start('main_content') ?>
 
+<div class="container">
     <?php if(empty($successText)) : ?>
-
-        <form class="form-horizontal" method='post'>
+        <br>
+        <form class="form-horizontal jumbotron" method='post'>
         <fieldset>
 
             <!-- Form Name -->
@@ -36,5 +37,5 @@
     <?php else : ?>
         <div class="alert alert-success"><?= $successText ?></div>
     <?php endif; ?>
-
+</div>
 <?php $this->stop('main_content') ?>

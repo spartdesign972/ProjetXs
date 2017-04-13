@@ -28,7 +28,7 @@
 					</a>
 				</td>
 				<td>
-					<a href="admin/modif_recipe.php?id=<?=$viewOrder['id'];?>">
+					<a href="<?=$this->url('users_viewOrder', ['id' => $viewOrder['id']])?>">
 						<button type="button" class="btn btn-info btn-sm">
 						<span class="glyphicon glyphicon-edit"></span> Modifier
 						</button>

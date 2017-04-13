@@ -1,18 +1,29 @@
-<?php $this->layout('layout', ['title' => 'Mon nouveau mot de passe']) ?>
+<?php $this->layout('layout', ['title' => 'Mon mot de passe']) ?>
 <?php $this->start('main_content') ?>
 
 <div class="container">
-    <?php if(empty($successText)) : ?>
+
         <br>
         <form class="form-horizontal jumbotron" method='post'>
         <fieldset>
 
             <!-- Form Name -->
-            <legend>Mon nouveau mot de passe</legend>
+            <legend>Changer mon mot de passe</legend>
 
             <?php if(!empty($errorsText)) : ?>
                 <div class="alert alert-danger"><?= $errorsText ?></div>
+            <?php endif; if(!empty($successText)) : ?>
+                <div class="alert alert-success"><?= $successText ?></div>
             <?php endif; ?>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="old">Ancien mot de passe</label>  
+                <div class="col-md-4">
+                    <input id="old" name="old" type="password" class="form-control input-md">
+                    
+                </div>
+            </div>
 
             <!-- Text input-->
             <div class="form-group">
@@ -43,8 +54,6 @@
         </fieldset>
         </form>
 
-    <?php else : ?>
-        <div class="alert alert-success"><?= $successText ?></div>
-    <?php endif; ?>
 </div>
+
 <?php $this->stop('main_content') ?>

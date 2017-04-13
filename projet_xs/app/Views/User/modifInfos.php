@@ -1,4 +1,4 @@
-<?php $this->layout('layout', ['title' => 'Modifier vos Infos'])?>
+<?php $this->layout('layout', ['title' => 'Mes informations'])?>
 <?php $this->start('main_content')?>
 
 <div class="container">
@@ -11,6 +11,8 @@
 
     <form method="post"  class="form-horizontal jumbotron" enctype="multipart/form-data">
 
+    <!-- Form Name -->
+    <legend>Mes informations</legend>
 
 
     <div class="form-group">

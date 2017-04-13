@@ -11,7 +11,8 @@
 
 		<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 		<script src="../bower_components/wow/dist/wow.min.js"></script>
-
+			<!-- Bootstrap SweetAlert CSS -->
+	    <link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.css') ?>">
 		<?php if(!empty($w_user)): ?>
 			<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/styleconnecter.css') ?>">
 		<?php endif; ?>
@@ -41,7 +42,8 @@
 						<div class="collapse navbar-collapse navbar-user-collapse">
 							<ul class="nav-user navbar-nav">
 
-								<li><a href="<?=$this->url('default_modifInfos')?>">Modifier mes infos</a></li>
+								<li><a href="<?=$this->url('default_modifInfos')?>">Mes informations</a></li>
+								<li><a href="<?=$this->url('default_password')?>">Mon mot de passe</a></li>
 								<li><a href="<?=$this->url('user_listDesigns')?>">Mes Réalisations</a></li>
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 								
@@ -50,12 +52,17 @@
 								<?php endif; ?>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
+
 										<li><span class="text-muted"><?php echo 'Bonjour '.$w_user['lastname'].'<br>' ?></span></li>
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
+
+										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
+									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
+
 									<li class="spacer">--</li>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+									<a href="<?= $this->url('cart_creationPanier') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
 									
 								</li>
 							</ul>
@@ -96,11 +103,12 @@
 
 								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
+								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
 								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-								<li><a href="<?=$this->url('login')?>">Connexion</a>
+								<li><a href="<?=$this->url('login')?>">Connexion / inscription</a>
 								</li>
 							</ul>
 							<?php endif; ?>
@@ -121,6 +129,8 @@
 			</div>
 
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
+			<!-- Bootstrap SweetAlert JS -->
+		  <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
 			<script type="text/javascript">
 				$(document).ready(function() {
 
