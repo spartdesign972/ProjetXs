@@ -54,7 +54,7 @@
 						</div>
 
 						<!-- Success message -->
-						<div class="alert alert-success" style="display: none" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Merci de vous contacter, nous vous repondrons au plus vite !!!</div>
+						<div class="alert alert-success" style="display: none" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Merci de nous contacter, nous vous répondrons au plus vite !!!</div>
 
 						<!-- Button -->
 						<div class="form-group">

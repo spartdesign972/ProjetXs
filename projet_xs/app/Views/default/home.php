@@ -49,8 +49,8 @@
     <div class="colored">
       <div class="row">
         <div class="col-xs-12 col-sm-8 text-center">
-          <h1>Bonjour, bienvenue sur ProjetXs</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione iure amet praesentium libero alias autem voluptas dolor facere. Ad, debitis, fugiat molestiae adipisci nemo odio! Rerum sapiente nostrum pariatur, velit!</p>
+          <h1>Bienvenue sur Shirt Factory !</h1>
+          <p>Ici vous pourrez laisser libre cours à votre imagination et créer votre propre T-shirt ! Envie d'en savoir plus ? N'attendez pas et cliquez sur le lien ci-dessous !</p>
           <br>
           <a href="<?=$this->url('default_custom')?>" title="" id="makeit"></a>
           <br>
@@ -81,8 +81,8 @@
 -->
 <section class="howto">
   <div class="container text-center wow bounceInUp">
-    <h1>Comment creer votre tshirt ?!</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae velit sit, quae debitis ea ratione ex excepturi rem vero sequi enim minus inventore nulla et aut, laboriosam optio, officia. Iusto!</p>
+    <h1>Comment créer votre tshirt ?</h1>
+    <p>Du mal a créer votre T-shirt idéal ? Ne paniquez pas et suivez juste ces quelques petites étapes !</p>
     <div class="row">
       <div class="col-xs-6 col-sm-3"><h3>etape 1</h3></div>
       <div class="col-xs-6 col-sm-3"><h3>etape 2</h3></div>
@@ -107,7 +107,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
             </div>
           </div>
         </div>
@@ -141,8 +141,9 @@
 <div class="clearfix"></div>
 <section class="infos">
 <div class="container text-center">
-<h1>Flash info !</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum odit, exercitationem molestiae quaerat expedita blanditiis, dolores eos nobis numquam nisi, fuga architecto aliquid a vitae laborum officia ratione enim quos.</p>
+<h1>Dernières News !</h1>
+  <a class="twitter-timeline"  href="https://twitter.com/hashtag/tshirt" data-widget-id="852209827136905221">Tweets sur #tshirt</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     
 </div>
 </section>
 

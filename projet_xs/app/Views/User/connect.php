@@ -38,8 +38,8 @@
         <div class="card card-inverse card-primary text-center" style="width:44%">
           <div class="card-block g-2 text-xs-center">
             <div>
-              <h2 class="login-page">Sign up</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <h2 class="login-page">Inscription</h2>
+              <p>Pas encore inscrit ? Inscrivez-vous en cliquant sur le lien ci-dessous pour pouvoir créer votre propre T-shirt !</p>
               <a href="<?=$this->url('default_subscribe') ?>" title="" class="btn btn-primary active">M'inscrire!</a>
             </div>
           </div>

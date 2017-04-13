@@ -2,9 +2,9 @@
     <div class="row">
       <div class="container">
         <div class="col-xs-12 col-sm-4">
-          <h2>Ou somme nous !</h2><hr>
-          <p>Tshirt Factory XS <br>
-          21 rue des Rosier <br>
+          <h2>Nous Contacter ?</h2><hr>
+          <p>Shirt Factory XS <br>
+          21 rue des Rosiers <br>
           97200 Fort de France, Martinique <br>
           tsfxs@orange.fr <br>
           0596 25 36 65</p>
@@ -20,7 +20,7 @@
           <ul>
             <li><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i>
  Facebook</a></li>
-            <li><a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i>
+            <li><a href="https://twitter.com/Projet_xs"><i class="fa fa-twitter-square" aria-hidden="true"></i>
  Twitter</a></li>
             <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i>
  Instagram</a></li>

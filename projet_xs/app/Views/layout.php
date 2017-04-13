@@ -51,7 +51,7 @@
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
 										<li><span class="text-muted"><?php echo 'Bonjour '.$w_user['lastname'].'<br>' ?></span></li>
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
+									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
 									<li class="spacer">--</li>
 								</li>
 								<li>
@@ -94,7 +94,7 @@
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
 
-								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
+								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
