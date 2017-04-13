@@ -52,12 +52,15 @@
 								<?php endif; ?>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
+
 										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
+
+									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
+
 									<li class="spacer">--</li>
 								</li>
 								<li>
-									<a href="<?= $this->url('default_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+									<a href="<?= $this->url('cart_creationPanier') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
 									
 								</li>
 							</ul>
@@ -96,13 +99,16 @@
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
 
-								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
+								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
+								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
+								<li><a href="#">Nous Situer</a></li>
+								<li><a href="<?=$this->url('default_contact')?>">Nous Contacter</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
 								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-								<li><a href="<?=$this->url('login')?>">Connexion / inscription</a>
+								<li><a href="<?=$this->url('login')?>">Connexion / Inscription</a>
 								</li>
 							</ul>
 							<?php endif; ?>
