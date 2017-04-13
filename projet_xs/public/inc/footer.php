@@ -3,7 +3,7 @@
       <div class="container">
         <!-- <div class="col-xs-12 col-sm-4">
           <h2>Nous Contacter ?</h2><hr>
-          <p>Shirt Factory XS <br>
+          <p>Shirt Factory X<br>
           21 rue des Rosiers <br>
           97200 Fort de France, Martinique <br>
           tsfxs@orange.fr <br>
