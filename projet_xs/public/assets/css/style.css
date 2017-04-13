@@ -115,8 +115,14 @@ iframe {
     color: white;
 }
 
-.infos {
-    background: url('../img/info_BG.jpg') fixed;
+.lien-address{
+     font-family: 'PT Sans', sans-serif;
+    color: #333;
+    font-size: 1.5em; 
+}
+.lien-address:hover{
+    color: white;
+    text-decoration: none;
 }
 
 .foot {

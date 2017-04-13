@@ -16,7 +16,7 @@
   </div>
 
 <div class="colored">
-      <h1 class="text-center">Liste des design de T-shirts</h1>
+      <h1 class="text-center">Liste des design</h1>
       <div class="row">
         <?php foreach ($design as $designsFinal): ?>
 

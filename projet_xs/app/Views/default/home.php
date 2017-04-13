@@ -103,7 +103,7 @@
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel1.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl('img/sel1.jpg') ?>" alt="">
             <div class="caption">
 
               <h3>Thumbnail label</h3>
@@ -111,7 +111,7 @@
               <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
               <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like">100 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
@@ -124,7 +124,7 @@
 
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel2.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl('img/sel2.jpg') ?>" alt="">
             <div class="caption">
 
               <h3>Thumbnail label</h3>
@@ -132,7 +132,7 @@
               <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
               <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
@@ -142,24 +142,28 @@
           </div>
         </div>
         
+        <?php foreach($productsSelection as $product) : ?>
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
-            <img src="<?= $this->assetUrl('img/sel3.jpg') ?>"" alt="">
+            <img src="<?= $this->assetUrl($product['picture_source']) ?>" alt="">
             <div class="caption">
+
               <h3>Thumbnail label</h3>
               <p>...</p>
               <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
-              <h3>Design label</h3>
-              <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
+              <h3><?= $product['design_label'] ?></h3>
+              <p class="design-author-name">par <a href="#" title=""><?= $product['username'] ?></a></p>
               <div class="row">  
-                <p class="col-xs-6 text-left nb-like">54 <i class="fa fa-heart" aria-hidden="true"></i></p>
-                <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-no" aria-hidden="true"></i>
-</a></p>
+                <p class="col-xs-6 text-left nb-like"><?= $product['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <?php if(!empty($w_user)) : ?>
+                  <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?= $product['id'] ?>"></p>
+                <?php endif; ?>
               </div>
             </div>
           </div>
         </div>
+        <?php endforeach; ?>
 
       </div>
     </div>
@@ -169,13 +173,7 @@
 </section>
 <!--*************************** fin selection *******************************-->
 <div class="clearfix"></div>
-<section class="infos">
-<div class="container text-center">
-<h1>Dernières News !</h1>
-  <a class="twitter-timeline"  href="https://twitter.com/hashtag/tshirt" data-widget-id="852209827136905221">Tweets sur #tshirt</a>
-  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>     
-</div>
-</section>
+
 
 <?php $this->stop('main_content') ?>
 <?php $this->start('footer') ?>

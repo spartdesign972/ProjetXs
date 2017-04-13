@@ -43,7 +43,7 @@
 						resHTML+= '<option value="admin"'+(value.role == 'admin' ? ' selected' : '')+'>Administrateur</option>';
 						resHTML+= '<option value="user"'+(value.role == 'user' ? ' selected' : '')+'>Utilisateur</option>'
 						resHTML+= '</select></div></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user_details/'+value.id+'">Visualiser</a></td>';
+						resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user-details/'+value.id+'">Visualiser</a></td>';
 						resHTML+= '<td><a href="<?= $this->url('admin_delete_user') ?>" class="deleteUser" data-id="'+value.id+'">Supprimer</a></td>';
 						resHTML+= '</tr>';
 						

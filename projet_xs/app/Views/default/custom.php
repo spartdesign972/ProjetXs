@@ -1,4 +1,8 @@
 <?php
+//A implementer:
+//effacer l'image importer
+//Limiter le nbre d'image importée
+
 
 $this->layout('layout',['title'=>'Personnaliser votre Tshirt']);
 
@@ -23,6 +27,7 @@ $this->start('link');
 	<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.miniColors.min.js') ?>"></script>
 	<script type="text/javascript" src="<?= $this->assetUrl('js/FileSaver.js') ?>"></script>
 	<script type="text/javascript" src="<?= $this->assetUrl('js/canvas-toBlob.js') ?>"></script>
+	<script type="text/javascript" src="<?= $this->assetUrl('js/html2canvas.js') ?>"></script>
 	
 	
 	
@@ -45,6 +50,10 @@ $this->start('link');
             border-radius:5px;
             background: rgba(228, 112, 3, 1.0);
             color: whitesmoke;
+         }
+         
+         #target{
+             display:none;
          }
          
 		 .footer {
@@ -133,7 +142,7 @@ $this->start('link');
         echo'
         <p>Pour enregistrer, télécharger, et commander un article personnalisé, vous devez être inscrit et connecté </p>
         <p><a href="'.$this->url('default_subscribe').'">S\'inscrire</a><a href="'.$this->url('login').'">Se connecter</a></p>
-        <p>Les personnailisations réalisées ne seront pas enregistrées quand vous quitterez la page</p>
+        <p>Les personnalisations réalisées ne seront pas enregistrées quand vous quitterez la page</p>
         '
         ;
         
@@ -161,7 +170,7 @@ $this->start('link');
 <!--					  Remplacer le texte par des aperçus    -->
 					      <div class="well">
 					          
-					          <ul class="nav">
+					          <ul class="nav options">
 					              
 					              <li class="model-preview" title="" data-id="model" data-info="BC-TU004">T-Shirt Manches Courtes</li>
 					              <li class="model-preview" title="" data-id="model" data-info="">T-Shirt Manches Longues</li>
@@ -176,7 +185,7 @@ $this->start('link');
 					      <div class="well">
 					          
 					       <!-- Liste des tailles  -->
-					          <ul class="nav">
+					          <ul class="nav options">
 					              
 					              <li class="size" title="taille S" data-id="size" data-info="S">S</li>
 					              <li class="size" title="taille M" data-id="size" data-info="M">M</li>
@@ -192,7 +201,7 @@ $this->start('link');
                            <div class="well">
                             
                             <!-- Liste des couleurs-->
-                                <ul class="nav">
+                                <ul class="nav options">
                                     <li class="color-preview" title="White" style="background-color:#ffffff;" data-id="color" data-info="00"></li>
 
                                     <li class="color-preview" title="Black" style="background-color:#222222;" data-id="color" data-info="01"></li>
@@ -264,19 +273,30 @@ $this->start('link');
 							<canvas id="tcanvas" width=200 height="400" class="hover" style="-webkit-user-select: none;"></canvas>
 							
 				        </div>
-
+                    <!--                        Image editor-->
+							<div class="pull-right" align="" id="imageeditor" style="display:none">
+							  <div class="btn-group">										      
+							      <button class="btn" id="bring-to-front" title="Bring to Front"><i class="icon-fast-backward rotate" style="height:19px;"></i></button>
+							      <button class="btn" id="send-to-back" title="Send to Back"><i class="icon-fast-forward rotate" style="height:19px;"></i></button>
+							      <button id="flip" type="button" class="btn" title="Show Back View"><i class="icon-retweet" style="height:19px;"></i></button>
+							      <button id="remove-selected" class="btn" title="Delete selected item"><i class="icon-trash" style="height:19px;"></i></button>
+							  </div>
+							</div>
+								
 
 <?php
   
     if(!empty($_SESSION['user'])){
         
         echo'
-        <label>Nom du Design : </label><input id="designLabel" type="text" name="designLabel" placeholder="Nom Design">
-        <input id="enregistrer" type="button" value="Enregistrer votre création">
+        <form id="label">
+        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design">
+        <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
         <input id="telecharger" type="button" value="Télécharger votre création">
+        <input id="reset" type="button" value="Effacer l\'image">
+        </form>
         '
         ;
-        var_dump($_SESSION);
         
     }
     
@@ -349,7 +369,7 @@ Le javascript
 
     $(function() {
         
-        var reference = [];
+        var reference = {model:'BC-TU004', size:'XL', color:'00'};
         
   // Pour l'ajout d'une image
       $('#uploadImage').on('submit', function(el) {
@@ -374,7 +394,7 @@ Le javascript
         
 //Pour l'enregistrement des données dans la bdd (la référence du t-shirt, l'image à utiliser pour la personnalisation)
 //Pour la visibilité des options choisies
-    $('.nav>li').click(function(e){
+    $('.options>li').click(function(e){
         $(this).siblings().css('border','solid #ccc 3px');
         $(this).css('border','solid #000 3px');
         
@@ -382,31 +402,50 @@ Le javascript
         var value = $(this).data('info');
         
         reference[key] = value;
-        
+        console.log(reference);
     });
         
         
+<?php
+  
+    if(!empty($_SESSION['user'])){
+?>
+        
 //Pour l'enregistrement de l'image sur le serveur        
-    $('#enregistrer').click(function(){
+        $('#enregistrer').click(function(){
         //Ajouter une vérification : l'existence des 3 entrées de reference
-        var dataURL = canvas.toDataURL();
+    
+         var design = $('#shirtDiv');
 
-        $.ajax({
-          type: 'post',
-          url: '<?=$this->url('default_custom')?>',
-          data: { 
-              img : dataURL,
-              ref1 : reference['model'],
-              ref2 : reference['color'],
-              ref3 : reference['size'],
-          }
-        }).done(function(o) {
-          $('#result').html('<p>Votre création a été enregistrée</p>');
-          console.log(o);
+            html2canvas(design,{
+              onrendered: function(canvas){
+              
+                var dataURL = canvas.toDataURL();
+                  
+                $.ajax({
+                  type: 'post',
+                  url: '<?=$this->url('default_custom')?>',
+                  data: { 
+                      //userId    : $(this).data('user'),
+                      img       : dataURL,
+                      ref1      : reference['model'],
+                      ref2      : reference['color'],
+                      ref3      : reference['size'],
+                      label     : $('#designLabel').val(),
+                  }
+                }).done(function(o) {
+                  $('#result').html('<p>Votre création a été enregistrée</p>');
+                  console.log(o);
+
+                });
+              
+              }//Fin de rendered
             
-        });
+            });//Fin de html2canvas
+        
+
             
-    });//Fin de $("#b").click
+    });//Fin de $(#enregistrer).click
         
  
 //Pour le téléchargement de l'image 
@@ -418,6 +457,21 @@ Le javascript
         });
         
     });
+    
+        
+//POur effacer l'image
+    $('#reset').click(function(){
+        
+        canvas.clear();
+        
+    });
+        
+        
+<?php
+        
+    }
+    
+?>	
 
  });//Fin de $(function)
      

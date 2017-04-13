@@ -28,6 +28,16 @@ $w_config = [
 	'phpmailer_SMTPAuth' => true,
 	'phpmailer_username' => '3721836baaa816',
 	'phpmailer_password' => '61fe9c7abd4482',
+
+	// Coordonnées du site
+	'site_title' => 'Tshirt Factory XS',
+	'site_street' => '21 rue des Rosier',
+	'site_zipcode' => '97200',
+	'site_city' => 'Fort de France',
+	'site_country' => 'Martinique',
+	'site_email' => 'tsfxs@orange.fr',
+	'site_phone' => '0596 25 36 65',
+
 ];
 
 require('routes.php');
