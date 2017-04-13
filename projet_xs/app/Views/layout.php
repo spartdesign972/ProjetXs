@@ -57,7 +57,7 @@
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
 
 										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
+									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
 
 									<li class="spacer">--</li>
 								</li>
@@ -108,7 +108,7 @@
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
 								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-								<li><a href="<?=$this->url('login')?>">Connexion / inscription</a>
+								<li><a href="<?=$this->url('login')?>">Connexion / Inscription</a>
 								</li>
 							</ul>
 							<?php endif; ?>

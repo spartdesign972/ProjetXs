@@ -108,7 +108,7 @@
 
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
+              <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
               <h3>Design label</h3>
               <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
@@ -129,7 +129,7 @@
 
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
+              <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
               <h3>Design label</h3>
               <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
@@ -148,7 +148,7 @@
             <div class="caption">
               <h3>Thumbnail label</h3>
               <p>...</p>
-              <p><a href="#" class="btn btn-primary" role="button">J'aime</a> <a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
+              <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
               <h3>Design label</h3>
               <p class="design-author-name">Créer par : <a href="#" title="">XXXX</a></p>
