@@ -133,7 +133,7 @@ $this->start('link');
         echo'
         <p>Pour enregistrer, télécharger, et commander un article personnalisé, vous devez être inscrit et connecté </p>
         <p><a href="'.$this->url('default_subscribe').'">S\'inscrire</a><a href="'.$this->url('login').'">Se connecter</a></p>
-        <p>Les personnailisations réalisées ne seront pas enregistrées quand vous quitterez la page</p>
+        <p>Les personnalisations réalisées ne seront pas enregistrées quand vous quitterez la page</p>
         '
         ;
         
