@@ -53,10 +53,8 @@
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
 
-										<li><span class="text-muted"><?php echo 'Bonjour '.$w_user['lastname'].'<br>' ?></span></li>
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
-
 										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
+
 									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
 
 									<li class="spacer">--</li>
