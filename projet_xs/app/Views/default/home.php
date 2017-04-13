@@ -152,7 +152,7 @@
               <p>...</p>
               <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p>
 
-              <h3><?= $product['model'] ?></h3>
+              <h3><?= $product['design_label'] ?></h3>
               <p class="design-author-name">par <a href="#" title=""><?= $product['username'] ?></a></p>
               <div class="row">  
                 <p class="col-xs-6 text-left nb-like"><?= $product['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
