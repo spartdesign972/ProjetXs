@@ -314,7 +314,7 @@ class DefaultController extends Controller
     {
         //-Declaration des diff variables
         $post       = [];
-        $upload_dir = 'assets/upload/';
+        $upload_dir = 'assets/avatars/';
         $maxSize    = (1024 * 1000) * 2;
         $extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -337,7 +337,7 @@ class DefaultController extends Controller
 
             $errors = array_filter($err);
 
-//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+            //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree

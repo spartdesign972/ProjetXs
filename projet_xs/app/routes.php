@@ -33,6 +33,12 @@ $w_routes = array(
     ['GET|POST', '/admin/user-details/[i:id]', 'Admin#user_details', 'admin_user_details'],
     ['GET|POST', '/admin/delete-user', 'Admin#delete_user', 'admin_delete_user'],
     ['GET|POST', '/admin/change-role', 'Admin#change_role', 'admin_change_role'],
+    ['GET|POST', '/admin/products', 'Admin#products', 'admin_products'],
+    ['GET|POST', '/admin/add-product', 'Admin#add_product', 'admin_add_product'],
+    ['GET|POST', '/admin/delete-product', 'Admin#delete_product', 'admin_delete_product'],
+    ['GET|POST', '/admin/categories', 'Admin#categories', 'admin_categories'],
+    ['GET|POST', '/admin/add-category', 'Admin#add_category', 'admin_add_category'],
+    ['GET|POST', '/admin/delete-category', 'Admin#delete_category', 'admin_delete_category'],
 
     //Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],

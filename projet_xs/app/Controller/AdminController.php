@@ -6,6 +6,8 @@ use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Respect\Validation\Validator as v;
 use Model\UsersModel;
+use Model\ProductsModel;
+use Model\ProductsCategoryModel;
 use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
@@ -175,7 +177,7 @@ class AdminController extends Controller
   }
 
 	/**
-	 * Supprimer utilisateur
+	 * Supprimer un utilisateur
 	 */
   public function change_role()
   {
@@ -204,5 +206,166 @@ class AdminController extends Controller
       $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
     }
   }
+
+	/**
+	 * Liste des produits
+	 */
+	public function products()
+	{
+    $this->allowTo('admin');
+    
+    if(isset($_GET['json']) && $_GET['json']){
+		  $productsModel = new ProductsModel();
+		  $this->showJson($productsModel->findAllWithCategory());
+    }
+    else{
+      $this->show('admin/products');
+    }
+	}
+
+	/**
+	 * Ajouter un produit
+	 */
+	public function add_product()
+	{
+		$this->allowTo('admin');
+
+		$productsCategoryModel = new ProductsCategoryModel();
+		$categories = $productsCategoryModel->findAllGroupByName();
+
+		$categories_id = [];
+		foreach($categories as $category){
+			$categories_id[] = $category['id'];
+		}
+
+		if(!empty($_POST)){
+			// nettoyage des données
+			$post = array_map('trim', array_map('strip_tags', $_POST));
+
+			$err = [
+				(!v::notEmpty()->validate($post['category_id']) || !in_array($post['category_id'], $categories_id)) ? 'Veuillez choisir une Catégorie.' : null,
+				(!v::notEmpty()->validate($post['reference'])) ? 'Veuillez saisir une Référence.' : null,
+				(!v::notEmpty()->validate($post['size'])) ? 'Veuillez saisir une Taille.' : null,
+				(!v::notEmpty()->validate($post['color'])) ? 'Veuillez saisir une Couleur.' : null,
+			];
+			$errors = array_filter($err);
+
+			if(count($errors) !== 0) {
+				$this->showJson(array('status' => 'error', 'message' => implode('<br>', $errors)));
+			}
+			// données valides
+			else {
+					
+				$productsModel = new ProductsModel();
+				if(!empty($productsModel->insert($post))) {
+					$this->showJson(array('status' => 'success', 'message' => 'Le produit a été ajouté avec succès'));
+				}
+			}
+		}
+		else{
+		  $productsCategoryModel = new ProductsCategoryModel();
+
+			$this->show('admin/add-product', ['categories' => $categories]);
+		}
+
+	}
+
+	/**
+	 * Supprimer un produit
+	 */
+  public function delete_product()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['prod_id']) && !empty($_POST['prod_id']) && is_numeric($_POST['prod_id'])){
+
+      $prod_id = (int) $_POST['prod_id'];
+
+			$productsModel = new ProductsModel();
+      if($productsModel->delete($prod_id)){
+        $this->showJson(['status' => 'success', 'message' => 'Produit #'.$prod_id.' supprimé']);
+      }
+    }
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+  }
+
+	/**
+	 * Liste des catégories
+	 */
+	public function categories()
+	{
+    $this->allowTo('admin');
+    
+    if(isset($_GET['json']) && $_GET['json']){
+		  $productsCategoryModel = new ProductsCategoryModel();
+		  $this->showJson($productsCategoryModel->findAll());
+    }
+    else{
+      $this->show('admin/categories');
+    }
+	}
+
+	/**
+	 * Ajouter une catégorie
+	 */
+	public function add_category()
+	{
+		$this->allowTo('admin');
+
+		if(!empty($_POST)){
+			// nettoyage des données
+			$post = array_map('trim', array_map('strip_tags', $_POST));
+
+			$err = [
+				(!v::notEmpty()->validate($post['category'])) ? 'Veuillez saisir un Libellé.' : null,
+				(!v::notEmpty()->validate($post['category_reference'])) ? 'Veuillez saisir une Référence.' : null,
+				(!v::notEmpty()->validate($post['name'])) ? 'Veuillez saisir un Nom.' : null,
+				(!v::notEmpty()->validate($post['description'])) ? 'Veuillez saisir une Description.' : null,
+				(!v::notEmpty()->numeric()->validate($post['price'])) ? 'Veuillez saisir un Prix.' : null,
+				(!v::notEmpty()->numeric()->validate($post['tax'])) ? 'Veuillez saisir un taux TVA.' : null,
+			];
+			$errors = array_filter($err);
+
+			if(count($errors) !== 0) {
+				$this->showJson(array('status' => 'error', 'message' => implode('<br>', $errors)));
+			}
+			// données valides
+			else {
+					
+				$productsCategoryModel = new ProductsCategoryModel();
+				if(!empty($productsCategoryModel->insert($post))) {
+					$this->showJson(array('status' => 'success', 'message' => 'La catégorie a été ajoutée avec succès'));
+				}
+			}
+		}
+		else{
+			$this->show('admin/add-category');
+		}
+
+	}
+
+	/**
+	 * Supprimer une categorie
+	 */
+  public function delete_category()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['category_id']) && !empty($_POST['category_id']) && is_numeric($_POST['category_id'])){
+
+      $category_id = (int) $_POST['category_id'];
+
+			$productsCategoryModel = new productsCategoryModel();
+      if($productsCategoryModel->delete($category_id)){
+        $this->showJson(['status' => 'success', 'message' => 'Catégorie #'.$category_id.' supprimée']);
+      }
+    }
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+  }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
