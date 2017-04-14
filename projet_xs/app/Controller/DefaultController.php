@@ -9,6 +9,7 @@ use Model\UsersModel;
 use Respect\Validation\Validator as v;
 use \Model\ProductsCustomModel;
 use \W\Controller\Controller;
+use Model\LikesModel;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
@@ -55,14 +56,75 @@ class DefaultController extends Controller
     }
 
     /**
+     * AJAX de gestion de likes
+     */
+    public function i_like()
+    {
+        if(!empty($_POST)){
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->numeric()->validate($post['user_id'])) ? 'Erreur: User ID invalide' : null,
+                (!v::notEmpty()->numeric()->validate($post['prod_id'])) ? 'Erreur: Product Custom ID invalide' : null,
+            ];
+            $errors = array_filter($err);
+
+            
+            if(count($errors) !== 0){
+                $this->showJson([
+                    'status'    => 'error',
+                    'message'   => implode('<br>', $errors)
+                ]);
+            }
+            else{
+
+                $data = [
+                    'user_id'           => (int) $post['user_id'],
+                    'product_custom_id' => (int) $post['prod_id'],
+                ];
+
+                $likesModel = new LikesModel();
+                $like = $likesModel->findLikeByUserAndProd($data['user_id'], $data['product_custom_id']);
+
+                if(isset($post['action']) && $post['action'] == 'search'){
+
+                    $this->showJson([
+                        'status' => 'success', 
+                        'my_like' => empty($like) ? 'no' : 'yes'
+                    ]);
+                }
+                else{
+
+                    $productsCustomModel = new ProductsCustomModel();
+                    $productCustom = $productsCustomModel->find($data['product_custom_id']);                    
+
+                    $result = empty($like) ? $likesModel->insert($data) : $likesModel->delete($like['id']);
+
+                    $likesCount = empty($like) ? ++$productCustom['likes_count'] : --$productCustom['likes_count'];
+                    $productsCustomModel->update(['likes_count' => $likesCount], $data['product_custom_id']);
+
+                    $this->showJson([
+                        'status'      => 'success', 
+                        'my_like'     => empty($like) ? 'yes' : 'no', 
+                        'likes_count' => $likesCount
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
      * Page d'accueil par défaut
      */
     public function home()
     {
-        $this->show('default/home');
-    }
+        $productsCustomModel = new ProductsCustomModel();
+        $productsSelection = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 1);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $this->show('default/home', ['productsSelection' => $productsSelection]);
+    }
 
     /**
      * Page de connection/identification
@@ -314,7 +376,7 @@ class DefaultController extends Controller
     {
         //-Declaration des diff variables
         $post       = [];
-        $upload_dir = 'assets/upload/';
+        $upload_dir = 'assets/avatars/';
         $maxSize    = (1024 * 1000) * 2;
         $extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -337,7 +399,7 @@ class DefaultController extends Controller
 
             $errors = array_filter($err);
 
-//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+            //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
