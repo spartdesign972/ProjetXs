@@ -39,6 +39,10 @@
 			</tbody>
 		</table>
 	</form>
+	<div class="row">
+		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
+		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Commander</a>
+	</div>
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
