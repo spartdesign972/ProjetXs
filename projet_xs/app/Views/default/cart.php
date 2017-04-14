@@ -28,7 +28,7 @@
 						</div>
 					</td>
 					<td>
-						<input class="form-control" type="text" name="qte" value="<?=$designsFinal['qty'];?>">
+						<input class="form-control" type="number" min="1" name="qte" value="<?=$designsFinal['qty'];?>">
 					</td>
 					<td><?php echo $designsFinal['prix']; ?></td>
 					<td>

@@ -290,7 +290,7 @@ $this->start('link');
         
         echo'
         <form id="label">
-        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design">
+        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design" required>
         <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
         <input id="telecharger" type="button" value="Télécharger votre création">
         <input id="reset" type="button" value="Effacer l\'image">
