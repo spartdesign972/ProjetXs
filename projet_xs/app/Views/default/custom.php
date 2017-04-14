@@ -52,6 +52,20 @@ $this->start('link');
             color: whitesmoke;
          }
          
+         input{
+             width: 100%;
+             margin-top:15px;
+             padding: 5px 0;
+         }
+         
+         input[type="submit"],
+         input[type="button"]{
+             background: rgba(228, 112, 3, 1.0);
+             border:none;
+             border-radius:5px;
+             color: whitesmoke;
+         }
+         
          #target{
              display:none;
          }
@@ -157,9 +171,9 @@ $this->start('link');
         
                 <!--	En-tête des onglets 	-->
 		    	<div class="tabbable"> <!-- Only required for left/right tabs -->
-				  <ul class="nav nav-tabs">
+				  <ul class="nav <!--nav-tabs-->">
 				  	<li class="active"><a href="#tab1" data-toggle="tab">T-Shirt Options</a></li>				    
-				    <li><a href="#tab2" data-toggle="tab">Gravatar</a></li>
+<!--				    <li><a href="#tab2" data-toggle="tab">Gravatar</a></li>-->
 				  </ul>
 				  <div class="tab-content">
 				  
@@ -217,24 +231,32 @@ $this->start('link');
 				     </div>	
 				     
 <!--				Onglet 2 : Gravatar			   -->
+<!--
 				    <div class="tab-pane" id="tab2">
 				    	
 				    	<div class="well">
+-->
                             <!--  Ajout de texte  -->
+<!--
 				    		<div class="input-append">
 							  <input class="span2" id="text-string" type="text" placeholder="add text here..."><button id="add-text" class="btn" title="Add text"><i class="icon-share-alt"></i></button>
 							  <hr>
 							</div>
+-->
 							
                             <!--	Ajout d'images proposées	-->
+<!--
 							<div id="avatarlist">
 								<img style="cursor:pointer;" class="img-polaroid" src="img/invisibleman.jpg">
 							</div>
+-->
                             <!-- Fin images proposées   -->
                     				    		
+<!--
 				    	</div>
 				    				      
 				    </div>
+-->
                     <!--  Fin de tab2  -->
 				    
 				  </div><!-- Fin de tab-content -->
@@ -243,14 +265,25 @@ $this->start('link');
         				
 
        
-            <div class="well">
+            <div class="well upload">
                 
                 <form id="uploadImage" method="post" action="<?=$this->url('default_custom')?>"  enctype="multipart/form-data">
                      <input type="hidden" name="MAX_FILE_SIZE" value="2097152" /> 
-                    <input type="file" name="picture">
-                    <input type="submit" value="Charger l'image">
-                    
+                    <input type="file" name="picture" placeholder="Choisir">
+                    <input type="submit" value="Charger l'image">                 
                 </form>
+<?php
+  
+    if(!empty($_SESSION['user'])){
+        
+        echo'
+        <input id="reset" type="button" value="Effacer l\'image">
+        '
+        ;
+        
+    }
+    
+?>
                 
             </div>
         
@@ -274,6 +307,7 @@ $this->start('link');
 							
 				        </div>
                     <!--                        Image editor-->
+<!--
 							<div class="pull-right" align="" id="imageeditor" style="display:none">
 							  <div class="btn-group">										      
 							      <button class="btn" id="bring-to-front" title="Bring to Front"><i class="icon-fast-backward rotate" style="height:19px;"></i></button>
@@ -281,26 +315,8 @@ $this->start('link');
 							      <button id="flip" type="button" class="btn" title="Show Back View"><i class="icon-retweet" style="height:19px;"></i></button>
 							      <button id="remove-selected" class="btn" title="Delete selected item"><i class="icon-trash" style="height:19px;"></i></button>
 							  </div>
-							</div>
-								
-
-<?php
-  
-    if(!empty($_SESSION['user'])){
-        
-        echo'
-        <form id="label">
-        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design">
-        <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
-        <input id="telecharger" type="button" value="Télécharger votre création">
-        <input id="reset" type="button" value="Effacer l\'image">
-        </form>
-        '
-        ;
-        
-    }
-    
-?>	
+                        </div>
+-->
 					             
 
                     </div>
@@ -329,17 +345,36 @@ $this->start('link');
 			      			<td>Design Avant</td>
 			      			<td align="right">€4.99</td>
 			      		</tr>
+<!--
 			      		<tr>
 			      			<td>Design Arrière</td>
 			      			<td align="right">€4.99</td>
 			      		</tr>
+-->
 			      		<tr>
 			      			<td><strong>Total</strong></td>
 			      			<td align="right"><strong>€22.47</strong></td>
 			      		</tr>
 			      	</table>			
 			      </p>
-					<button type="button" class="btn btn-large btn-block btn-success" name="addToTheBag" id="addToTheBag">Commander</button>
+<!--					<button type="button" class="btn btn-large btn-block btn-success" name="addToTheBag" id="addToTheBag">Commander</button>-->
+<?php
+  
+    if(!empty($_SESSION['user'])){
+        
+        echo'
+        <form id="label">
+        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design">
+        <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
+        <input id="telecharger" type="button" value="Télécharger votre création">
+        </form>
+        '
+        ;
+        
+    }
+    
+?>	
+          
 		      </div>		      		       		   
 		   
         
@@ -386,8 +421,7 @@ Le javascript
           data: data,
           success: function(resultat) {
             $('#result').html(resultat);
-//            $('#image_preview').remove().fadeOut(1600);
-//            $form[0].reset();
+            $('#uploadImage').hide();
           }
         });
       });
@@ -460,10 +494,10 @@ Le javascript
     
         
 //POur effacer l'image
-    $('#reset').click(function(){
+    $('#reset').on('click',function(){
         
         canvas.clear();
-        
+        $('#uploadImage').show();
     });
         
         
