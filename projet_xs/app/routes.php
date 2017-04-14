@@ -53,6 +53,7 @@ $w_routes = array(
     
     ['GET|POST', '/deletedesign', 'Users#deleteDesign', 'user_deleteDesign'],
     
+    ['GET|POST', '/cart/[:id]/[:qte]/[:price]', 'Cart#createcart', 'cart_createcart'],
     
     ['GET|POST', '/cart', 'Cart#showcart', 'cart_showcart'],
     
