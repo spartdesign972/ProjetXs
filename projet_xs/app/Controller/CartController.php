@@ -8,17 +8,18 @@ class CartController extends Controller
 {
     public function showcart()
     {
-
+        
         if (!empty($_SESSION['cart'])) {
             $this->show('default/cart');
         } else {
             echo '<div class="alert alert-danger">Votre panier est vide</div>';
         }
     }
-    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public function fonctionsPanier($id)
     {
-        unset($_SESSION);
+        // unset($_SESSION);
         $design     = new ProductsCustomModel();
         $desingCart = $design->find($id);
 
