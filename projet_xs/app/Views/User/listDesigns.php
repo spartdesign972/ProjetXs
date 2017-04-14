@@ -17,7 +17,7 @@
 								<h3>Thumbnail label</h3>
 								<p>...</p>
 								<p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
-								<p><a href="<?=$this->url('cart_fonctionsPanier', ['id' => $designsFinal['id'], 'qte' => 1, 'price' => 24 ]) ?>" class="btn btn-default" role="button">Ajouter au panier</a></p>
+								<p><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id'], 'qte' => 1, 'price' => 24 ]) ?>" class="btn btn-default" role="button">Ajouter au panier</a></p>
 							</div>
 						</div>
 					</div>

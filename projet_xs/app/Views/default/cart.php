@@ -15,13 +15,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($_SESSION['cart'] as $designsFinal): ?>
-					
+				<?php foreach ($item as $designsFinal): ?>
 				<tr>
 					<td>
 						<p><?=$designsFinal['libelleProduit'];?></p>
 					</td>
-					
 					<td>
 						<div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
 							<div class="thumbnail">
@@ -29,16 +27,13 @@
 							</div>
 						</div>
 					</td>
-					
 					<td>
-						<input class="form-control" type="number" min="1" name="qte">
+						<input class="form-control" type="text" name="qte" value="<?=$designsFinal['qty'];?>">
 					</td>
-					
-					<td></td>
-					
+					<td><?php echo $designsFinal['prix']; ?></td>
 					<td>
 						<p><a href="<?=$this->url('user_deleteDesign')?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id'];?>" role="button">Supprimer</a></p>
-					</td>				
+					</td>
 				</tr>
 				<?php endforeach;?>
 			</tbody>
