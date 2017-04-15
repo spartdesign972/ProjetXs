@@ -185,12 +185,20 @@ $this->start('link');
 					      <div class="well">
 					          
 					          <ul class="nav options">
-					              
-					              <li class="model-preview" title="" data-id="model" data-info="BC-TU004">T-Shirt Manches Courtes</li>
-					              <li class="model-preview" title="" data-id="model" data-info="">T-Shirt Manches Longues</li>
+<?php
+  
+    foreach($list as $value){
+        echo '<li class="model-preview" title="" data-id="model" data-info="'.$value['category_reference'].'" data-name="'.$value['name'].'" data-price="'.$value['price'].'" data-view="'.$value['view'].'">'.$value['name'].'</li>';
+    }
+                                  
+?>
+<!--
+					              <li class="model-preview" title="" data-id="model" data-info="BC-TU004" data-name="T-Shirt Manches Courtes" data-price="9.99">T-Shirt Manches Courtes</li>
+					              <li class="model-preview" title="" data-id="model" data-info="BC-TU005" data-name="T-Shirt Manches Longues" data-price="12.99">T-Shirt Manches Longues</li>
 					              <li class="model-preview" title="" data-id="model" data-info="">Débardeur</li>
 					              <li class="model-preview" title="" data-id="model" data-info="">Sweat Shirt</li>
 					              
+-->
 					          </ul>
 					          
 					      </div>
@@ -298,7 +306,7 @@ $this->start('link');
 					<div id="shirtDiv" class="page" style="width: 530px; height: 630px; position: relative; background-color: rgb(255, 255, 255);margin:0 auto;">
 						
                     <!--  T-Shirt Vierge	-->
-						<img id="tshirtFacing" src="<?= $this->assetUrl('img/custom/crew_front.png') ?>">
+						<img id="tshirtFacing" src="<?= $this->assetUrl('img/custom/'.$list[0]['view']) ?>">
 						
 						<div id="drawingArea" style="position: absolute;top: 100px;left: 160px;z-index: 10;width: 200px;height: 400px;">					
 							
@@ -361,8 +369,8 @@ $this->start('link');
 			      <p>
 			      	<table class="table">
 			      		<tr>
-			      			<td>T-Shirt Manche Courte</td>
-			      			<td align="right">€12.49</td>
+			      			<td id="modelName"><?=$list[0]['name']?></td>
+			      			<td id="modelPrice" align="right"><?=$list[0]['price']?></td>
 			      		</tr>
 			      		<tr>
 			      			<td>Design Avant</td>
@@ -376,7 +384,7 @@ $this->start('link');
 -->
 			      		<tr>
 			      			<td><strong>Total</strong></td>
-			      			<td align="right"><strong>€22.47</strong></td>
+			      			<td id="total" align="right"><strong><?=$list[0]['price']+4.99?></strong></td>
 			      		</tr>
 			      	</table>			
 			      </p>
@@ -455,8 +463,21 @@ Le javascript
         $(this).siblings().css('border','solid #ccc 3px');
         $(this).css('border','solid #000 3px');
         
-        var key = $(this).data('id');
-        var value = $(this).data('info');
+        var key     = $(this).data('id');
+        var value   = $(this).data('info');
+        var txt     = $(this).data('name');
+        var price   = $(this).data('price');
+        var view    = $(this).data('view');
+        
+        if(key == 'model'){
+            
+            var total = price+4.99;
+            
+            $('#modelName').html(txt);
+            $('#modelPrice').html(price);
+            $('#total').html(total);
+            $('#tshirtFacing').attr('src','/projetXs/projet_xs/public/assets/img/custom/'+view);
+        }
         
         reference[key] = value;
         console.log(reference);
@@ -519,8 +540,18 @@ Le javascript
 //POur effacer l'image
     $('#reset').on('click',function(){
         
-        canvas.clear();
-        $('#uploadImage').show();
+        $.ajax({
+            type: 'post',
+            url: '<?=$this->url('default_custom')?>',
+            data: {
+                clear : '<?php if(!empty($_SESSION['picture'])){echo $_SESSION['picture']['source'];} ?>'
+                  },
+            success:function(){
+                canvas.clear();
+                $('#uploadImage').show();
+            }
+        })
+        
     });
         
         

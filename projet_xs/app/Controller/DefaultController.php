@@ -8,6 +8,7 @@ use Model\ContactFormModel;
 use Model\UsersModel;
 use Respect\Validation\Validator as v;
 use \Model\ProductsCustomModel;
+use \Model\ProductsCategoryModel;
 use \W\Controller\Controller;
 use Model\LikesModel;
 use \W\Security\AuthentificationModel;
@@ -677,7 +678,6 @@ class DefaultController extends Controller
                 $fileName = $upload_dir.$name;
                 file_put_contents($fileName, $fileData);
                 
-                var_dump($_POST);
                 
                 //Construire la référence à partir du modele,de la taille et la couleur
                 $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
@@ -702,9 +702,22 @@ class DefaultController extends Controller
                 unset($_SESSION['picture']); 
                 
             }//Fin des enregistrements
+            elseif(isset($_POST['clear'])){//Effacer l'image importé precedemment
+                
+                unlink($upload_dir.$_POST['clear']);
+                unset($_SESSION['picture']);
+                
+            }
             else{//Affichage de la page 
                 
-                $this->show('default/custom');
+                $list = new ProductsCategoryModel();
+                $list = $list->findAllGroupByName();
+                
+                $params = [
+                    'list' => $list,
+                ];
+                
+                $this->show('default/custom',$params);
 
             }
         
