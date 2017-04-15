@@ -11,8 +11,8 @@
 
     <div class="col-xs-12">
       <div class="card-group ">
-        <div class="card">
-          <div class="card-block g-1 text-center">
+        <div class="card col-xs-12 col-sm-8">
+          <div class="card-block text-center">
             <h1 class="login-page">Connexion</h1>
             <p class="text-muted">Accéder à votre compte</p>
             <form method="post" id="add" action="<?=$this->url('login') ?>" class="form-horizontal">
@@ -25,17 +25,17 @@
                 <input class="form-control" type="password" id="password" name="password" placeholder="Votre mot de passe" required>
               </div>
               <div class="row">
-                <div class="col-xs-6">
+                <div class="col-xs-12 col-sm-6 text-left cx-submit">
                   <input type="submit" id="submitForm" class="btn btn-primary"></input>
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-12 col-sm-6 text-right cx-mdp">
                   <a href="<?= $this->url('forgot_password') ?>" title="" class="btn btn-link">Mot de passe oublié ?</a>
                 </div>
               </div>
             </form>
           </div>
         </div>
-        <div class="card card-inverse card-primary text-center" style="width:44%">
+        <div class="card card-inverse card-primary col-xs-12 col-sm-4 text-center">
           <div class="card-block g-2 text-xs-center">
             <div>
               <h2 class="login-page">Inscription</h2>
