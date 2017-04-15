@@ -41,7 +41,7 @@
 								</li>
 							</ul>
 								<ul class="nav navbar-nav navbar-right">
-								<li><a href=" <?=$this->url('logout')?> "><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Deconnection</a></li>
+								<li><a href=" <?=$this->url('logout')?> "><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Déconnexion</a></li>
 								</li>
 							</ul>
 							</div><!-- /.navbar-collapse -->
@@ -56,7 +56,7 @@
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Acceuil</a>
+                        <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Accueil</a>
                     </li>
                     <li>
                         <a href="#anch1" data-scroll>

@@ -1,53 +1,81 @@
-<?php $this->layout('layout', ['title' => 'Laissez un message'])?>
+<?php $this->layout('layout', ['title' => 'Votre Panier'])?>
 <?php $this->start('main_content')?>
-
 <div class="container">
-<h1>Votre Panier</h1>
+	<h1>Votre Panier</h1>
 	<br>
-<form method="post" action="<?=$this->url(cart_creationPanier) ?>">
-<table class="table table-striped">
-<thead>
-	<tr>
-		<td>Libellé</td>
-		<td>Quantité</td>
-		<td>Prix Unitaire</td>
-		<td>Action</td>
-	</tr>
-</thead>
-<tbody>
-<?php
-if (creationPanier()) {
-    $nbArticles = count($_SESSION['panier']['libelleProduit']);
-    if ($nbArticles <= 0) {
-        echo "<tr><td>Votre panier est vide </ td></tr>";
-    } else {
-        for ($i = 0; $i < $nbArticles; $i++) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['libelleProduit'][$i]) . "</ td>";
-            echo "<td><input type=\"text\" size=\"4\" name=\"q[]\" value=\"" . htmlspecialchars($_SESSION['panier']['qteProduit'][$i]) . "\"/></td>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['prixProduit'][$i]) . "</td>";
-            echo "<td><a href=\"" . htmlspecialchars("panier.php?action=suppression&l=" . rawurlencode($_SESSION['panier']['libelleProduit'][$i])) . "\">XX</a></td>";
-            echo "</tr>";
-        }
-
-        echo "<tr><td colspan=\"2\"> </td>";
-        echo "<td colspan=\"2\">";
-        echo "Total : " . MontantGlobal();
-        echo "</td></tr>";
-
-        echo "<tr><td colspan=\"4\">";
-        echo "<input type=\"submit\" value=\"Rafraichir\"/>";
-        echo "<input type=\"hidden\" name=\"action\" value=\"refresh\"/>";
-
-        echo "</td></tr>";
-    }
-}
-?>
-</tbody>
-</table>
-</form>
+	<form method="post" action="">
+		<table class="table jumbotron">
+			<thead>
+				<tr>
+					<td>Libellé</td>
+					<td>Produit</td>
+					<td>Quantité</td>
+					<td>Prix Unitaire</td>
+					<td>Action</td>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($item as $designsFinal): ?>
+				<tr>
+					<td>
+						<p><?=$designsFinal['libelleProduit'];?></p>
+					</td>
+					<td>
+						<div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
+							<div class="thumbnail">
+								<img src="<?=$this->assetUrl('upload/' . $designsFinal['image']);?>" alt="">
+							</div>
+						</div>
+					</td>
+					<td>
+						<input class="form-control" type="number" min="1" name="qte" value="<?=$designsFinal['qty'];?>">
+					</td>
+					<td><?php echo $designsFinal['prix']; ?></td>
+					<td>
+						<p><a href="<?=$this->url('user_deleteDesign')?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id'];?>" role="button">Supprimer</a></p>
+					</td>
+				</tr>
+				<?php endforeach;?>
+			</tbody>
+		</table>
+	</form>
+	<div class="row">
+		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
+		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Commander</a>
+	</div>
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
-
+<?php include './inc/footer.php';?>
 <?php $this->stop('footer')?>
+<?php $this->start('script')?>
+<script>
+$(function(){
+		// Supprimer un design
+					$('body').on('click', '.deleteDesign', function(e){
+							e.preventDefault();
+			var $this = $(this);
+							swal({
+									title: "Effacer ce design",
+									text: "Voulez-vous continuer ?",
+									type: "info",
+									showCancelButton: true,
+									closeOnConfirm: false,
+									showLoaderOnConfirm: true
+									}, function () {
+											setTimeout(function () {
+													$.ajax({
+															method: 'post',
+															url: $this.attr('href'),
+															data: {design_id: $this.data('id')},
+															dataType: 'json',
+															success: function(result){
+																	swal('', result.message, result.status);
+															}
+													});
+											}, 1000);
+							});
+					});
+			});
+</script>
+<?php $this->stop('script')?>

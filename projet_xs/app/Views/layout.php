@@ -52,12 +52,15 @@
 								<?php endif; ?>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
+
 										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Deconnecter</a></li>
+
+									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
+
 									<li class="spacer">--</li>
 								</li>
 								<li>
-									<a href="<?= $this->url('default_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+									<a href="<?= $this->url('cart_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
 									
 								</li>
 							</ul>
@@ -96,14 +99,16 @@
 						<div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav">
 
-								<li><a href="<?=$this->url('default_home')?>">Acceuil</a></li>
+								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
-								<li><a href="<?=$this->url('default_designmembre')?>">Inspiration</a></li>
+								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
+								<li><a href="#">Nous Situer</a></li>
+								<li><a href="<?=$this->url('default_contact')?>">Nous Contacter</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>
 							<ul class="nav navbar-nav navbar-right">
 								<li><i class="fa fa-user-circle-o" aria-hidden="true"></i></li>
-								<li><a href="<?=$this->url('login')?>">Connexion / inscription</a>
+								<li><a href="<?=$this->url('login')?>">Connexion / Inscription</a>
 								</li>
 							</ul>
 							<?php endif; ?>
@@ -129,17 +134,50 @@
 			<script type="text/javascript">
 				$(document).ready(function() {
 
-				var footerHeight = $('#footer').height();
-				positionfooter();
+					var footerHeight = $('#footer').height();
+					positionfooter();
 
-				function positionfooter(){
-					var docHeight = $(window).height();
-					var footerTop = $('#footer').position().top + footerHeight;
-					if (footerTop < docHeight) {
-					$('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
-					}
+					function positionfooter(){
+						var docHeight = $(window).height();
+						var footerTop = $('#footer').position().top + footerHeight;
+						if (footerTop < docHeight) {
+							$('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+						}
 					}
 					$(window).resize(positionfooter);
+
+					// Chargement du bouton Like
+					var $likeButton = $('.my-like');
+					var resHTML = '';
+					$.ajax({
+						method: 'post',
+						url: '<?= $this->url('i_like') ?>',
+						data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id'), action: 'search'},
+						dataType: 'json',
+						success: function(result){
+							if(result.status == 'success') {
+								$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
+							}
+						}
+					});
+
+					// Click sur bouton Like
+					$likeButton.click(function(e){
+						e.preventDefault();
+
+						$.ajax({
+							method: 'post',
+							url: $likeButton.find('a').attr('href'),
+							data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id')},
+							dataType: 'json',
+							success: function(result){
+								if(result.status == 'success') {
+									$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
+									$likeButton.prev('.nb-like').html(result.likes_count + ' <i class="fa fa-heart" aria-hidden="true"></i>')
+								}
+							}
+						});
+					});
 				});
 			</script>
 			<?= $this->section('script') ?>

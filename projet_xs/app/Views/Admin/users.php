@@ -8,11 +8,16 @@
 		<thead>
 			<tr>
 				<th>#</th>
+				<th>Avatar</th>
 				<th>Nom</th>
 				<th>Prénom</th>
 				<th>Pseudo</th>
 				<th>Email</th>
 				<th>Rôle</th>
+				<th>Adresse</th>
+				<th>Code postal</th>
+				<th>Ville</th>
+				<th>Pays</th>
 			</tr>
 		</thead>
 
@@ -35,6 +40,7 @@
 					$.each(users, function(index, value) {
 						resHTML+= '<tr>';
 						resHTML+= '<td>'+value.id+'</td>';
+						resHTML+= '<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('avatars') ?>/'+value.avatar+'" alt=""></td>';
 						resHTML+= '<td>'+value.lastname+'</td>';
 						resHTML+= '<td>'+value.firstname+'</td>';
 						resHTML+= '<td>'+value.username+'</td>';
@@ -43,7 +49,11 @@
 						resHTML+= '<option value="admin"'+(value.role == 'admin' ? ' selected' : '')+'>Administrateur</option>';
 						resHTML+= '<option value="user"'+(value.role == 'user' ? ' selected' : '')+'>Utilisateur</option>'
 						resHTML+= '</select></div></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user_details/'+value.id+'">Visualiser</a></td>';
+						resHTML+= '<td>'+value.street+'</td>';
+						resHTML+= '<td>'+value.zipcode+'</td>';
+						resHTML+= '<td>'+value.city+'</td>';
+						resHTML+= '<td>'+value.country+'</td>';
+						// resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user-details/'+value.id+'">Visualiser</a></td>';
 						resHTML+= '<td><a href="<?= $this->url('admin_delete_user') ?>" class="deleteUser" data-id="'+value.id+'">Supprimer</a></td>';
 						resHTML+= '</tr>';
 						

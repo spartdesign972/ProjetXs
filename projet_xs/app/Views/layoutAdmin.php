@@ -57,7 +57,7 @@
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Acceuil</a>
+                        <a href="<?=$this->url('default_home') ?>"><i class="fa fa-home fa-2x"></i> Acceuil</a>
                     </li>
                     <li>
                         <a href="<?= $this->url('admin_users') ?>" data-scroll>
@@ -65,13 +65,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#anch2" data-scroll>
-                            <span>lien 2</span>
+                        <a href="<?= $this->url('admin_products') ?>" data-scroll>
+                            <span>Produits</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#anch3" data-scroll>
-                            <span>lien 3</span>
+                        <a href="<?= $this->url('admin_categories') ?>" data-scroll>
+                            <span>Catégories</span>
                         </a>
                     </li>
                     <li>
