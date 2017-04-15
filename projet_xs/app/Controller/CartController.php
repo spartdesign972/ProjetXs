@@ -10,7 +10,7 @@ class CartController extends Controller
     {
         $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) ? 'Votre panier est vide' : null;
 
-        $this->show('default/cart', $emptyCart);
+        $this->show('default/cart', ['emptyCart', $emptyCart]);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

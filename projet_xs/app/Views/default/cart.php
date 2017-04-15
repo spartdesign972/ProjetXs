@@ -31,7 +31,7 @@
 						<td>
 							<input class="form-control editQty" type="number" min="1" name="qte" data-id="<?=$_SESSION['cart']['id'][$i];?>" value="<?=$_SESSION['cart']['qty'][$i];?>">
 						</td>
-						<td class="designPrice"><?= $_SESSION['cart']['price'] * $_SESSION['cart']['qty'] ?></td>
+						<td class="designPrice"><?= $_SESSION['cart']['price'][$i] * $_SESSION['cart']['qty'][$i] ?></td>
 						<td>
 							<p><a href="<?=$this->url('cart_remove_design')?>" class="btn btn-default removeDesign" data-id="<?=$_SESSION['cart']['id'][$i];?>" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a></p>
 						</td>
