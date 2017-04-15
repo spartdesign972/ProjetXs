@@ -5,12 +5,12 @@ namespace Controller;
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Model\ContactFormModel;
+use Model\LikesModel;
 use Model\UsersModel;
 use Respect\Validation\Validator as v;
-use \Model\ProductsCustomModel;
 use \Model\ProductsCategoryModel;
+use \Model\ProductsCustomModel;
 use \W\Controller\Controller;
-use Model\LikesModel;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
@@ -61,7 +61,7 @@ class DefaultController extends Controller
      */
     public function i_like()
     {
-        if(!empty($_POST)){
+        if (!empty($_POST)) {
             // nettoyage des données
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
@@ -72,14 +72,12 @@ class DefaultController extends Controller
             ];
             $errors = array_filter($err);
 
-            
-            if(count($errors) !== 0){
+            if (count($errors) !== 0) {
                 $this->showJson([
-                    'status'    => 'error',
-                    'message'   => implode('<br>', $errors)
+                    'status'  => 'error',
+                    'message' => implode('<br>', $errors),
                 ]);
-            }
-            else{
+            } else {
 
                 $data = [
                     'user_id'           => (int) $post['user_id'],
@@ -87,19 +85,18 @@ class DefaultController extends Controller
                 ];
 
                 $likesModel = new LikesModel();
-                $like = $likesModel->findLikeByUserAndProd($data['user_id'], $data['product_custom_id']);
+                $like       = $likesModel->findLikeByUserAndProd($data['user_id'], $data['product_custom_id']);
 
-                if(isset($post['action']) && $post['action'] == 'search'){
+                if (isset($post['action']) && $post['action'] == 'search') {
 
                     $this->showJson([
-                        'status' => 'success', 
-                        'my_like' => empty($like) ? 'no' : 'yes'
+                        'status'  => 'success',
+                        'my_like' => empty($like) ? 'no' : 'yes',
                     ]);
-                }
-                else{
+                } else {
 
                     $productsCustomModel = new ProductsCustomModel();
-                    $productCustom = $productsCustomModel->find($data['product_custom_id']);                    
+                    $productCustom       = $productsCustomModel->find($data['product_custom_id']);
 
                     $result = empty($like) ? $likesModel->insert($data) : $likesModel->delete($like['id']);
 
@@ -107,9 +104,9 @@ class DefaultController extends Controller
                     $productsCustomModel->update(['likes_count' => $likesCount], $data['product_custom_id']);
 
                     $this->showJson([
-                        'status'      => 'success', 
-                        'my_like'     => empty($like) ? 'yes' : 'no', 
-                        'likes_count' => $likesCount
+                        'status'      => 'success',
+                        'my_like'     => empty($like) ? 'yes' : 'no',
+                        'likes_count' => $likesCount,
                     ]);
                 }
             }
@@ -122,7 +119,7 @@ class DefaultController extends Controller
     public function home()
     {
         $productsCustomModel = new ProductsCustomModel();
-        $productsSelection = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 1);
+        $productsSelection   = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 1);
 
         $this->show('default/home', ['productsSelection' => $productsSelection]);
     }
@@ -392,8 +389,8 @@ class DefaultController extends Controller
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
                 (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
                 (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
-                (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
+                (!v::notEmpty()->length(2, 60)->validate($post['street'])) ? 'La rue est invalide' : null,
+                (!v::notEmpty()->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
                 (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le code postal est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
             ];
@@ -458,6 +455,7 @@ class DefaultController extends Controller
                     'country'   => ucfirst($post['country']),
                     'avatar'    => $save_name,
                     'token'     => StringUtils::randomString(),
+                    'role'      => 'user',
                 ];
                 $User = new UsersModel();
                 if ($User->insert($datas)) {
@@ -489,6 +487,7 @@ class DefaultController extends Controller
         $post       = [];
         $upload_dir = 'upload/';
         $maxSize    = (1024 * 1000) * 2;
+        $extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
         $errors     = [];
         $result     = '';
 
@@ -502,8 +501,8 @@ class DefaultController extends Controller
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['firstname'])) ? 'Le prénom est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
                 (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
+                (!v::notEmpty()->length(2, 60)->validate($post['street'])) ? 'La rue est invalide' : null,
+                (!v::notEmpty()->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
                 (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le code postal est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
             ];
@@ -564,7 +563,8 @@ class DefaultController extends Controller
                     'city'      => ucfirst($post['city']),
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
-                    // 'avatar'    => $save_name,
+                    'avatar'    => $save_name,
+                    'token'     => StringUtils::randomString(),
                 ];
                 $User = new UsersModel();
                 if ($User->update($datas, $loggedUser['id'])) {
@@ -572,15 +572,15 @@ class DefaultController extends Controller
 
                 }
 
-                // $this->showJson(['status' => 'success', 'message' => 'Vous avez été modifié avec succès']);
+                $this->showJson(['status' => 'success', 'message' => 'Vous avez été modifié avec succès']);
                 // $result  = '<div class="alert alert-success">Vous avez été modifié avec succès</div>';
                 // $this->flash('Bonjour vous etes bien inscrit', 'info');
 
             } else {
-                // $this->showJson(['status' => 'error', 'message' => implode('<br>', $errors)]);
+                $this->showJson(['status' => 'error', 'message' => implode('<br>', $errors)]);
                 // $result = '<div class="alert alert-danger">' . $errors  . '</div>';
             }
-            echo $result;
+            // echo $result;
         }
         $param = [
             'userModif' => $newUser,
@@ -592,60 +592,61 @@ class DefaultController extends Controller
 ///////////////////////////////////////////////////////////////////////////////////////////
 
     //Page de personnalisation de tShirt
-    public function custom(){
-        
-        $upload_dir = 'assets/upload/';//Dossier d'upload
-        
-            //Upload de l'image       
-            if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-                
-                //Déclaration des variables
-                
-                $maxSize    = (1024 * 1000) * 2;//Taille Maximal du fichier uploadé
-                $extAllowed = ['jpg','jpeg','png','gif'];//Extensions acceptés pour l'upload
-                
-                if (!is_dir($upload_dir)) { //-Si le dossier de destination n'existe pas
-                  mkdir($upload_dir, 0755); // on le crée
-                }
-             
-                $x = explode('.',$_FILES['picture']['name']);//Récupérer le nom de l'extension du fichier  
-                if(in_array($x[1],$extAllowed)){//Vérifier si l'extension du fichier source est accepté
-                    $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-                    
-                    if ($img->filesize() > $maxSize) {
-                      //-Si la taille de l'image est superieure à la dimension donnée
-                      $errors[] = 'Image trop lourde, 2 Mo maximum';
-                    }
+    public function custom()
+    {
 
-                    if(!v::image()->validate($_FILES['picture']['tmp_name'])){
-                      //-On verifie si l'image est valide en verifiant son mimetype
-                      $errors[] = 'L\'avatar est une image invalide';
-                    }
-                    else {
-                      switch ($img->mime()) {
+        $upload_dir = 'assets/upload/'; //Dossier d'upload
+
+        //Upload de l'image
+        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+
+            //Déclaration des variables
+
+            $maxSize    = (1024 * 1000) * 2; //Taille Maximal du fichier uploadé
+            $extAllowed = ['jpg', 'jpeg', 'png', 'gif']; //Extensions acceptés pour l'upload
+
+            if (!is_dir($upload_dir)) { //-Si le dossier de destination n'existe pas
+                mkdir($upload_dir, 0755); // on le crée
+            }
+
+            $x = explode('.', $_FILES['picture']['name']); //Récupérer le nom de l'extension du fichier
+            if (in_array($x[1], $extAllowed)) {
+//Vérifier si l'extension du fichier source est accepté
+                $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+
+                if ($img->filesize() > $maxSize) {
+                    //-Si la taille de l'image est superieure à la dimension donnée
+                    $errors[] = 'Image trop lourde, 2 Mo maximum';
+                }
+
+                if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
+                    //-On verifie si l'image est valide en verifiant son mimetype
+                    $errors[] = 'L\'avatar est une image invalide';
+                } else {
+                    switch ($img->mime()) {
                         case 'image/jpg':
                         case 'image/jpeg':
                         case 'image/pjpeg':
-                          $ext = '.jpg';
-                          break;
+                            $ext = '.jpg';
+                            break;
 
                         case 'image/png':
-                          $ext = '.png';
-                          break;
+                            $ext = '.png';
+                            break;
                         case 'image/gif':
-                          $ext = '.gif';
-                          break;
-                      }
+                            $ext = '.gif';
+                            break;
+                    }
 
                     $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
                     $img->save($upload_dir . $save_name . $ext);
-                    $custom = $upload_dir . $save_name . $ext;
+                    $custom              = $upload_dir . $save_name . $ext;
                     $_SESSION['picture'] = [
-                        'source' => $save_name.$ext,
+                        'source' => $save_name . $ext,
                     ];
-                        //echo $_SESSION['picture']['source'];
+                    //echo $_SESSION['picture']['source'];
                     echo '<script>
-                    fabric.Image.fromURL(\''.$custom.'\',function(img){
+                    fabric.Image.fromURL(\'' . $custom . '\',function(img){
                     img = img;
                     img.scaleToWidth(200);
                     canvas.add(img);
@@ -654,73 +655,72 @@ class DefaultController extends Controller
                     });
                     </script>';
 
-                    }
-          
                 }
-                else{//L'extension du fichier source n'est pas accepté
 
-                    $errors[] = 'L\'avatar est une image invalide';
+            } else {
+//L'extension du fichier source n'est pas accepté
 
-                }
-                
-                
-                
-            }//Fin de l'upload d'image
-            elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
-                
-                $img = $_POST['img'];
-                $img = str_replace('data:image/png;base64,', '', $img);
-                $img = str_replace(' ', '+', $img);
-               
-                $fileData = base64_decode($img);
-                
-                $name = time().'-model.png';
-                $fileName = $upload_dir.$name;
-                file_put_contents($fileName, $fileData);
-                
-                
-                //Construire la référence à partir du modele,de la taille et la couleur
-                $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
-                
-                //Informations à transmettre en bdd
-                $infos = [
-                    'user_id'           => $_SESSION['user']['id'],
-                    'design_label'      => $_POST['label'],
-                    'picture_source'    => $_SESSION['picture']['source'],
-                    'product_reference' => $reference,
-                    'model'             => $name,
-                    'date_create'       => date("Y-m-d H:i:s"),
-                         ];
-                
-                $product = new ProductsCustomModel();
-                
-                if($product->insert($infos)){
-                    
-                    $success= true;
-                }
-             
-                unset($_SESSION['picture']); 
-                
-            }//Fin des enregistrements
-            elseif(isset($_POST['clear'])){//Effacer l'image importé precedemment
-                
-                unlink($upload_dir.$_POST['clear']);
-                unset($_SESSION['picture']);
-                
-            }
-            else{//Affichage de la page 
-                
-                $list = new ProductsCategoryModel();
-                $list = $list->findAllGroupByName();
-                
-                $params = [
-                    'list' => $list,
-                ];
-                
-                $this->show('default/custom',$params);
+                $errors[] = 'L\'avatar est une image invalide';
 
             }
-        
+
+        } //Fin de l'upload d'image
+        elseif (isset($_POST['img'])) {
+//Enregistrement de la création et import d'infos dans la bdd
+
+            $img = $_POST['img'];
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+
+            $fileData = base64_decode($img);
+
+            $name     = time() . '-model.png';
+            $fileName = $upload_dir . $name;
+            file_put_contents($fileName, $fileData);
+
+            //Construire la référence à partir du modele,de la taille et la couleur
+            $reference = $_POST['ref1'] . $_POST['ref2'] . $_POST['ref3'];
+
+            //Informations à transmettre en bdd
+            $infos = [
+                'user_id'           => $_SESSION['user']['id'],
+                'design_label'      => $_POST['label'],
+                'picture_source'    => $_SESSION['picture']['source'],
+                'product_reference' => $reference,
+                'model'             => $name,
+                'date_create'       => date("Y-m-d H:i:s"),
+            ];
+
+            $product = new ProductsCustomModel();
+
+            if ($product->insert($infos)) {
+
+                $success = true;
+            }
+
+            unset($_SESSION['picture']);
+
+        } //Fin des enregistrements
+        elseif (isset($_POST['clear'])) {
+//Effacer l'image importé precedemment
+
+            unlink($upload_dir . $_POST['clear']);
+            unset($_SESSION['picture']);
+
+        } else {
+//Affichage de la page
+
+            $list = new ProductsCategoryModel();
+            $list = $list->findAllGroupByName();
+
+            $params = [
+                'list' => $list,
+            ];
+
+            $this->show('default/custom', $params);
+
+        }
+
     }
 
 //******************************** Methode pour afficher les design creer par les membres ***********************

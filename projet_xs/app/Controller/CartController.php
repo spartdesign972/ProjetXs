@@ -10,7 +10,7 @@ class CartController extends Controller
     {
         $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) ? 'Votre panier est vide' : null;
 
-        $this->show('default/cart', $emptyCart);
+        $this->show('default/cart', ['emptyCart', $emptyCart]);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ class CartController extends Controller
             ];
             $errors = array_filter($err);
 
-            
+
             if(count($errors) !== 0){
                 $this->showJson([
                     'status'    => 'error',
@@ -116,7 +116,7 @@ class CartController extends Controller
             ];
             $errors = array_filter($err);
 
-            
+
             if(count($errors) !== 0){
                 $this->showJson([
                     'status'    => 'error',
@@ -133,7 +133,7 @@ class CartController extends Controller
                     'image'          => [],
                     'price'           => [],
                 ];
-                
+
                 foreach($_SESSION['cart']['id'] as $key => $value) {
                     if($post['design_id'] != $value){
 
