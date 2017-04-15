@@ -454,7 +454,7 @@ class DefaultController extends Controller
                     'city'      => ucfirst($post['city']),
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
-                    'avatar'    => $save_name,
+                    'avatar'    => $save_name.$ext,
                     'token'     => StringUtils::randomString(),
                     'role'      => 'user',
                 ];

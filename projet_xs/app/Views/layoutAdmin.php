@@ -75,8 +75,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#anch4" data-scroll>
-                            <span>lien  4</span>
+                        <a href="<?= $this->url('admin_orders') ?>" data-scroll>
+                            <span>Commandes</span>
                         </a>
                     </li>
                 </ul>

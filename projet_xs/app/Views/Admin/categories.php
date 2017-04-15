@@ -41,7 +41,7 @@
 						resHTML+= '<tr>';
 						resHTML+= '<td>'+value.id+'</td>';
                         resHTML+= '<td></td>';
-						// resHTML+= '<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('img/custom') ?>/'+value.avatar+'" alt=""></td>';
+						resHTML+= '<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('img/custom') ?>/'+value.view+'" alt=""></td>';
 						resHTML+= '<td>'+value.category+'</td>';
 						resHTML+= '<td>'+value.category_reference+'</td>';
 						resHTML+= '<td>'+value.name+'</td>';
