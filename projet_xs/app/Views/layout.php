@@ -24,53 +24,9 @@
 		<?= $this->section('link') ?>
 	</head>
 	<body>
-
-	<?php if(!empty($w_user)): ?>
-			<nav class="navbar navbar-inverse navbar-fixed-top navbar-xs" role="navigation">
-					<div class="container-fluide">
-						<!-- Brand and toggle get grouped for better mobile display -->
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-user-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							</button>
-							<!-- <a class="navbar-brand" href="#">Title</a> -->
-						</div>
-						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse navbar-user-collapse">
-							<ul class="nav-user navbar-nav">
-
-								<li><a href="<?=$this->url('default_modifInfos')?>">Mes informations</a></li>
-								<li><a href="<?=$this->url('default_password')?>">Mon mot de passe</a></li>
-								<li><a href="<?=$this->url('user_listDesigns')?>">Mes Réalisations</a></li>
-								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
-								
-								<?php if($w_user['role'] == 'admin'): ?>
-									<li><a href="<?=$this->url('admin_showadmin')?>">Administration du site</a></li>	
-								<?php endif; ?>
-							</ul>
-							<ul class="nav-user navbar-nav navbar-right">
-
-										<li><span class="text-muted"><?= 'Bienvenue '.$w_user['firstname'].'<br>' ?></span></li>
-
-									<li><a href=" <?= $this->url('logout') ?> ">Me Déconnecter</a></li>
-
-									<li class="spacer">--</li>
-								</li>
-								<li>
-									<a href="<?= $this->url('cart_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>Mon panier</h4></a>
-									
-								</li>
-							</ul>
-							</div><!-- /.navbar-collapse -->
-						</div>
-					</nav>
-		<?php endif; ?>
-
 		<!-- <div id="page"> -->
 		<header>
+
 			<div class="page-header">
 				<div class="container">
 					<div class="row">
@@ -81,9 +37,10 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="row">
 				<!-- <div class="container"> -->
-				<nav class="navbar navbar-default menu" role="navigation" data-spy="affix" data-offset-top="150">
+				<nav class="navbar navbar-default menu" role="navigation" data-spy="affix" data-offset-top="80">
 					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
@@ -116,6 +73,51 @@
 					</nav>
 					<!-- </div> -->
 				</div>
+
+				<?php if(!empty($w_user)): ?>
+			<nav class="navbar navbar-inverse navbar-fixed-top navbar-xs" role="navigation">
+					<div class="container-fluide">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-user-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							</button>
+							<!-- <a class="navbar-brand" href="#">Title</a> -->
+						</div>
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse navbar-user-collapse">
+							<ul class="nav-user navbar-nav">
+
+								<li><a href="<?=$this->url('default_modifInfos')?>">Mes informations</a></li>
+								<li><a href="<?=$this->url('default_password')?>">Mon mot de passe</a></li>
+								<li><a href="<?=$this->url('user_listDesigns')?>">Mes Réalisations</a></li>
+								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
+								
+								<?php if($w_user['role'] == 'admin'): ?>
+									<li><a href="<?=$this->url('admin_showadmin')?>">Administration</a></li>	
+								<?php endif; ?>
+							</ul>
+							<ul class="nav-user navbar-nav navbar-right">
+
+										<li><span class="text-muted"><?= 'Bienvenue '.$w_user['firstname'].'<br>' ?></span></li>
+
+									<li><a href=" <?= $this->url('logout') ?> ">Me Déconnecter</a></li>
+
+									<li class="spacer">--</li>
+								</li>
+								<li>
+									<a href="<?= $this->url('cart_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>Mon panier</h4></a>
+									
+								</li>
+							</ul>
+							</div><!-- /.navbar-collapse -->
+						</div>
+					</nav>
+		<?php endif; ?>
+
 				<?= $this->section('header') ?>
 			</header>
 			<div class="clearfix"></div>
