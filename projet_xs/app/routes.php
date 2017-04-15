@@ -9,9 +9,9 @@ $w_routes = array(
     ['GET|POST', '/creation-des-membres', 'Default#showAlldesignMembres', 'default_showalldesignmembre'],
 
     ['GET|POST', '/creation-des-membres/[:column]/[:ord]', 'Default#designMembres', 'default_designmembre'],
-    
+
     ['GET|POST', '/creation-des-membres/[i:id]', 'Default#membredesignMembres', 'default_membredesignmembre'],
-    
+
     // Route ou les utilisateurs sont rediriger pour se connecter
     ['GET|POST', '/login', 'Default#connect', 'login'],
     ['GET|POST', '/password', 'Default#password', 'default_password'],
@@ -27,7 +27,7 @@ $w_routes = array(
     ['GET|POST', '/contact', 'Default#contact', 'default_contact'],
     // Administration BACK
     ['GET|POST', '/admin', 'Admin#showadmin', 'admin_showadmin'],
-    ['GET|POST', '/admin/login', 'Admin#login', 'admin_login'],		
+    ['GET|POST', '/admin/login', 'Admin#login', 'admin_login'],
     ['GET|POST', '/admin/logout', 'Admin#logout', 'admin_logout'],
     ['GET|POST', '/admin/users', 'Admin#users', 'admin_users'],
     ['GET|POST', '/admin/user-details/[i:id]', 'Admin#user_details', 'admin_user_details'],
@@ -50,15 +50,17 @@ $w_routes = array(
     ['GET|POST', '/vieworders/[i:id]','Users#viewOrder', 'users_viewOrder'],
 
     ['GET|POST', '/listdesigns', 'Users#listDesigns', 'user_listDesigns'],
-    
+
     ['GET|POST', '/deletedesign', 'Users#deleteDesign', 'user_deleteDesign'],
-    
+
     ['GET|POST', '/cart/[i:id]', 'Cart#createcart', 'cart_createcart'],
-    
+
     ['GET|POST', '/cart', 'Cart#showcart', 'cart_showcart'],
 
     ['GET|POST', '/edit-cart', 'Cart#edit_cart', 'cart_edit_qty'],
 
     ['GET|POST', '/remove-cart', 'Cart#remove_cart', 'cart_remove_design'],
-    
+
+    ['GET|POST', '/order', 'Cart#order', 'cart_order'],
+
 );

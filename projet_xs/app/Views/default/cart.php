@@ -1,6 +1,7 @@
 <?php $this->layout('layout', ['title' => 'Votre Panier'])?>
 <?php $this->start('main_content')?>
 <div class="container">
+<?php debug($_SESSION['cart']); ?>
 	<h1>Votre Panier</h1>
 	<br>
 	<?php if(!empty($emptyCart)) : ?>
@@ -19,6 +20,8 @@
 			</thead>
 			<tbody>
 				<?php if(isset($_SESSION['cart'])) : for($i=0; $i < count($_SESSION['cart']['id']); $i++) : ?>
+
+
 					<tr>
 						<td><p><?=$_SESSION['cart']['libelleProduit'][$i]; ?></p></td>
 						<td>
@@ -40,12 +43,12 @@
 				<tr class="total">
 					<td><strong>TOTAL</strong></td>
 					<td><strong><?=array_sum($_SESSION['cart']['price']) ?> &euro;</strong></td>
-				</tr>				
+				</tr>
 			</tbody>
 		</table>
 		<div class="row">
 			<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
-			<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Commander</a>
+			<a href="<?=$this->url('cart_order')?>" class="btn btn-info order" data-id="<?=$_SESSION['cart'];?>"  role="button">Commander</a>
 		</div>
 
 	<?php endif; ?>
