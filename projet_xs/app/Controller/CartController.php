@@ -17,7 +17,7 @@ class CartController extends Controller
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function createcart($id)
     {
         // unset($_SESSION['cart']);
@@ -48,13 +48,13 @@ class CartController extends Controller
                     'ref'            => $product['product_reference'],
                     'qty'            => 1,
                     'image'          => $product['model'],
-                    'prix'           => 24,                  
+                    'prix'           => 24,
                 ];
             } else {
                 foreach ($_SESSION['cart'] as $key => $value) {
                     if ($value['id'] === $id) {
                         $_SESSION['cart'][$key]['qty']++;
-                       
+
                     }
                 }
             }

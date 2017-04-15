@@ -55,7 +55,7 @@
           <a href="<?=$this->url('default_custom')?>" title="" id="makeit"></a>
           <br>
           <div id="btnmakit"><a href="#" title="" class="btn btn-primary">Réaliser</a></div>
-          
+
         </div>
         <div class="col-xs-12 col-sm-4 hidden-xs text-center">
           <div class="wow slideInLeft">
@@ -112,7 +112,7 @@
 
               <h3>Design label</h3>
               <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
-              <div class="row">  
+              <div class="row">
                 <p class="col-xs-6 text-left nb-like">100 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
 </a></p>
@@ -133,7 +133,7 @@
 
               <h3>Design label</h3>
               <p class="design-author-name">par <a href="#" title="">XXXX</a></p>
-              <div class="row">  
+              <div class="row">
                 <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
 </a></p>
@@ -141,7 +141,7 @@
             </div>
           </div>
         </div>
-        
+
         <?php foreach($productsSelection as $product) : ?>
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
@@ -154,7 +154,7 @@
 
               <h3><?= $product['design_label'] ?></h3>
               <p class="design-author-name">par <a href="#" title=""><?= $product['username'] ?></a></p>
-              <div class="row">  
+              <div class="row">
                 <p class="col-xs-6 text-left nb-like"><?= $product['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
                 <?php if(!empty($w_user)) : ?>
                   <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?= $product['id'] ?>"></p>
