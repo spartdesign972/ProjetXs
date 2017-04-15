@@ -690,6 +690,7 @@ class DefaultController extends Controller
                     'product_reference' => $reference,
                     'model'             => $name,
                     'date_create'       => date("Y-m-d H:i:s"),
+                    'price'             => $_POST['price'],
                          ];
                 
                 $product = new ProductsCustomModel();

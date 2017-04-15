@@ -510,6 +510,7 @@ Le javascript
                       ref2      : reference['color'],
                       ref3      : reference['size'],
                       label     : $('#designLabel').val(),
+                      price     : $('#total').text(),
                   }
                 }).done(function(o) {
                   $('#result').html('<p>Votre création a été enregistrée</p>');
