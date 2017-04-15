@@ -48,19 +48,19 @@
 								<li><a href="<?=$this->url('users_listOrders')?>">Mes Commandes</a></li>
 								
 								<?php if($w_user['role'] == 'admin'): ?>
-									<li><a href="<?=$this->url('admin_showadmin')?>">Admin</a></li>	
+									<li><a href="<?=$this->url('admin_showadmin')?>">Administration du site</a></li>	
 								<?php endif; ?>
 							</ul>
 							<ul class="nav-user navbar-nav navbar-right">
 
-										<li><span class="text-muted"><?php echo 'Bienvenue '.$w_user['lastname'].'<br>' ?></span></li>
+										<li><span class="text-muted"><?= 'Bienvenue '.$w_user['firstname'].'<br>' ?></span></li>
 
-									<li><a href=" <?= $this->url('logout') ?> ">Vous Déconnecter</a></li>
+									<li><a href=" <?= $this->url('logout') ?> ">Me Déconnecter</a></li>
 
 									<li class="spacer">--</li>
 								</li>
 								<li>
-									<a href="<?= $this->url('cart_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>0 article(s)</h4></a>
+									<a href="<?= $this->url('cart_showcart') ?>"><i class="fa fa-shopping-cart panier fa-2x" aria-hidden="true"></i><h4>Mon panier</h4></a>
 									
 								</li>
 							</ul>

@@ -57,15 +57,14 @@
 <?php $this->start('script')?>
 <script>
 $(function(){
-
 		// Modifier une quantité
-		$('body').on('change', '.editQty', function(e){
+		$('body').on('change', 'input.editQty', function(e){
 			e.preventDefault();
 
 			var $this = $(this);
 			$.ajax({
 				method: 'post',
-				url: <?= $this->url('cart_edit_qty') ?>,
+				url: '<?= $this->url('cart_edit_qty') ?>',
 				data: {design_id: $this.data('id'), qty: $this.val()},
 				dataType: 'json',
 				success: function(result){
@@ -76,13 +75,13 @@ $(function(){
 		});
 
 		// Rétirer un design
-		$('body').on('click', '.removeDesign', function(e){
+		$('body').on('click', 'a.removeDesign', function(e){
 			e.preventDefault();
 
 			var $this = $(this);
 			$.ajax({
 				method: 'post',
-				url: <?= $this->url('cart_remove_design') ?>,
+				url: $this.attr('href'),
 				data: {design_id: $this.data('id')},
 				dataType: 'json',
 				success: function(result){
@@ -91,6 +90,7 @@ $(function(){
 				}
 			});
 		});
+
 
 });
 </script>
