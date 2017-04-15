@@ -14,6 +14,7 @@ use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
+
 class DefaultController extends Controller
 {
     private $mail;
@@ -679,6 +680,12 @@ class DefaultController extends Controller
                 $fileName = $upload_dir.$name;
                 file_put_contents($fileName, $fileData);
                 
+                if(!isset($_POST['label'])){
+                    $_POST['label'] = 'Custom-'.time();
+                }
+                else{
+                    $_POST['label'] = trim(strip_tags($_POST['label']));
+                }
                 
                 //Construire la référence à partir du modele,de la taille et la couleur
                 $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
@@ -701,17 +708,19 @@ class DefaultController extends Controller
                     $success= true;
                 }
              
-                unset($_SESSION['picture']); 
+                unset($_SESSION['picture']);
+            echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
                 
             }//Fin des enregistrements   
 
-        elseif (isset($_POST['clear'])) {
-//Effacer l'image importé precedemment
-            
-            unlink($upload_dir . $_POST['clear']);
-            unset($_SESSION['picture']);
-
-        } else {
+//        elseif (isset($_POST['clear'])) {
+////Effacer l'image importé precedemment
+//            
+//            unlink($upload_dir . $_POST['clear']);
+//            unset($_SESSION['picture']);
+//
+//        }
+        else {
 //Affichage de la page
 
             $list = new ProductsCategoryModel();

@@ -20,13 +20,14 @@ $this->start('link');
     <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
 <!--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	-->
 
-<!--Il est necessaire d'appeler Jquery en début de script sur cette page sinon la console renvoie 2 erreurs-->
     <script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 	<script type="text/javascript" src="<?= $this->assetUrl('js/fabric.js') ?>"></script>
 	<script type="text/javascript" src="<?= $this->assetUrl('js/tshirtEditor.js') ?>"></script>
 	<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.miniColors.min.js') ?>"></script>
-	<script type="text/javascript" src="<?= $this->assetUrl('js/FileSaver.js') ?>"></script>
-	<script type="text/javascript" src="<?= $this->assetUrl('js/canvas-toBlob.js') ?>"></script>
+<!--
+	<script type="text/javascript" src="<?//= $this->assetUrl('js/FileSaver.js') ?>"></script>
+	<script type="text/javascript" src="<?//= $this->assetUrl('js/canvas-toBlob.js') ?>"></script>
+-->
 	<script type="text/javascript" src="<?= $this->assetUrl('js/html2canvas.js') ?>"></script>
 	
 	
@@ -66,6 +67,47 @@ $this->start('link');
              color: whitesmoke;
          }
          
+         .lightbox{
+             position:absolute;
+             z-index: 9999;
+             width:100%;
+             height:100%;
+             background:rgba(255,255,255,0.6);
+         }
+         
+         .lightbox > div {
+             display:block;
+             margin:auto;
+             background:rgb(255,255,255);
+             width:80%;
+         }
+         
+         .lightbox > div > p {
+             color : rgba(228, 112, 3, 1.0);
+         }
+         
+         .lightbox > div > img {
+             display:block;
+             margin:auto;
+             height:80%;
+         }
+         
+         .lightbox > div {
+             text-align: center;
+         }
+         
+         .lightbox > div > a {
+             display: inline-block;
+             margin: 10px;
+             margin: 10px;
+             padding:15px;
+             background: rgba(228, 112, 3, 1.0);
+             border:none;
+             border-radius:5px;
+             color: whitesmoke;
+         }
+         
+         
          #target{
              display:none;
          }
@@ -83,7 +125,7 @@ $this->start('link');
 */
          
          .model-preview,
-         .size{
+         /*.size*/{
             border: 3px solid #CCC;
             border-radius: 2px;
 	      	margin: 2px;
@@ -97,9 +139,11 @@ $this->start('link');
 	      	overflow: hidden;    
          }
          
+/*
          .size{
              width:36px;
          }
+*/
          
 	      .color-preview {
 	      	border: 3px solid #CCC;
@@ -113,11 +157,12 @@ $this->start('link');
 	      	width: 20px;
 	      	height: 20px;
 	      }
+/*
 	      .rotate {  
 		    -webkit-transform:rotate(90deg);
 		    -moz-transform:rotate(90deg);
 		    -o-transform:rotate(90deg);
-		    /* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); */
+		     filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); 
 		    -ms-transform:rotate(90deg);		   
 		}		
 		.Arial{font-family:"Arial";}
@@ -134,6 +179,7 @@ $this->start('link');
 		.HoeflerText{font-family:"Hoefler Text";}
 		.Plaster{font-family:"Plaster";}
 		.Engagement{font-family:"Engagement";}
+*/
          
 
 	 </style>
@@ -328,21 +374,21 @@ $this->start('link');
 								
 
 <?php
-  
-    if(!empty($_SESSION['user'])){
-        
-        echo'
-        <form id="label">
-        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design" required>
-        <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
-        <input id="telecharger" type="button" value="Télécharger votre création">
-        <input id="reset" type="button" value="Effacer l\'image">
-        </form>
-        '
-        ;
-        
-    }
-    
+//  
+//    if(!empty($_SESSION['user'])){
+//        
+//        echo'
+//        <form id="label">
+//        <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design" required>
+//        <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
+//        <input id="telecharger" type="button" value="Télécharger votre création">
+//        <input id="reset" type="button" value="Effacer l\'image">
+//        </form>
+//        '
+//        ;
+//        
+//    }
+//    
 ?>	
 
                         </div>
@@ -397,7 +443,6 @@ $this->start('link');
         <form id="label">
         <label>Nom du Design : </label><input id="designLabel" type="text" name="design_label" placeholder="Nom Design">
         <input id="enregistrer" type="button" value="Enregistrer votre création" data-user="'.$_SESSION['user']['id'].'">
-        <input id="telecharger" type="button" value="Télécharger votre création">
         </form>
         '
         ;
@@ -480,7 +525,7 @@ Le javascript
         }
         
         reference[key] = value;
-        console.log(reference);
+        
     });
         
         
@@ -504,7 +549,6 @@ Le javascript
                   type: 'post',
                   url: '<?=$this->url('default_custom')?>',
                   data: { 
-                      //userId    : $(this).data('user'),
                       img       : dataURL,
                       ref1      : reference['model'],
                       ref2      : reference['color'],
@@ -513,9 +557,10 @@ Le javascript
                       price     : $('#total').text(),
                   }
                 }).done(function(o) {
-                  $('#result').html('<p>Votre création a été enregistrée</p>');
-                  console.log(o);
-
+                    $('body').prepend(o);
+                    $('#box').attr('class','lightbox');
+                    $('#new').attr('href','<?= $this->url('default_custom') ?>');
+                    $('#viewAll').attr('href','<?= $this->url('user_listDesigns') ?>');
                 });
               
               }//Fin de rendered
@@ -528,14 +573,14 @@ Le javascript
         
  
 //Pour le téléchargement de l'image 
-    $('#telecharger').click(function(){
-        
-        $("#tcanvas").get(0).toBlob(function(blob){
-           console.log(blob);
-            saveAs(blob, "myIMG.png");
-        });
-        
-    });
+//    $('#telecharger').click(function(){
+//        
+////        $("#tcanvas").get(0).toBlob(function(blob){
+////           console.log(blob);
+////            saveAs(blob, "myIMG.png");
+////        });
+//        
+//    });
     
         
 //POur effacer l'image
