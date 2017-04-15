@@ -3,7 +3,10 @@
 <div class="container">
 	<h1>Votre Panier</h1>
 	<br>
-	<form method="post" action="">
+	<?php if(!empty($emptyCart)) : ?>
+		<div class="alert alert-info"><?= $emptyCart ?></div>
+	<?php else : ?>
+
 		<table class="table jumbotron">
 			<thead>
 				<tr>
@@ -15,34 +18,37 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach ($item as $designsFinal): ?>
-				<tr>
-					<td>
-						<p><?=$designsFinal['libelleProduit'];?></p>
-					</td>
-					<td>
-						<div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
-							<div class="thumbnail">
-								<img src="<?=$this->assetUrl('upload/' . $designsFinal['image']);?>" alt="">
+				<?php if(isset($_SESSION['cart'])) : for($i=0; $i < count($_SESSION['cart']['id']); $i++) : ?>
+					<tr>
+						<td><p><?=$_SESSION['cart']['libelleProduit'][$i]; ?></p></td>
+						<td>
+							<div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
+								<div class="thumbnail">
+									<img src="<?=$this->assetUrl('upload/' . $_SESSION['cart']['image'][$i]);?>" alt="">
+								</div>
 							</div>
-						</div>
-					</td>
-					<td>
-						<input class="form-control" type="number" min="1" name="qte" value="<?=$designsFinal['qty'];?>">
-					</td>
-					<td><?php echo $designsFinal['prix']; ?></td>
-					<td>
-						<p><a href="<?=$this->url('user_deleteDesign')?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id'];?>" role="button">Supprimer</a></p>
-					</td>
-				</tr>
-				<?php endforeach;?>
+						</td>
+						<td>
+							<input class="form-control editQty" type="number" min="1" name="qte" data-id="<?=$_SESSION['cart']['id'][$i];?>" value="<?=$_SESSION['cart']['qty'][$i];?>">
+						</td>
+						<td class="designPrice"><?= $_SESSION['cart']['price'] * $_SESSION['cart']['qty'] ?></td>
+						<td>
+							<p><a href="<?=$this->url('cart_remove_design')?>" class="btn btn-default removeDesign" data-id="<?=$_SESSION['cart']['id'][$i];?>" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a></p>
+						</td>
+					</tr>
+				<?php endfor; endif; ?>
+				<tr class="total">
+					<td><strong>TOTAL</strong></td>
+					<td><strong><?=array_sum($_SESSION['cart']['price']) ?> &euro;</strong></td>
+				</tr>				
 			</tbody>
 		</table>
-	</form>
-	<div class="row">
-		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
-		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Commander</a>
-	</div>
+		<div class="row">
+			<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
+			<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Commander</a>
+		</div>
+
+	<?php endif; ?>
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
@@ -51,31 +57,41 @@
 <?php $this->start('script')?>
 <script>
 $(function(){
-		// Supprimer un design
-					$('body').on('click', '.deleteDesign', function(e){
-							e.preventDefault();
+
+		// Modifier une quantité
+		$('body').on('change', '.editQty', function(e){
+			e.preventDefault();
+
 			var $this = $(this);
-							swal({
-									title: "Effacer ce design",
-									text: "Voulez-vous continuer ?",
-									type: "info",
-									showCancelButton: true,
-									closeOnConfirm: false,
-									showLoaderOnConfirm: true
-									}, function () {
-											setTimeout(function () {
-													$.ajax({
-															method: 'post',
-															url: $this.attr('href'),
-															data: {design_id: $this.data('id')},
-															dataType: 'json',
-															success: function(result){
-																	swal('', result.message, result.status);
-															}
-													});
-											}, 1000);
-							});
-					});
+			$.ajax({
+				method: 'post',
+				url: <?= $this->url('cart_edit_qty') ?>,
+				data: {design_id: $this.data('id'), qty: $this.val()},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
 			});
+		});
+
+		// Rétirer un design
+		$('body').on('click', '.removeDesign', function(e){
+			e.preventDefault();
+
+			var $this = $(this);
+			$.ajax({
+				method: 'post',
+				url: <?= $this->url('cart_remove_design') ?>,
+				data: {design_id: $this.data('id')},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
+			});
+		});
+
+});
 </script>
 <?php $this->stop('script')?>
