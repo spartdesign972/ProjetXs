@@ -42,7 +42,6 @@ class UsersController extends \W\Controller\Controller
         $view           = new OrdersModel();
         $order          = $view->find($id);
         $panierCommande = json_decode($order['products']);
-
         $params = [
             'view_order'     => $order,
             "success"        => $success,
