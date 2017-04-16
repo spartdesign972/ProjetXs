@@ -54,6 +54,7 @@ $(function(){
 															dataType: 'json',
 															success: function(result){
 																	swal('', result.message, result.status);
+																	location.reload();
 
 															}
 													});

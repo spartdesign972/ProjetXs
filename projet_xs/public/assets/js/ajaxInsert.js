@@ -17,15 +17,15 @@ $(function() { // équivalent $(document).ready(function(){
           case 'success':
             $('#result').html('<div class="alert alert-success">'+resultat.message+'</div>');
             $('#image_preview').remove().fadeOut(1600);
-            $form.after("<div style='height: 150px'></div>")
+            $form.after("<div style='height: 150px'></div>");
             $form.remove();
             break;
 
           case 'error':
             $('#result').html('<div class="alert alert-danger">'+resultat.message+'</div>');
             break;
-        }        
+        }
       }
-    });  
+    });
   });
 });
