@@ -22,10 +22,10 @@
           <img src="<?= $this->assetUrl('img/wall2.jpg') ?>" alt="Chania">
         </div>
         <div class="item">
-          <img src="<?= $this->assetUrl('img/heart.jpg') ?>" alt="Flower">
+          <img src="<?= $this->assetUrl('img/CREATION.jpg') ?>" alt="Flower">
         </div>
         <div class="item">
-          <img src="<?= $this->assetUrl('img/heart.jpg') ?>" alt="Flower">
+          <img src="<?= $this->assetUrl('img/Sans-titre-1.jpg') ?>" alt="Flower">
         </div>
       </div>
       <!-- Left and right controls -->
