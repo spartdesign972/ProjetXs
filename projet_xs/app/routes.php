@@ -47,7 +47,7 @@ $w_routes = array(
 
     ['GET|POST', '/listorders', 'Users#listOrders', 'users_listOrders'],
 
-    ['GET|POST', '/vieworders/[i:id]','Users#viewOrder', 'users_viewOrder'],
+    ['GET|POST', '/vieworders/[:id]','Users#viewOrder', 'users_viewOrder'],
 
     ['GET|POST', '/listdesigns', 'Users#listDesigns', 'user_listDesigns'],
 
@@ -62,5 +62,7 @@ $w_routes = array(
     ['GET|POST', '/remove-cart', 'Cart#remove_cart', 'cart_remove_design'],
 
     ['GET|POST', '/order', 'Cart#order', 'cart_order'],
+
+    ['GET|POST', '/message', 'Cart#viewMessageOrder', 'cart_viewMessageOrder'],
 
 );

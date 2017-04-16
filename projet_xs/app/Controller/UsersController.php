@@ -5,7 +5,6 @@ namespace Controller;
 use Model\OrdersModel;
 use Model\ProductsCustomModel;
 use \W\Controller\Controller;
-use \W\Model\UsersModel;
 
 class UsersController extends \W\Controller\Controller
 {
@@ -40,18 +39,15 @@ class UsersController extends \W\Controller\Controller
         $success = false;
         $error   = [];
 
-        $view  = new OrdersModel();
-        $order = $view->find($id);
-
-        // $listAll = new CommentsModel();
-        // $arti = $id;
-        // $viewComment = $listAll->findAllcomment($arti);
-        // // echo json_encode($viewComment);
+        $view           = new OrdersModel();
+        $order          = $view->find($id);
+        $panierCommande = json_decode($order['products']);
 
         $params = [
-            'view_order' => $order,
-            "success"    => $success,
-            "error"      => $error,
+            'view_order'     => $order,
+            "success"        => $success,
+            "error"          => $error,
+            'panierCommande' => $panierCommande,
         ];
         //affiche un template
         $this->show('User/viewOrder', $params);
@@ -86,8 +82,7 @@ class UsersController extends \W\Controller\Controller
         } else {
             $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
         }
-       
-    }
 
+    }
 
 }

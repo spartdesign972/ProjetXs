@@ -1,8 +1,8 @@
 <?php
 namespace Controller;
 
-use \Model\ProductsCustomModel;
 use \Model\OrdersModel;
+use \Model\ProductsCustomModel;
 use \W\Controller\Controller;
 
 class CartController extends Controller
@@ -157,28 +157,34 @@ class CartController extends Controller
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function order()
+    public function order($id)
     {
-
-        $datas = [
+        $successText = '';
+        $errorsText  = '';
+        $panierCommande = [];
+        $datas       = [
             // colonne sql => valeur à insérer
             'user_id'     => $_SESSION['user']['id'],
-            'products'    => json_decode($_SESSION['cart']['price'], $_SESSION['cart']['image'], $_SESSION['cart']['libelleProduit']),
+            'products'    => json_encode($_SESSION['cart']),
             'total'       => array_sum($_SESSION['cart']['price']),
             'date_create' => date("Y-m-d H:i:s"),
         ];
         $order = new OrdersModel();
         if ($order->insert($datas)) {
-            $this->showJson(['status' => 'success', 'message' => 'Votre commande a été ajoutée avec succès']);
-            // $result  = '<div class="alert alert-success"></div>';
-            // $this->flash('Bonjour vous etes bien inscrit', 'info');
-        } else {
-            $this->showJson(['status' => 'error', 'message' => 'Il y a eu un problem à l\'ajout de votree commande']);
-            // $result = '<div class="alert alert-danger">' .  . '</div>';
-        }
-        $this->show('User/viewOrder');
 
-        // echo $result;
+        $vieworder = $order->find($id);
+
+
+            $successText = 'Votre commande a été ajoutée avec succès';
+        } else {
+            $errorsText = 'Il y a eu un problem à l\'ajout de votre commande';
+        }
+        $params = [
+            'successText' => $successText,
+            'errorsText'  => $errorsText,
+
+        ];
+        $this->show('default/messageOrder',$params);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

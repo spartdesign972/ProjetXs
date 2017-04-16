@@ -1,8 +1,7 @@
-<?php $this->layout('layout', ['title' => 'Vos commandes']) ?>
-<?php $this->start('main_content'); ?>
-
-	<h1></h1>
-	<div class="container">
+<?php $this->layout('layout', ['title' => 'Vos commandes'])?>
+<?php $this->start('main_content');?>
+<h1></h1>
+<div class="container">
 	<!-- En-Tête de Présentation -->
 	<div class="contact col-xs-12">
 		<h1>Les Commandes</h1>
@@ -17,7 +16,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach($Order as $viewOrder): ?>
+				<?php foreach ($Order as $viewOrder): ?>
 				<tr>
 					<td><?=$viewOrder['date_create'];?></td>
 					<td><?='Commande N°: ' . $viewOrder['id'];?></td>
@@ -40,13 +39,12 @@
 					</a>
 				</td>
 			</tr>
-		<?php endforeach; ?>
+			<?php endforeach;?>
 		</tbody>
 	</table>
 </div>
 </div>
-
-<?php $this->stop('main_content'); ?>
-<?php $this->start('footer'); ?>
-<?php include './inc/footer.php'; ?>
-<?php $this->stop('footer'); ?>
+<?php $this->stop('main_content');?>
+<?php $this->start('footer');?>
+<?php include './inc/footer.php';?>
+<?php $this->stop('footer');?>
