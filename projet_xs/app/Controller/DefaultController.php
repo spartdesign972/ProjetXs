@@ -454,7 +454,7 @@ class DefaultController extends Controller
                     'city'      => ucfirst($post['city']),
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
-                    'avatar'    => $save_name.$ext,
+                    'avatar'    => $save_name,
                     'token'     => StringUtils::randomString(),
                     'role'      => 'user',
                 ];
@@ -510,7 +510,7 @@ class DefaultController extends Controller
 
             $errors = array_filter($err);
 
-            //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
@@ -549,8 +549,6 @@ class DefaultController extends Controller
                     $errors[] = 'L\'avatar est une image invalide';
 
                 }
-            } else {
-                $errors[] = 'Vous n\'avez pas choisi d\'avatar';
             }
 
             if (count($errors) === 0) {
@@ -624,7 +622,7 @@ class DefaultController extends Controller
 
                 if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
                     //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
+                    $errors[] = 'L\'image n\'a pas un format invalide';
                 } else {
                     switch ($img->mime()) {
                         case 'image/jpg':
@@ -663,61 +661,76 @@ class DefaultController extends Controller
             } else {
             //L'extension du fichier source n'est pas accepté
 
-                $errors[] = 'L\'avatar est une image invalide';
+                $errors[] = 'L\'image a un format invalide';
 
                 }
-
-
-
+                
+                
+                
             }//Fin de l'upload d'image
             elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
-
+                
                 $img = $_POST['img'];
                 $img = str_replace('data:image/png;base64,', '', $img);
                 $img = str_replace(' ', '+', $img);
-
+               
                 $fileData = base64_decode($img);
-
+                
                 $name = time().'-model.png';
                 $fileName = $upload_dir.$name;
                 file_put_contents($fileName, $fileData);
+                
+                if(isset($_SESSION['picture']['source'])){
+                    if(!isset($_POST['label'])){//Si aucun nom n'est défini, on en crée un
+                        $_POST['label'] = 'Custom-'.time();
+                    }
+                    else{
+                        if(strlen($_POST['label'])<=20){
 
-                if(!isset($_POST['label'])){
-                    $_POST['label'] = 'Custom-'.time();
+                        $_POST['label'] = trim(strip_tags($_POST['label']));
+
+                        }
+                    }
+                
+                    //Construire la référence à partir du modele,de la taille et la couleur
+                    $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
+
+                    //Informations à transmettre en bdd
+                    $infos = [
+                        'user_id'           => $_SESSION['user']['id'],
+                        'design_label'      => $_POST['label'],
+                        'picture_source'    => $_SESSION['picture']['source'],
+                        'product_reference' => $reference,
+                        'model'             => $name,
+                        'date_create'       => date("Y-m-d H:i:s"),
+                        'price'             => $_POST['price'],
+                             ];
+
+                    $product = new ProductsCustomModel();
+
+                    if($product->insert($infos)){
+
+                        //$success= true;
+                        unset($_SESSION['picture']);
+                        echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
+                    }
+                    }
+                    else{//Aucune image n'a été importé
+
+                        $errors[] = 'Vous devez importer une image avant d\'enregistrer';
+                    }
+                
+                if (count($errors) > 0){
+                    
+                    echo '<p>'.implode('<br>', $errors).'</p>';
+                    
                 }
-                else{
-                    $_POST['label'] = trim(strip_tags($_POST['label']));
-                }
-
-                //Construire la référence à partir du modele,de la taille et la couleur
-                $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
-
-                //Informations à transmettre en bdd
-                $infos = [
-                    'user_id'           => $_SESSION['user']['id'],
-                    'design_label'      => $_POST['label'],
-                    'picture_source'    => $_SESSION['picture']['source'],
-                    'product_reference' => $reference,
-                    'model'             => $name,
-                    'date_create'       => date("Y-m-d H:i:s"),
-                    'price'             => $_POST['price'],
-                         ];
-
-                $product = new ProductsCustomModel();
-
-                if($product->insert($infos)){
-
-                    $success= true;
-                }
-
-                unset($_SESSION['picture']);
-            echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
-
-            }//Fin des enregistrements
+                
+            }//Fin des enregistrements   
 
 //        elseif (isset($_POST['clear'])) {
 ////Effacer l'image importé precedemment
-//
+//            
 //            unlink($upload_dir . $_POST['clear']);
 //            unset($_SESSION['picture']);
 //
@@ -764,7 +777,7 @@ class DefaultController extends Controller
         if ($column == 'username') {
             $order = ' ORDER BY U.username';
         } elseif ($column == 'like') {
-            $order = ' ORDER BY P.likes_count';
+            $order = ' ORDER BY P.like';
         } elseif ($column == 'date') {
             $order = ' ORDER BY P.date_create';
         }

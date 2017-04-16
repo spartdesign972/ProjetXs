@@ -125,7 +125,7 @@ $this->start('link');
 */
          
          .model-preview,
-         /*.size*/{
+         .size{
             border: 3px solid #CCC;
             border-radius: 2px;
 	      	margin: 2px;
@@ -139,11 +139,11 @@ $this->start('link');
 	      	overflow: hidden;    
          }
          
-/*
+
          .size{
              width:36px;
          }
-*/
+
          
 	      .color-preview {
 	      	border: 3px solid #CCC;
