@@ -1,7 +1,7 @@
 <?php $this->layout('layout', ['title' => 'Laissez un message'])?>
 <?php $this->start('main_content')?>
 
-<<<<<<< HEAD
+
 <div class="container">
 	<h1>Contacter nous</h1>
 	<div id="result"></div>
