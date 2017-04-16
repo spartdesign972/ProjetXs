@@ -14,7 +14,7 @@
 						<div class="thumbnail">
 							<img src="<?=$this->assetUrl('upload/' . $designsFinal['model']);?>" alt="">
 							<div class="caption">
-								<h3>Thumbnail label</h3>
+								<h3><?=$designsFinal['design_label'] ?></h3>
 								<p>...</p>
 								<p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
 								<p><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
@@ -54,7 +54,7 @@ $(function(){
 															dataType: 'json',
 															success: function(result){
 																	swal('', result.message, result.status);
-																
+
 															}
 													});
 											}, 1000);
