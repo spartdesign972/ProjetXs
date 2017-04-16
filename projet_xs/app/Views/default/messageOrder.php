@@ -1,6 +1,6 @@
 <?php $this->layout('layout', ['title' => 'Message'])?>
 <?php $this->start('main_content')?>
-<div class="container" style="width: 370px">
+<div class="container" style="width: 390px">
 <br>
 <br>
   <?php if (!empty($errorsText)): ?>

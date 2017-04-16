@@ -20,7 +20,6 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
       </thead>
       <tbody>
         <?php if (!empty($view_order)): ?>
-          <?php debug($view_order) ?>
         <?php $panierCmd =  (array)$panierCommande?>
         <tr>
           <td><?=$view_order['date_create'];?></td>
