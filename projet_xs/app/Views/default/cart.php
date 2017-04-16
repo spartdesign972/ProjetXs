@@ -88,10 +88,6 @@ $(function(){
 			});
 		});
 
-
-
-
-
 });
 </script>
 <?php $this->stop('script')?>
