@@ -143,6 +143,7 @@
         </div>
 
         <?php foreach($productsSelection as $product) : ?>
+
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
           <div class="thumbnail">
             <img src="<?= $this->assetUrl('upload/' .$product['model']) ?>" alt="">
