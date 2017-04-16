@@ -76,7 +76,7 @@
 
 				<?php if(!empty($w_user)): ?>
 			<nav class="navbar navbar-inverse navbar-fixed-top navbar-xs" role="navigation">
-					<div class="container-fluide">
+					<div class="container-fluid">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-user-collapse">
@@ -149,39 +149,39 @@
 						}
 					}
 					$(window).resize(positionfooter);
-
-					// Chargement du bouton Like
-					var $likeButton = $('.my-like');
-					var resHTML = '';
-					$.ajax({
-						method: 'post',
-						url: '<?= $this->url('i_like') ?>',
-						data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id'), action: 'search'},
-						dataType: 'json',
-						success: function(result){
-							if(result.status == 'success') {
-								$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
-							}
-						}
-					});
-
-					// Click sur bouton Like
-					$likeButton.click(function(e){
-						e.preventDefault();
-
+					$('.my-like').each(function(){
+						// Chargement du bouton Like
+						var $likeButton = $(this);
+						var resHTML = '';
 						$.ajax({
 							method: 'post',
-							url: $likeButton.find('a').attr('href'),
-							data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id')},
+							url: '<?= $this->url('i_like') ?>',
+							data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id'), action: 'search'},
 							dataType: 'json',
 							success: function(result){
 								if(result.status == 'success') {
 									$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
-									$likeButton.prev('.nb-like').html(result.likes_count + ' <i class="fa fa-heart" aria-hidden="true"></i>')
 								}
 							}
 						});
-					});
+
+						// Click sur bouton Like
+						$likeButton.click(function(e){
+							e.preventDefault();
+							$.ajax({
+								method: 'post',
+								url: $likeButton.find('a').attr('href'),
+								data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id')},
+								dataType: 'json',
+								success: function(result){
+									if(result.status == 'success') {
+										$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
+										$likeButton.prev('.nb-like').html(result.likes_count + ' <i class="fa fa-heart" aria-hidden="true"></i>')
+									}
+								}
+							});
+						});
+					})
 				});
 			</script>
 			<?= $this->section('script') ?>
