@@ -12,9 +12,9 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
       <thead>
         <tr>
           <th>Date de commande</th>
-          <th>Commande N° :</th>
-          <th>Produits : </th>
-          <th>Etat de la commande :</th>
+          <th width="120px">Commande N°</th>
+          <th>Produits</th>
+          <th>Etat de la commande</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,14 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
         <tr>
           <td><?=$view_order['date_create'];?></td>
           <td><?=$view_order['id'];?></td>
-          <td><?=$view_order['products'];?></td>
+          <td>
+            <?=$panierCommande->libelleProduit[0]?>
+            <br>
+            <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCommande->image[0])?>" alt="">
+            <br> <?=$panierCommande->libelleProduit[1]?>
+            <br>
+            <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCommande->image[1])?>" alt="">
+          </td>
           <td><?=$view_order['status'];?></td>
         </tr>
         <?php else: ?>
@@ -33,6 +40,6 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
   </div>
 </div>
 <?php $this->stop('main_content')?>
-<?php $this->start('footer'); ?>
-<?php include './inc/footer.php'; ?>
-<?php $this->stop('footer'); ?>
+<?php $this->start('footer');?>
+<?php include './inc/footer.php';?>
+<?php $this->stop('footer');?>
