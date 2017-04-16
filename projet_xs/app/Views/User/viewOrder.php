@@ -3,7 +3,6 @@
 $this->layout('layout', ['title' => 'Le detail de votre commande'])
 ?>
 <?php $this->start('main_content');?>
-
 <div class="container">
   <div class="contact col-xs-12">
     <legend><h2>Détails de la commande</h2>
@@ -16,26 +15,28 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
           <th width="120px">Commande N°</th>
           <th>Produits</th>
           <th>Etat de la commande</th>
+          <th>Total de la commande</th>
         </tr>
       </thead>
       <tbody>
         <?php if (!empty($view_order)): ?>
-          <?php $panierCmd =  (array)$panierCommande?>
+        <?php $panierCmd =  (array)$panierCommande?>
         <tr>
           <td><?=$view_order['date_create'];?></td>
           <td><?=$view_order['id'];?></td>
-            <td>
-              <?php foreach ($panierCmd['libelleProduit'] as $key => $value): ?>
-              <div class="thumbnail">
-                <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCmd['image'][$key])?>" alt="">
-                <div class="caption text-center">
-                  <h3><?=$panierCmd['libelleProduit'][$key]?></h3>
-                </div>
+          <td>
+            <?php foreach ($panierCmd['libelleProduit'] as $key => $value): ?>
+            <div class="thumbnail">
+              <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCmd['image'][$key])?>" alt="">
+              <div class="caption text-center">
+                <h3><?=$panierCmd['libelleProduit'][$key]?></h3>
               </div>
-              <br>
-              <?php endforeach ?>
-            </td>
+            </div>
+            <br>
+            <?php endforeach ?>
+          </td>
           <td><?=$view_order['status'];?></td>
+          <td><?=$view_order['total']; ?></td>
         </tr>
         <?php else: ?>
         Aucune commande trouvée !
