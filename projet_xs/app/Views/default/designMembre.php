@@ -1,4 +1,4 @@
-<?php $this->layout('layout', ['title' => 'Accueil']) ?>
+<?php $this->layout('layout', ['title' => 'Design des membres']) ?>
 <?php $this->start('main_content') ?>
 <!--
 ******************************** le slider *********************************

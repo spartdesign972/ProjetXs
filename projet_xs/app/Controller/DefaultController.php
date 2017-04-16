@@ -764,7 +764,7 @@ class DefaultController extends Controller
         if ($column == 'username') {
             $order = ' ORDER BY U.username';
         } elseif ($column == 'like') {
-            $order = ' ORDER BY P.like';
+            $order = ' ORDER BY P.likes_count';
         } elseif ($column == 'date') {
             $order = ' ORDER BY P.date_create';
         }
