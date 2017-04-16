@@ -25,10 +25,12 @@
             <h3 class="text-center"><?= $designsFinal['design_label'] ?></h3>
             <p class="design-author-name">Créer par : <a href="<?= $this->url('default_membredesignmembre', ['id'=>$designsFinal['user_id']]); ?>" title=""><?= $designsFinal['username'] ?></a></p>
             <div class="row">
-              <p class="col-xs-6 text-left nb-like">250 <i class="fa fa-heart" aria-hidden="true"></i></p>
-              <p class="col-xs-6 text-right"><a href="#" class="btn btn-default" role="button">Like <i class="fa fa-heart like-yes" aria-hidden="true"></i>
+              <p class="col-xs-6 text-left nb-like"><?= $designsFinal['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
+               <?php if(!empty($w_user)) : ?>
+             <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?= $designsFinal['id'] ?>"></p>
               </a></p>
               <p class="text-center"><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
+                <?php endif; ?>
             </div>
           </div>
         </div>
