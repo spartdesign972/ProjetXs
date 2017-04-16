@@ -61,30 +61,32 @@ $(function(){
 			var $this = $(this);
 			$.ajax({
 				method: 'post',
-url: <?=$this->url('cart_edit_qty')?>,
-data: {design_id: $this.data('id'), qty: $this.val()},
-dataType: 'json',
-success: function(result){
-// swal('', result.message, result.status);
-location.reload();
-}
-});
-});
-// Rétirer un design
-$('body').on('click', '.removeDesign', function(e){
-e.preventDefault();
-var $this = $(this);
-$.ajax({
-method: 'post',
-url: <?=$this->url('cart_remove_design')?>,
-data: {design_id: $this.data('id')},
-dataType: 'json',
-success: function(result){
-// swal('', result.message, result.status);
-location.reload();
-}
-});
-});
+				url: '<?= $this->url('cart_edit_qty') ?>',
+				data: {design_id: $this.data('id'), qty: $this.val()},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
+			});
+		});
+
+		// Rétirer un design
+		$('body').on('click', 'a.removeDesign', function(e){
+			e.preventDefault();
+
+			var $this = $(this);
+			$.ajax({
+				method: 'post',
+				url: $this.attr('href'),
+				data: {design_id: $this.data('id')},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
+			});
+		});
 });
 </script>
 <?php $this->stop('script')?>

@@ -2,6 +2,7 @@
 namespace Controller;
 
 use \Model\OrdersModel;
+use Respect\Validation\Validator as v;
 use \Model\ProductsCustomModel;
 use \W\Controller\Controller;
 
@@ -10,7 +11,7 @@ class CartController extends Controller
     public function showcart()
     {
 
-        $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) ? 'Votre panier est vide' : null;
+        $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart']['id'])) ? 'Votre panier est vide' : null;
 
         $this->show('default/cart', ['emptyCart', $emptyCart]);
     }
