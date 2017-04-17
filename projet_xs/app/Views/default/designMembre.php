@@ -5,6 +5,9 @@
 -->
 <div class="container">
   <div class="row">
+  <?php var_dump($nbDesign); ?><br>
+
+  <p>Nombre de design en base : <?=$nbDesign['total'] ?> </p>
     <p class="col-xs-12 text-center">Trier par :
       <a href="<?= $this->url('default_designmembre', ['column' => 'username','ord' => 'asc' ]); ?>" class="btn btn-info">Pseudo <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_designmembre', ['column' => 'username','ord' => 'desc' ]); ?>" class="btn btn-primary">Pseudo <i class="fa fa-arrow-down" aria-hidden="true"></i></a>

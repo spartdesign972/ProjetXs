@@ -754,12 +754,18 @@ class DefaultController extends Controller
 //******************************** Methode pour afficher les design creer par les membres ***********************
     public function showAlldesignMembres()
     {
+        $nbDesignCount = new ProductsCustomModel();
+        $nbDesign = $nbDesignCount->nbProducts();
+        $nbParPage = 8;
+        $nbPage = ceil($nbDesign['total'] / $nbPaprPage);
+
 
         $order       = '';
         $listdesigns = new ProductsCustomModel();
         $design      = $listdesigns->findDesign($order);
         $params      = [
             'design' => $design,
+            'nbDesign' => $nbDesign,
         ];
         $this->show('default/designMembre', $params);
     }
