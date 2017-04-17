@@ -3,58 +3,101 @@ namespace Model;
 
 use \W\Model\ConnectionModel;
 
-class UsersModel extends \W\Model\UsersModel
+class UsersModel extends MasterModel
 {
 	/**
-	 * Récupère toutes les lignes de la table
-	 * @param $groupBy La colonne en fonction de laquelle grouper
-	 * @param $orderBy La colonne en fonction de laquelle trier
-	 * @param $orderDir La direction du tri, ASC ou DESC
-	 * @param $limit Le nombre maximum de résultat à récupérer
-	 * @param $offset La position à partir de laquelle récupérer les résultats
-	 * @return array Les données sous forme de tableau multidimensionnel
+	 * Constructeur
 	 */
-	public function findAll($groupBy = '', $orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
+	public function __construct(){
+		$app = getApp();
+		// Définit la table en fonction de la config
+		$this->setTable($app->getConfig('security_user_table'));
+
+		$this->dbh = ConnectionModel::getDbh();
+	}
+
+	/**
+	 * Récupère un utilisateur en fonction de son email ou de son pseudo
+	 * @param string $usernameOrEmail Le pseudo ou l'email d'un utilisateur
+	 * @return mixed L'utilisateur, ou false si non trouvé
+	 */
+	public function getUserByUsernameOrEmail($usernameOrEmail)
 	{
 
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . $this->table;
-		if (!empty($groupBy)){
-			//sécurisation des paramètres, pour éviter les injections SQL
-			if(!preg_match('#^[a-zA-Z0-9_$]+$#', $groupBy)){
-				die('Error: invalid orderBy param');
+		$app = getApp();
+
+		$sql = 'SELECT * FROM ' . $this->table . 
+			   ' WHERE ' . $app->getConfig('security_username_property') . ' = :username' . 
+			   ' OR ' . $app->getConfig('security_email_property') . ' = :email LIMIT 1';
+
+		$dbh = ConnectionModel::getDbh();
+		$sth = $dbh->prepare($sql);
+		$sth->bindValue(':username', $usernameOrEmail);
+		$sth->bindValue(':email', $usernameOrEmail);
+		
+		if($sth->execute()){
+			$foundUser = $sth->fetch();
+			if($foundUser){
+				return $foundUser;
 			}
-			$sql .= ' GROUP BY '.$groupBy;
 		}
-		if (!empty($orderBy)){
 
-			//sécurisation des paramètres, pour éviter les injections SQL
-			if(!preg_match('#^[a-zA-Z0-9_$]+$#', $orderBy)){
-				die('Error: invalid orderBy param');
-			}
-			$orderDir = strtoupper($orderDir);
-			if($orderDir != 'ASC' && $orderDir != 'DESC'){
-				die('Error: invalid orderDir param');
-			}
-			if ($limit && !is_int($limit)){
-				die('Error: invalid limit param');
-			}
-			if ($offset && !is_int($offset)){
-				die('Error: invalid offset param');
-			}
-
-			$sql .= ' ORDER BY '.$orderBy.' '.$orderDir;
-		}
-        if($limit){
-            $sql .= ' LIMIT '.$limit;
-            if($offset){
-                $sql .= ' OFFSET '.$offset;
-            }
-        }
-		$sth = $this->dbh->prepare($sql);
-		$sth->execute();
-
-		return $sth->fetchAll();
+		return false;
 	}
+
+	/**
+	* Teste si un email est présent en base de données
+	* @param string $email L'email à tester
+	* @return boolean true si présent en base de données, false sinon
+	*/
+	public function emailExists($email)
+	{
+
+	   $app = getApp();
+
+	   $sql = 'SELECT ' . $app->getConfig('security_email_property') . ' FROM ' . $this->table .
+	          ' WHERE ' . $app->getConfig('security_email_property') . ' = :email LIMIT 1';
+
+	   $dbh = ConnectionModel::getDbh();
+	   $sth = $dbh->prepare($sql);
+	   $sth->bindValue(':email', $email);
+	   if($sth->execute()){
+	       $foundUser = $sth->fetch();
+	       if($foundUser){
+	           return true;
+	       }
+	   }
+
+	   return false;
+	}
+
+	/**
+	 * Teste si un pseudo est présent en base de données
+	 * @param string $username Le pseudo à tester
+	 * @return boolean true si présent en base de données, false sinon
+	 */
+	public function usernameExists($username)
+	{
+
+	    $app = getApp();
+
+	    $sql = 'SELECT ' . $app->getConfig('security_username_property') . ' FROM ' . $this->table .
+	           ' WHERE ' . $app->getConfig('security_username_property') . ' = :username LIMIT 1';
+
+	    $dbh = ConnectionModel::getDbh();
+	    $sth = $dbh->prepare($sql);
+	    $sth->bindValue(':username', $username);
+	    if($sth->execute()){
+	        $foundUser = $sth->fetch();
+	        if($foundUser){
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Récupère un utilisateur en fonction de son email et de son token
@@ -110,13 +153,6 @@ class UsersModel extends \W\Model\UsersModel
 		}
 
 		return false;
-	}
-
-	public function lastFoundRows() {
-		
-		$resultFoundRows = $this->dbh->query('SELECT found_rows()');
-		
-		return $resultFoundRows->fetchColumn();
 	}
 
 }

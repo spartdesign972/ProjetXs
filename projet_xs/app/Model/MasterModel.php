@@ -1,13 +1,21 @@
 <?php
 namespace Model;
 
-class ProductsModel extends MasterModel
+class MasterModel extends \W\Model\Model
 {
-
-	public function findAllWithCategory($groupBy = '', $orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
+	/**
+	 * Récupère toutes les lignes de la table
+	 * @param $groupBy La colonne en fonction de laquelle grouper
+	 * @param $orderBy La colonne en fonction de laquelle trier
+	 * @param $orderDir La direction du tri, ASC ou DESC
+	 * @param $limit Le nombre maximum de résultat à récupérer
+	 * @param $offset La position à partir de laquelle récupérer les résultats
+	 * @return array Les données sous forme de tableau multidimensionnel
+	 */
+	public function findAll($groupBy = '', $orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
 	{
 
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS p.*, pc.category, pc.name FROM ' . $this->table . ' as p JOIN products_category as pc ON p.category_id = pc.id';
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS * FROM ' . $this->table;
 		if (!empty($groupBy)){
 			//sécurisation des paramètres, pour éviter les injections SQL
 			if(!preg_match('#^[a-zA-Z0-9_$]+$#', $groupBy)){
@@ -44,6 +52,13 @@ class ProductsModel extends MasterModel
 		$sth->execute();
 
 		return $sth->fetchAll();
+	}
+
+	public function lastFoundRows() {
+		
+		$resultFoundRows = $this->dbh->query('SELECT found_rows()');
+		
+		return $resultFoundRows->fetchColumn();
 	}
 
 }
