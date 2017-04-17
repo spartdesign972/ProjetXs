@@ -72,6 +72,11 @@ $w_routes = array(
 
     ['GET|POST', '/message', 'Cart#viewMessageOrder', 'cart_viewMessageOrder'],
 
-    ['GET|POST', '/viewFacturePdf', 'Users#viewFacturePdf', 'user_viewFacturePdf'],
+    ['GET|POST', '/viewFacturePdf/[i:id]', 'Pdf#viewFacturePdf', 'pdf_viewFacturePdf'],
+    
+    ['GET|POST', '/generatefacture/[:id]', 'Pdf#genrateFacture', 'pdf_genrateFacture'],
+
+
+
 
 );
