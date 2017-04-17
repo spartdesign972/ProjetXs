@@ -27,7 +27,7 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
           <td>
             <?php foreach ($panierCmd['libelleProduit'] as $key => $value): ?>
             <div class="thumbnail">
-              <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCmd['image'][$key])?>" alt="">
+              <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCmd['image'][$key])?>">
               <div class="caption text-center">
                 <h3><?=$panierCmd['libelleProduit'][$key]?></h3>
               </div>

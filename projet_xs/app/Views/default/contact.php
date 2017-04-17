@@ -5,6 +5,7 @@
 <div class="container">
 
 	<h1 class="text-center">Contacter nous</h1>
+<div id="result" style="width: 370px"></div>
 	<form class="jumbotron form-horizontal" action="<?=$this->url('default_contact') ?>" method="post" id="subscribe_form">
 					<fieldset>
 						<!-- last_name-->
