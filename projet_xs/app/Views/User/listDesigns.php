@@ -17,8 +17,10 @@
 								<h3><?=$designsFinal['design_label'] ?></h3>
 								<p>
 									<label class="btn btn-warning">
-										<input type="checkbox" name="confirmation" class="confirm" value="1" href="<?=$this->url('user_publicDesign') ?>" data-id="<?=$designsFinal['id']; ?>">
-										<span class="glyphicon glyphicon-ok"></span></label>
+										<input type="checkbox" name="confirmation" class="confirm" data-value="<?=$designsFinal['public']?>" href="<?=$this->url('user_publicDesign') ?>" data-id="<?=$designsFinal['id']; ?>" value="<?=$designsFinal['public']?>">
+										<?php if($designsFinal['public'] == 1): ?>
+											<span class="glyphicon glyphicon-ok"></span></label>
+										<?php endif; ?>
 								</p>
 								<p><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
 								<p><a href="<?=$this->url('user_deleteDesign') ?>" class="btn btn-default deleteDesign" data-id="<?=$designsFinal['id']; ?>" role="button">Supprimer</a></p>
@@ -71,8 +73,16 @@ $(function(){
 					$('body').on('click', '.confirm', function(e){
 							e.preventDefault();
 							var $this = $(this);
+							if($this.data('value') == 0){
+								var val = 1;
+								var mess = "Vous vous apprêter à rendre ce design public";
+							}else if($this.data('value') == 1){
+								var val = 0;
+								var mess = "Vous vous apprêter a ne plus rendre ce design publique";
+							}
+							console.log(val);
 							swal({
-									title: "Vous vous apprêter à rendre ce design public",
+									title: mess,
 									text: "Voulez-vous continuer ?",
 									type: "info",
 									showCancelButton: true,
@@ -83,15 +93,15 @@ $(function(){
 													$.ajax({
 															method: 'post',
 															url: $this.attr('href'),
-															data: {confirm_id: $this.data('id')},
+															data: {confirm_id: $this.data('id'), state: val},
 															dataType: 'json',
 															success: function(result){
 																	swal('', result.message, result.status);
-																	// location.reload();
+																	location.reload();
 
 															}
 													});
-											}, 1000);
+											}, 1);
 							});
 					});
 			});

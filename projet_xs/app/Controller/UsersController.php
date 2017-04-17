@@ -89,7 +89,7 @@ class UsersController extends \W\Controller\Controller
     {
         if ($_POST["confirm_id"] && !empty($_POST['confirm_id']) && is_numeric($_POST['confirm_id'])) {
 
-            $confirmation = 1;
+            $confirmation = (int) $_POST['state'];
             $confirm_id = (int) $_POST['confirm_id'];
 
             $data         = [
