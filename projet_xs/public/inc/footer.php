@@ -31,7 +31,7 @@
           </ul>
 
           <h2>Nous Situer</h2><hr>
-          <a href="#" class="lien-address">Voir nos coordonnées</a>
+          <a href="<?=$this->url('default_contact'); ?>" class="lien-address">Voir nos coordonnées</a>
         </div>
         
       </div>

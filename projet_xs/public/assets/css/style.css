@@ -383,6 +383,7 @@ iframe {
 
 .canva-aff{
     min-height: 500px!important;
+    max-height: 520px!important;
     height: 520px;
 }
 
@@ -444,7 +445,7 @@ iframe {
         margin-right: 0;
         margin-left: 0;
     }
-
+    
 }
 @media only screen and (max-width: 992px) {
     .navbar-default .navbar-nav > li > a{

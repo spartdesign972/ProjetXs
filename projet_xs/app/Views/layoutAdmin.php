@@ -25,7 +25,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="#">ProjectXs-Admin</a>
+							<a class="navbar-brand text-muted" href="#">ProjectXs-Admin</a>
 							<a id="menu-toggle" href="#" class="btn btn-menu btn-lg">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                   </a>
@@ -49,7 +49,7 @@
 					</nav>
 					<?= $this->section('header') ?>
 
-				<div id="wrapper" data-spy="scroll" data-target="#spy" class="">
+				<div id="wrapper">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -58,30 +58,30 @@
                     <li class="sidebar-brand">
                         <a href="<?=$this->url('default_home') ?>"><i class="fa fa-home fa-2x"></i> Acceuil</a>
                     </li>
-                    <li>
-                        <a href="<?= $this->url('admin_users') ?>" data-scroll>
+                    <li <?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_users') ?>"<?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
                             <span>Utilisateurs</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= $this->url('admin_products') ?>" data-scroll>
+                    <li <?php if($title == 'Produits'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_products') ?>"<?php if($title == 'Produits'): ?>class="active"<?php endif; ?>>
                             <span>Produits</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= $this->url('admin_categories') ?>" data-scroll>
+                    <li <?php if($title == 'Catégories'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_categories') ?>" <?php if($title == 'Catégories'): ?>class="active"<?php endif; ?>>
                             <span>Catégories</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="<?= $this->url('admin_orders') ?>" data-scroll>
+                    <li <?php if($title == 'Commandes'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_orders') ?>"<?php if($title == 'Commandes'): ?>class="active"<?php endif; ?>>
                             <span>Commandes</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-
+<?php var_dump($title) ?>
         <!-- Page content -->
         <div id="page-content-wrapper">
             <?= $this->section('main_content') ?>

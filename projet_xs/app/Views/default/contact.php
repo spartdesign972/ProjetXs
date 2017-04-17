@@ -85,7 +85,6 @@
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
 	<?php include './inc/footer.php'; ?>
->>>>>>> refs/remotes/origin/dev
 <?php $this->stop('footer')?>
 <?php $this->start('script')?>
 <script src="<?=$this->assetUrl('js/ajaxInsert.js')?>" type="text/javascript"></script>

@@ -43,6 +43,9 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
         <?php endif;?>
       </tbody>
     </table>
+    <div class="col-xs-12 text-center">
+      <a href="<?= $this->url('user_viewFacturePdf') ?>" class="btn btn-info">Télécharger la facture</a>
+    </div>
   </div>
 </div>
 <?php $this->stop('main_content')?>
