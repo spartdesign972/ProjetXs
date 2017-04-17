@@ -3,6 +3,7 @@ namespace Controller;
 
 use Respect\Validation\Validator as v;
 use \Model\ProductsCustomModel;
+use \Model\OrdersModel;
 use \W\Controller\Controller;
 
 class CartController extends Controller
@@ -11,7 +12,7 @@ class CartController extends Controller
     {
         $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart']['id'])) ? 'Votre panier est vide' : null;
 
-        $this->show('default/cart', ['emptyCart', $emptyCart]);
+        $this->show('default/cart', ['emptyCart' => $emptyCart]);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,11 +157,11 @@ class CartController extends Controller
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function order($id)
+    public function order()
     {
         $successText = '';
         $errorsText  = '';
-        $panierCommande = [];
+
         $datas       = [
             // colonne sql => valeur à insérer
             'user_id'     => $_SESSION['user']['id'],
@@ -170,9 +171,6 @@ class CartController extends Controller
         ];
         $order = new OrdersModel();
         if ($order->insert($datas)) {
-
-        $vieworder = $order->find($id);
-
 
             $successText = 'Votre commande a été ajoutée avec succès';
         } else {

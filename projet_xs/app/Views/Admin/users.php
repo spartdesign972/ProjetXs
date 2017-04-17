@@ -20,108 +20,48 @@
 				<th>Pays</th>
 			</tr>
 		</thead>
-
-		<tbody id="usersAjax">
+		<tbody>
+			<?php if(count($set) == 0) : ?>
+				<tr><td class="danger text-danger text-center">Aucun utilisateur...</td></tr>
+			<?php else : foreach ($set as $user) : ?>
+				<tr>
+					<td><?= $user['id'] ?></td>
+					<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('avatars').'/'.$user['avatar'] ?>" alt=""></td>
+					<td><?= $user['lastname'] ?></td>
+					<td><?= $user['firstname'] ?></td>
+					<td><?= $user['username'] ?></td>
+					<td><?= $user['email'] ?></td>
+					<td>
+						<div class="form-group-sm">
+							<select class="form-control roleChange" data-id="<?= $user['id'] ?>"<?= ($user['id'] == $w_user['id']) ? ' disabled' : '' ?>>
+								<option value="admin"<?= ($user['role'] == 'admin') ? ' selected' : '' ?>>Administrateur</option>
+								<option value="user"<?= ($user['role'] == 'user') ? ' selected' : '' ?>>Utilisateur</option>
+							</select>
+						</div>
+					</td>
+					<td><?= $user['street'] ?></td>
+					<td><?= $user['zipcode'] ?></td>
+					<td><?= $user['city'] ?></td>
+					<td><?= $user['country'] ?></td>
+					<td><a href="<?= $this->url('admin_delete_user') ?>" class="deleteUser" data-id="<?= $user['id'] ?>">Supprimer</a></td>
+				</tr>
+			<?php endforeach; endif; ?>
 		</tbody>
 	</table>
+
+	<?php 	$navigationUrl = $this->url('admin_users'); 
+			include '_navigation.php'; ?>
+
 <?php $this->stop('main_content') ?>
 
 <?php $this->start('script') ?>
 	<script>
-		// Chargement des utilisateurs
-		function loadUsers() {
-
-			$.getJSON('<?= $this->url('admin_users') ?>?json=true', function(users){
-				if(users.length == 0){
-					$('#usersAjax').html('<tr><td class="danger text-danger text-center">Aucun utilisateur...</td></tr>');
-				}
-				else{
-					var resHTML = '';
-					$.each(users, function(index, value) {
-						resHTML+= '<tr>';
-						resHTML+= '<td>'+value.id+'</td>';
-						resHTML+= '<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('avatars') ?>/'+value.avatar+'" alt=""></td>';
-						resHTML+= '<td>'+value.lastname+'</td>';
-						resHTML+= '<td>'+value.firstname+'</td>';
-						resHTML+= '<td>'+value.username+'</td>';
-						resHTML+= '<td>'+value.email+'</td>';
-						resHTML+= '<td><div class="form-group-sm"><select class=" form-control roleChange" data-id="'+value.id+'"'+(value.id == <?= $w_user['id'] ?> ? ' disabled' : '')+'>';
-						resHTML+= '<option value="admin"'+(value.role == 'admin' ? ' selected' : '')+'>Administrateur</option>';
-						resHTML+= '<option value="user"'+(value.role == 'user' ? ' selected' : '')+'>Utilisateur</option>'
-						resHTML+= '</select></div></td>';
-						resHTML+= '<td>'+value.street+'</td>';
-						resHTML+= '<td>'+value.zipcode+'</td>';
-						resHTML+= '<td>'+value.city+'</td>';
-						resHTML+= '<td>'+value.country+'</td>';
-						// resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/user-details/'+value.id+'">Visualiser</a></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_delete_user') ?>" class="deleteUser" data-id="'+value.id+'">Supprimer</a></td>';
-						resHTML+= '</tr>';
-						
-					});
-					$('#usersAjax').html(resHTML);
-				}
-			});
-		}
-
-		loadUsers();
-
         $(function(){
 
-			// Supprimer un utilisateur
-            $('body').on('click', 'a.deleteUser', function(e){
-                e.preventDefault();
+			change_role('<?= $this->url('admin_change_role') ?>');
 
-				var $deleteUser = $(this);
-                swal({
-                    title: "Effacer cet utilisateur",
-                    text: "Voulez-vous continuer ?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                    }, function () {
-                        setTimeout(function () {
-                            $.ajax({
-                                method: 'post',
-                                url: $deleteUser.attr('href'),
-                                data: {user_id: $deleteUser.data('id')},
-                                dataType: 'json',
-                                success: function(result){
-                                    swal('', result.message, result.status);
-                                    loadUsers();
-                                }
-                            });
-                        }, 1000);
-                });
-            });
-
-			// Modifier un rôle
-            $('body').on('change', 'select.roleChange', function(e){
-                e.preventDefault();
-
-				var $roleChange = $(this);
-
-				$.ajax({
-					method: 'post',
-					url: '<?= $this->url('admin_change_role') ?>',
-					data: {user_id: $roleChange.data('id'), user_role: $roleChange.find(':selected').val()},
-					dataType: 'json',
-					success: function(result){
-						switch (result.status) {
-							case 'error':
-								swal('', result.message, result.status);
-								loadUsers();
-								break;
-							
-							case 'success':
-								$roleChange.parent().addClass('has-success has-feedback');
-								break;
-						}
-					}
-				});
-            });
+			ajax_delete('a.deleteUser', 'Effacer cet utilisateur');
 
         });
-
 	</script>
 <?php $this->stop('script') ?>

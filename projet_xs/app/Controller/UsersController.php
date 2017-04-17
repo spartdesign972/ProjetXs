@@ -42,8 +42,7 @@ class UsersController extends \W\Controller\Controller
         $view           = new OrdersModel();
         $order          = $view->find($id);
         $panierCommande = json_decode($order['products']);
-
-        $params = [
+        $params         = [
             'view_order'     => $order,
             "success"        => $success,
             "error"          => $error,
@@ -81,6 +80,31 @@ class UsersController extends \W\Controller\Controller
             }
         } else {
             $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+        }
+
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function publicDesign()
+    {
+        if ($_POST["confirm_id"] && !empty($_POST['confirm_id']) && is_numeric($_POST['confirm_id'])) {
+
+            $confirmation = (int) $_POST['state'];
+            $confirm_id = (int) $_POST['confirm_id'];
+
+            $data         = [
+                'public' => $confirmation,
+            ];
+
+            $designPublic = new ProductsCustomModel();
+
+            if ($designPublic->update($data, $confirm_id)) {
+
+            $this->showJson(['status' => 'success', 'message' => 'Votre design est désormais public']);
+            }
+        } else {
+            $confirmation = 0;
+            $this->showJson(['status' => 'error', 'message' => 'l\'update ne passe pas']);
         }
 
     }

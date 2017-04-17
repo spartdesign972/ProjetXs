@@ -8,12 +8,63 @@ use Respect\Validation\Validator as v;
 use Model\UsersModel;
 use Model\ProductsModel;
 use Model\ProductsCategoryModel;
+use Model\OrdersModel;
 use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
 class AdminController extends Controller
 {
+    private $mail;
+
+    private function mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML)
+    {
+        $app = getApp();
+
+        //Create a new PHPMailer instance
+        $this->mail = new \PHPMailer;
+        //Tell PHPMailer to use SMTP
+        $this->mail->isSMTP();
+        $this->mail->CharSet = 'utf-8';
+        //Set the hostname of the mail server
+        $this->mail->Host = $app->getConfig('phpmailer_host');
+        // if your network does not support SMTP over IPv6
+        //Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $this->mail->Port = $app->getConfig('phpmailer_port');
+        //Set the encryption system to use - ssl (deprecated) or tls
+        $this->mail->SMTPSecure = $app->getConfig('phpmailer_SMTPSecure');
+        //Whether to use SMTP authentication
+        $this->mail->SMTPAuth = $app->getConfig('phpmailer_SMTPAuth');
+        //Username to use for SMTP authentication - use full email address for gmail
+        $this->mail->Username = $app->getConfig('phpmailer_username');
+        //Password to use for SMTP authentication
+        $this->mail->Password = $app->getConfig('phpmailer_password');
+
+        //Set who the message is to be sent from
+        $this->mail->setFrom($fromAddress, $fromName);
+        //Set who the message is to be sent to
+        $this->mail->addAddress($toAddress, $toName);
+        //Set the subject line
+        $this->mail->Subject = $subject;
+        //Read an HTML message body from an external file, convert referenced images to embedded,
+        //convert HTML into a basic plain-text alternative body
+        $this->mail->msgHTML($msgHTML);
+        //send the message, check for errors
+        if (!$this->mail->send()) {
+            echo "Mailer Error: " . $this->mail->ErrorInfo;
+        }
+    }
+
+		private function paginate($page, $limit, $model, $modelMethod)
+		{
+				$params['page'] 	= $page;
+				$params['limit'] 	= $limit;
+				$params['set'] 		= $model->{$modelMethod}('id', 'id', 'ASC', $limit, ($page - 1) * $limit);
+				$params['total'] 	= $model->lastFoundRows();
+
+				return $params;
+		}
+
 	/**
 	 * Vérifie les droits d'accès de l'utilisateur en fonction de son rôle
 	 * @param  string  	$role Le rôle pour lequel on souhaite vérifier les droits d'accès
@@ -128,13 +179,12 @@ class AdminController extends Controller
 	{
     $this->allowTo('admin');
     
-    if(isset($_GET['json']) && $_GET['json']){
-		  $selectUsers = new UsersModel();
-		  $this->showJson($selectUsers->findAll());
-    }
-    else{
-      $this->show('admin/users');
-    }
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+		
+		$params = $this->paginate($page, $limit, new UsersModel(), 'findAll');
+
+    $this->show('admin/users', $params);
 	}
 
 	/**
@@ -162,11 +212,11 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $user_id = (int) $_POST['user_id'];
-
+      $user_id = (int) $_POST['id'];
 			$usersModel = new UsersModel();
+			
       if($usersModel->delete($user_id)){
         $this->showJson(['status' => 'success', 'message' => 'Utilisateur #'.$user_id.' supprimé']);
       }
@@ -177,7 +227,7 @@ class AdminController extends Controller
   }
 
 	/**
-	 * Supprimer un utilisateur
+	 * Change un rôle utilisateur
 	 */
   public function change_role()
   {
@@ -214,13 +264,12 @@ class AdminController extends Controller
 	{
     $this->allowTo('admin');
     
-    if(isset($_GET['json']) && $_GET['json']){
-		  $productsModel = new ProductsModel();
-		  $this->showJson($productsModel->findAllWithCategory());
-    }
-    else{
-      $this->show('admin/products');
-    }
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+
+		$params = $this->paginate($page, $limit, new ProductsModel(), 'findAllWithCategory');
+
+    $this->show('admin/products', $params);
 	}
 
 	/**
@@ -231,7 +280,7 @@ class AdminController extends Controller
 		$this->allowTo('admin');
 
 		$productsCategoryModel = new ProductsCategoryModel();
-		$categories = $productsCategoryModel->findAllGroupByName();
+		$categories = $productsCategoryModel->findAll('name');
 
 		$categories_id = [];
 		foreach($categories as $category){
@@ -277,11 +326,11 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['prod_id']) && !empty($_POST['prod_id']) && is_numeric($_POST['prod_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $prod_id = (int) $_POST['prod_id'];
-
+      $prod_id = (int) $_POST['id'];
 			$productsModel = new ProductsModel();
+
       if($productsModel->delete($prod_id)){
         $this->showJson(['status' => 'success', 'message' => 'Produit #'.$prod_id.' supprimé']);
       }
@@ -297,14 +346,13 @@ class AdminController extends Controller
 	public function categories()
 	{
     $this->allowTo('admin');
-    
-    if(isset($_GET['json']) && $_GET['json']){
-		  $productsCategoryModel = new ProductsCategoryModel();
-		  $this->showJson($productsCategoryModel->findAll());
-    }
-    else{
-      $this->show('admin/categories');
-    }
+
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+
+		$params = $this->paginate($page, $limit, new ProductsCategoryModel(), 'findAll');
+
+		$this->show('admin/categories', $params);
 	}
 
 	/**
@@ -313,6 +361,10 @@ class AdminController extends Controller
 	public function add_category()
 	{
 		$this->allowTo('admin');
+
+		$upload_dir = 'assets/custom/';
+		$maxSize    = (1024 * 1000) * 2;
+		$extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
 
 		if(!empty($_POST)){
 			// nettoyage des données
@@ -328,12 +380,53 @@ class AdminController extends Controller
 			];
 			$errors = array_filter($err);
 
+			//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+			if (isset($_FILES['view']) && $_FILES['view']['error'] == 0) {
+					if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
+							mkdir($upload_dir, 0755); // on le cree
+					}
+
+					$x = explode('.', $_FILES['view']['name']);
+					if (in_array($x[1], $extAllowed)) {
+
+							$img = Image::make($_FILES['view']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+							if ($img->filesize() > $maxSize) {
+									//-Si la taille de l'image est superieure à la dimension donnée
+									$errors[] = 'Image trop lourde, 2 Mo maximum';
+							}
+							if (!v::image()->validate($_FILES['view']['tmp_name'])) {
+									//-On verifie si l'image est valide en verifiant son mimetype
+									$errors[] = 'Image invalide';
+							} else {
+									switch ($img->mime()) {
+											case 'image/jpg':
+											case 'image/jpeg':
+											case 'image/pjpeg':
+													$ext = '.jpg';
+													break;
+
+											case 'image/png':
+													$ext = '.png';
+													break;
+											case 'image/gif':
+													$ext = '.gif';
+													break;
+									}
+									$save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['view']['name']));
+									$img->save($upload_dir . $save_name . $ext);
+							}
+					} else {
+							$errors[] = 'Image invalide';
+					}
+			}
+
 			if(count($errors) !== 0) {
 				$this->showJson(array('status' => 'error', 'message' => implode('<br>', $errors)));
 			}
 			// données valides
 			else {
-					
+				
+				$post['view'] = $save_name.$ext;
 				$productsCategoryModel = new ProductsCategoryModel();
 				if(!empty($productsCategoryModel->insert($post))) {
 					$this->showJson(array('status' => 'success', 'message' => 'La catégorie a été ajoutée avec succès'));
@@ -353,9 +446,9 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['category_id']) && !empty($_POST['category_id']) && is_numeric($_POST['category_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $category_id = (int) $_POST['category_id'];
+      $category_id = (int) $_POST['id'];
 
 			$productsCategoryModel = new productsCategoryModel();
       if($productsCategoryModel->delete($category_id)){
@@ -367,5 +460,80 @@ class AdminController extends Controller
     }
   }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Liste des commandes
+	 */
+  public function orders()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_GET['json']) && $_GET['json']){
+			$ordersModel = new OrdersModel();			
+		  $this->showJson($ordersModel->findAllWithUsers());
+    }
+    else{
+			$this->show('admin/orders');
+		}
+	}
+
+	/**
+	 * Change un état de commande
+	 */
+  public function change_status()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['order_id']) && !empty($_POST['order_id']) && is_numeric($_POST['order_id'])){
+
+      $order_id = (int) $_POST['order_id'];
+			
+			$ordersModel = new OrdersModel();
+			$statusAvailables = $ordersModel->findAllStatus();
+
+			if(isset($_POST['order_status']) && !empty($_POST['order_status']) && in_array($_POST['order_status'], $statusAvailables)){
+
+      	$order_status = $_POST['order_status'];
+
+				if($ordersModel->update(['status' => $order_status], $order_id)){
+					$this->showJson(['status' => 'success', 'message' => 'L\'état de la commande #'.$order_id.' a bien été changé en '.$order_status]);
+				}
+			}
+			else{
+				$this->showJson(['status' => 'error', 'message' => 'Erreur: Etat invalide']);	
+			}
+    }
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+  }
+
+	public function send_order()
+	{
+		$this->allowTo('admin');
+
+		if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
+
+			$usersModel = new UsersModel();
+			$user = $usersModel->find((int) $_POST['user_id']);
+
+			$fromAddress = 'noreply@factory-xs.com';
+			$fromName    = 'Tshirt Factory XS';
+			$toAddress   = $user['email'];
+			$toName      = $user['firstname'] . ' ' . $user['lastname'];
+			$subject     = 'Votre commande';
+
+			$msgHTML     = '<html><head><title>Votre commande</title></head>';
+			$msgHTML 		.= '<body><p>Votre commande est prête</p>';
+			$msgHTML 		.= '</body></html>';
+
+			$this->mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML);
+
+			$this->showJson(['status' => 'success', 'message' => 'Le mail a bien été envoyé']);
+		}
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+
+	}
+
 }

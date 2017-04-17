@@ -20,76 +20,36 @@
 				<th>TVA</th>
 			</tr>
 		</thead>
-
-		<tbody id="categoriesAjax">
+		<tbody>
+			<?php if(count($set) == 0) : ?>
+				<tr><td class="danger text-danger text-center">Aucune catégorie...</td></tr>
+			<?php else : foreach ($set as $category) : ?>
+				<tr>
+					<td><?= $category['id'] ?></td>
+					<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('img/custom').'/'.$category['view'] ?>" alt=""></td>
+					<td><?= $category['category'] ?></td>
+					<td><?= $category['category_reference'] ?></td>
+					<td><?= $category['name'] ?></td>
+					<td><?= $category['description'] ?></td>
+					<td><?= $category['price'] ?></td>
+					<td><?= $category['price'] ?></td>
+					<td><a href="<?= $this->url('admin_delete_category') ?>" class="deleteCategory" data-id="<?= $category['id'] ?>">Supprimer</a></td>
+				</tr>
+			<?php endforeach; endif; ?>
 		</tbody>
 	</table>
+
+	<?php 	$navigationUrl = $this->url('admin_categories'); 
+			include '_navigation.php'; ?>
+
 <?php $this->stop('main_content') ?>
 
 <?php $this->start('script') ?>
 	<script>
-		// Chargement des catégories
-		function loadCategories() {
-
-			$.getJSON('<?= $this->url('admin_categories') ?>?json=true', function(categories){
-				if(categories.length == 0){
-					$('#categoriesAjax').html('<tr><td class="danger text-danger text-center">Aucune catégorie...</td></tr>');
-				}
-				else{
-					var resHTML = '';
-					$.each(categories, function(index, value) {
-						resHTML+= '<tr>';
-						resHTML+= '<td>'+value.id+'</td>';
-                        resHTML+= '<td></td>';
-						// resHTML+= '<td><img height="50" class="thumbnail" src="<?= $this->assetUrl('img/custom') ?>/'+value.avatar+'" alt=""></td>';
-						resHTML+= '<td>'+value.category+'</td>';
-						resHTML+= '<td>'+value.category_reference+'</td>';
-						resHTML+= '<td>'+value.name+'</td>';
-						resHTML+= '<td>'+value.description+'</td>';
-						resHTML+= '<td>'+value.price+'</td>';
-						resHTML+= '<td>'+value.tax+'</td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_delete_category') ?>" class="deleteCategory" data-id="'+value.id+'">Supprimer</a></td>';
-						resHTML+= '</tr>';
-						
-					});
-					$('#categoriesAjax').html(resHTML);
-				}
-			});
-		}
-
-		loadCategories();
-
         $(function(){
 
-			// Supprimer une catégorie
-            $('body').on('click', 'a.deleteCategory', function(e){
-                e.preventDefault();
-
-				var $deleteCategory = $(this);
-                swal({
-                    title: "Effacer cet catégorie",
-                    text: "Voulez-vous continuer ?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                    }, function () {
-                        setTimeout(function () {
-                            $.ajax({
-                                method: 'post',
-                                url: $deleteCategory.attr('href'),
-                                data: {category_id: $deleteCategory.data('id')},
-                                dataType: 'json',
-                                success: function(result){
-                                    swal('', result.message, result.status);
-                                    loadCategories();
-                                }
-                            });
-                        }, 1000);
-                });
-            });
+			ajax_delete('a.deleteCategory', 'Effacer cet catégorie');
 
         });
-
 	</script>
 <?php $this->stop('script') ?>

@@ -17,79 +17,40 @@
 				<th>Couleur</th>
 				<th>Catégorie</th>
 				<th>Notes</th>
-				<!--<th>Rôle</th>-->
 			</tr>
 		</thead>
-
-		<tbody id="productsAjax">
+		<tbody>
+			<?php if(count($set) == 0) : ?>
+				<tr><td class="danger text-danger text-center">Aucun produit...</td></tr>
+			<?php else : foreach ($set as $product) : ?>
+				<tr>
+					<td><?= $product['id'] ?></td>
+					<td><?= $product['reference'] ?></td>
+					<td><?= $product['size'] ?></td>
+					<td><?= $product['color'] ?></td>
+					<td><?= $product['name'] ?></td>
+					<td><?= $product['note'] ?></td>
+					<!--<td><a href="<?= $this->url('admin_showadmin') ?>/product-details/'+value.id+'">Visualiser</a></td>-->
+					<!--<td><a href="<?= $this->url('admin_showadmin') ?>/edit-product/'+value.id+'">Modifier</a></td>-->
+					<td><a href="<?= $this->url('admin_delete_product') ?>" class="deleteProduct" data-id="<?= $product['id'] ?>">Supprimer</a></td>
+				</tr>
+			<?php endforeach; endif; ?>
 		</tbody>
 	</table>
+
+	<?php 	$navigationUrl = $this->url('admin_products'); 
+			include '_navigation.php'; ?>
+
 <?php $this->stop('main_content') ?>
 
 <?php $this->start('script') ?>
 	<script>
-		// Chargement des produits
-		function loadProducts() {
-
-			$.getJSON('<?= $this->url('admin_products') ?>?json=true', function(products){
-				if(products.length == 0){
-					$('#productsAjax').html('<tr><td class="danger text-danger text-center">Aucun produit...</td></tr>');
-				}
-				else{
-					var resHTML = '';
-					$.each(products, function(index, value) {
-						resHTML+= '<tr>';
-						resHTML+= '<td>'+value.id+'</td>';
-						resHTML+= '<td>'+value.reference+'</td>';
-						resHTML+= '<td>'+value.size+'</td>';
-						resHTML+= '<td>'+value.color+'</td>';
-						resHTML+= '<td>'+value.name+'</td>';
-						resHTML+= '<td>'+value.note+'</td>';
-						// resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/product-details/'+value.id+'">Visualiser</a></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/edit-product/'+value.id+'">Modifier</a></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_delete_product') ?>" class="deleteProduct" data-id="'+value.id+'">Supprimer</a></td>';
-						resHTML+= '</tr>';
-						
-					});
-					$('#productsAjax').html(resHTML);
-				}
-			});
-		}
-
-		loadProducts();
-
         $(function(){
 
-			// Supprimer un produit
-            $('body').on('click', 'a.deleteProduct', function(e){
-                e.preventDefault();
+			$('li.disabled a').attr('href', '#');
 
-				var $deleteProduct = $(this);
-                swal({
-                    title: "Effacer ce produit",
-                    text: "Voulez-vous continuer ?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                    }, function () {
-                        setTimeout(function () {
-                            $.ajax({
-                                method: 'post',
-                                url: $deleteProduct.attr('href'),
-                                data: {prod_id: $deleteProduct.data('id')},
-                                dataType: 'json',
-                                success: function(result){
-                                    swal('', result.message, result.status);
-                                    loadProducts();
-                                }
-                            });
-                        }, 1000);
-                });
-            });
-
+			ajax_delete('a.deleteProduct', 'Effacer ce produit');
 
         });
-
 	</script>
 <?php $this->stop('script') ?>

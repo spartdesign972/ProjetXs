@@ -15,22 +15,28 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
           <th width="120px">Commande N°</th>
           <th>Produits</th>
           <th>Etat de la commande</th>
+          <th>Total de la commande</th>
         </tr>
       </thead>
       <tbody>
         <?php if (!empty($view_order)): ?>
+        <?php $panierCmd =  (array)$panierCommande?>
         <tr>
           <td><?=$view_order['date_create'];?></td>
           <td><?=$view_order['id'];?></td>
           <td>
-            <?=$panierCommande->libelleProduit[0]?>
+            <?php foreach ($panierCmd['libelleProduit'] as $key => $value): ?>
+            <div class="thumbnail">
+              <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCmd['image'][$key])?>" alt="">
+              <div class="caption text-center">
+                <h3><?=$panierCmd['libelleProduit'][$key]?></h3>
+              </div>
+            </div>
             <br>
-            <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCommande->image[0])?>" alt="">
-            <br> <?=$panierCommande->libelleProduit[1]?>
-            <br>
-            <img width="200px" height="250px" src="<?=$this->assetUrl('upload/' . $panierCommande->image[1])?>" alt="">
+            <?php endforeach ?>
           </td>
           <td><?=$view_order['status'];?></td>
+          <td><?=$view_order['total']. ' €uros' ?></td>
         </tr>
         <?php else: ?>
         Aucune commande trouvée !

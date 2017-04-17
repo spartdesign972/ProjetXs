@@ -61,7 +61,7 @@
   <p class="alert alert-danger" role="alert">Désolé, Vous n'êtes pas inscrit !!!</p>
   <?php endif;?>
   <br>
-  <div id="result"></div>
+  <div id="result" style="width: 300px; margin-left: 430px"></div>
   <br>
 </div>
 <?php $this->stop('main_content')?>

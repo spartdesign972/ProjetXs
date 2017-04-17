@@ -38,7 +38,15 @@
 				<?php endfor;endif;?>
 			<tr class="total">
 				<td><strong>TOTAL</strong></td>
-				<td><strong><?=array_sum($_SESSION['cart']['price'])?> &euro;</strong></td>
+				<td>
+					<strong>
+						<?php 	$total=0;
+								for($i = 0; $i < count($_SESSION['cart']['libelleProduit']); $i++) {
+									$total += $_SESSION['cart']['qty'][$i] * $_SESSION['cart']['price'][$i];
+								}
+								echo $total; ?> &euro;
+					</strong>
+				</td>
 			</tr>
 		</tbody>
 	</table>
@@ -56,7 +64,7 @@
 <script>
 $(function(){
 		// Modifier une quantité
-		$('body').on('change', '.editQty', function(e){
+		$('body').on('change', 'input.editQty', function(e){
 			e.preventDefault();
 			var $this = $(this);
 			$.ajax({
@@ -87,6 +95,7 @@ $(function(){
 				}
 			});
 		});
+
 
 });
 </script>

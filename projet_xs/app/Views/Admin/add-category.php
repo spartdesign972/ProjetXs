@@ -64,15 +64,15 @@
             </div>
 
             <!-- File Button --> 
-            <!--<div class="form-group">
-            <label class="col-md-4 control-label" for="picture">Image</label>
-            <div class="col-md-4">
-                <input id="picture" name="picture" class="input-file" type="file" accept="image/*">
+            <div class="form-group">
+            <label class="col-md-4 control-label" for="view">Image</label>
+                <div class="col-md-4">
+                    <input id="view" name="view" class="input-file" type="file" accept="image/*">
+                </div>
             </div>
-            </div>-->
 
             <!-- Image Preview --> 
-            <!--<div class="form-group" style="margin-bottom: 0;">
+            <div class="form-group" style="margin-bottom: 0;">
                 <div id="image_preview" class="col-lg-10 col-lg-offset-2">
                     <div class="thumbnail hidden">
                         <img src="http://placehold.it/5" alt="">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
             <!-- Button -->
             <div class="form-group">
@@ -101,31 +101,31 @@
     <script>
         $(function() {
 
-            // // A chaque sélection de fichier
-            // $('form#addCategoryForm').find('input[name=picture]').on('change', function (e) {
-            //     var files = $(this)[0].files;
+            // A chaque sélection de fichier
+            $('form#addCategoryForm').find('input[name=view]').on('change', function (e) {
+                var files = $(this)[0].files;
         
-            //     if (files.length > 0) {
-            //         // On part du principe qu'il n'y qu'un seul fichier
-            //         // étant donné que l'on a pas renseigné l'attribut "multiple"
-            //         var file = files[0],
-            //             $image_preview = $('#image_preview');
+                if (files.length > 0) {
+                    // On part du principe qu'il n'y qu'un seul fichier
+                    // étant donné que l'on a pas renseigné l'attribut "multiple"
+                    var file = files[0],
+                        $image_preview = $('#image_preview');
         
-            //         // Ici on injecte les informations recoltées sur le fichier pour l'utilisateur
-            //         $image_preview.find('.thumbnail').removeClass('hidden');
-            //         $image_preview.find('img').attr('src', window.URL.createObjectURL(file));
-            //         $image_preview.find('h4').html(file.name);
-            //         $image_preview.find('.caption p:first').html(file.size +' bytes');
-            //     }
-            // });
+                    // Ici on injecte les informations recoltées sur le fichier pour l'utilisateur
+                    $image_preview.find('.thumbnail').removeClass('hidden');
+                    $image_preview.find('img').attr('src', window.URL.createObjectURL(file));
+                    $image_preview.find('h4').html(file.name);
+                    $image_preview.find('.caption p:first').html(file.size +' bytes');
+                }
+            });
         
-            // // Bouton "Annuler" pour vider le champ d'upload
-            // $('#image_preview').find('button[type="button"]').on('click', function (e) {
-            //     e.preventDefault();
+            // Bouton "Annuler" pour vider le champ d'upload
+            $('#image_preview').find('button[type="button"]').on('click', function (e) {
+                e.preventDefault();
         
-            //     $('form#addCategoryForm').find('input[name="picture"]').val('');
-            //     $('#image_preview').find('.thumbnail').addClass('hidden');
-            // });
+                $('form#addCategoryForm').find('input[name="view"]').val('');
+                $('#image_preview').find('.thumbnail').addClass('hidden');
+            });
             
             // Ajout de catégorie
             $('form#addCategoryForm').submit(function(e){

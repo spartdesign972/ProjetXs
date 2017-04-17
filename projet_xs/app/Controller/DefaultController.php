@@ -14,6 +14,7 @@ use \W\Controller\Controller;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
+
 class DefaultController extends Controller
 {
     private $mail;
@@ -621,7 +622,7 @@ class DefaultController extends Controller
 
                 if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
                     //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'avatar est une image invalide';
+                    $errors[] = 'L\'image n\'a pas un format invalide';
                 } else {
                     switch ($img->mime()) {
                         case 'image/jpg':
@@ -658,60 +659,87 @@ class DefaultController extends Controller
                 }
 
             } else {
-//L'extension du fichier source n'est pas accepté
+            //L'extension du fichier source n'est pas accepté
 
-                $errors[] = 'L\'avatar est une image invalide';
+                $errors[] = 'L\'image a un format invalide';
 
-            }
+                }
+                
+                
+                
+            }//Fin de l'upload d'image
+            elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
+                
+                $img = $_POST['img'];
+                $img = str_replace('data:image/png;base64,', '', $img);
+                $img = str_replace(' ', '+', $img);
+               
+                $fileData = base64_decode($img);
+                
+                $name = time().'-model.png';
+                $fileName = $upload_dir.$name;
+                file_put_contents($fileName, $fileData);
+                
+                if(isset($_SESSION['picture']['source'])){
+                    if(!isset($_POST['label'])){//Si aucun nom n'est défini, on en crée un
+                        $_POST['label'] = 'Custom-'.time();
+                    }
+                    else{
+                        if(strlen($_POST['label'])<=20){
 
-        } //Fin de l'upload d'image
-        elseif (isset($_POST['img'])) {
-//Enregistrement de la création et import d'infos dans la bdd
+                        $_POST['label'] = trim(strip_tags($_POST['label']));
 
-            $img = $_POST['img'];
-            $img = str_replace('data:image/png;base64,', '', $img);
-            $img = str_replace(' ', '+', $img);
+                        }
+                    }
+                
+                    //Construire la référence à partir du modele,de la taille et la couleur
+                    $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
 
-            $fileData = base64_decode($img);
+                    //Informations à transmettre en bdd
+                    $infos = [
+                        'user_id'           => $_SESSION['user']['id'],
+                        'design_label'      => $_POST['label'],
+                        'picture_source'    => $_SESSION['picture']['source'],
+                        'product_reference' => $reference,
+                        'model'             => $name,
+                        'date_create'       => date("Y-m-d H:i:s"),
+                        'price'             => $_POST['price'],
+                             ];
 
-            $name     = time() . '-model.png';
-            $fileName = $upload_dir . $name;
-            file_put_contents($fileName, $fileData);
+                    $product = new ProductsCustomModel();
 
-            //Construire la référence à partir du modele,de la taille et la couleur
-            $reference = $_POST['ref1'] . $_POST['ref2'] . $_POST['ref3'];
+                    if($product->insert($infos)){
 
-            //Informations à transmettre en bdd
-            $infos = [
-                'user_id'           => $_SESSION['user']['id'],
-                'design_label'      => $_POST['label'],
-                'picture_source'    => $_SESSION['picture']['source'],
-                'product_reference' => $reference,
-                'model'             => $name,
-                'date_create'       => date("Y-m-d H:i:s"),
-            ];
+                        //$success= true;
+                        unset($_SESSION['picture']);
+                        echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
+                    }
+                    }
+                    else{//Aucune image n'a été importé
 
-            $product = new ProductsCustomModel();
+                        $errors[] = 'Vous devez importer une image avant d\'enregistrer';
+                    }
+                
+                if (count($errors) > 0){
+                    
+                    echo '<p>'.implode('<br>', $errors).'</p>';
+                    
+                }
+                
+            }//Fin des enregistrements   
 
-            if ($product->insert($infos)) {
-
-                $success = true;
-            }
-
-            unset($_SESSION['picture']);
-
-        } //Fin des enregistrements
-        elseif (isset($_POST['clear'])) {
-//Effacer l'image importé precedemment
-
-            unlink($upload_dir . $_POST['clear']);
-            unset($_SESSION['picture']);
-
-        } else {
+//        elseif (isset($_POST['clear'])) {
+////Effacer l'image importé precedemment
+//            
+//            unlink($upload_dir . $_POST['clear']);
+//            unset($_SESSION['picture']);
+//
+//        }
+        else {
 //Affichage de la page
 
             $list = new ProductsCategoryModel();
-            $list = $list->findAllGroupByName();
+            $list = $list->findAll('name');
 
             $params = [
                 'list' => $list,
@@ -721,17 +749,23 @@ class DefaultController extends Controller
 
         }
 
-    }
+    }//Fin de custom
 
 //******************************** Methode pour afficher les design creer par les membres ***********************
     public function showAlldesignMembres()
     {
+        $nbDesignCount = new ProductsCustomModel();
+        $nbDesign = $nbDesignCount->nbProducts();
+        $nbParPage = 8;
+        $nbPage = ceil($nbDesign['total'] / $nbPaprPage);
+
 
         $order       = '';
         $listdesigns = new ProductsCustomModel();
         $design      = $listdesigns->findDesign($order);
         $params      = [
             'design' => $design,
+            'nbDesign' => $nbDesign,
         ];
         $this->show('default/designMembre', $params);
     }

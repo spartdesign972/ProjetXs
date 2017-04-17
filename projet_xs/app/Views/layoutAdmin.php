@@ -4,11 +4,11 @@
 		<meta charset="UTF-8">
 		<title><?= $this->e($title) ?></title>
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/bootstrap.min.css') ?> ">
-		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 		<!-- Bootstrap SweetAlert CSS -->
 	    <link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.css') ?>">
+		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 
 		<?= $this->section('link') ?>
 	</head>
@@ -43,7 +43,6 @@
 							</ul>
 								<ul class="nav navbar-nav navbar-right">
 								<li><a href="<?=$this->url('admin_logout')?>"><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Déconnexion</a></li>
-								</li>
 							</ul>
 							</div><!-- /.navbar-collapse -->
 						</div>
@@ -75,8 +74,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#anch4" data-scroll>
-                            <span>lien  4</span>
+                        <a href="<?= $this->url('admin_orders') ?>" data-scroll>
+                            <span>Commandes</span>
                         </a>
                     </li>
                 </ul>
@@ -90,12 +89,14 @@
 
     </div>
 			<footer>
-				<?= $this->section('footer') ?>
+				
 			</footer>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<!-- Bootstrap SweetAlert JS -->
 		    <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
+		    
+			<script src="<?= $this->assetUrl('js/admin.js') ?>"></script>
 
 			<?= $this->section('script') ?>
 			<script type="text/javascript">
