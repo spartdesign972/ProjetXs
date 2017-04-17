@@ -22,7 +22,7 @@
 		</thead>
 		<tbody>
 			<?php if(count($set) == 0) : ?>
-				<tr><td class="danger text-danger text-center">Aucun utilisateur...</td></tr>
+				<tr><td colspan="11" class="danger text-danger text-center">Aucun utilisateur...</td></tr>
 			<?php else : foreach ($set as $user) : ?>
 				<tr>
 					<td><?= $user['id'] ?></td>
@@ -57,7 +57,9 @@
 	<script>
         $(function(){
 
-			change_role('<?= $this->url('admin_change_role') ?>');
+			$('li.disabled a').attr('href', '#');
+
+			ajax_change('select.roleChange', '<?= $this->url('admin_change_role') ?>');
 
 			ajax_delete('a.deleteUser', 'Effacer cet utilisateur');
 

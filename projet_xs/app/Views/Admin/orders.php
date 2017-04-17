@@ -14,105 +14,48 @@
 				<th>Etat</th>
 			</tr>
 		</thead>
-
-		<tbody id="ordersAjax">
+		<tbody>
+			<?php if(count($set) == 0) : ?>
+				<tr><td colspan="5" class="danger text-danger text-center">Aucune commande...</td></tr>
+			<?php else : foreach ($set as $order) : ?>
+				<tr>
+					<td><?= $order['id'] ?></td>
+					<td><?= $order['date_create'] ?></td>
+					<td><?= $order['lastname'] ?></td>
+					<td><?= $order['firstname'] ?></td>
+					<td>
+						<div class="form-group-sm">
+							<select class=" form-control statusChange" data-id="<?= $order['id'] ?>">
+								<option value="en cours"<?= ($order['status'] == 'en cours') ? ' selected' : '' ?>>En cours</option>
+								<option value="pret"<?= ($order['status'] == 'pret') ? ' selected' : '' ?>>Prête</option>
+								<option value="livre"<?= ($order['status'] == 'livre') ? ' selected' : '' ?>>Livrée</option>
+								<option value="annule"<?= ($order['status'] == 'annule') ? ' selected' : '' ?>>Annulée</option>
+							</select>
+						</div>
+					</td>
+					<td><a href="<?= $this->url('admin_showadmin') ?>/order-details/<?= $order['id'] ?>">Visualiser</a></td>
+					<td><a href="<?= $this->url('admin_send_order') ?>" class="mailOrder" data-id="<?= $order['user_id'] ?>">Envoyer</a></td>
+				</tr>
+			<?php endforeach; endif; ?>
 		</tbody>
 	</table>
+
+	<?= $this->insert('inc/_navigation', ['navigationUrl' => $this->url('admin_orders'), 'page' => $page, 'total' => $total, 'limit' => $limit]) ?>
+
 <?php $this->stop('main_content') ?>
 
 <?php $this->start('script') ?>
-	<script>
-		// Chargement des commandes
-		function loadOrders() {
+<script>
+	$(function(){
 
-			$.getJSON('<?= $this->url('admin_orders') ?>?json=true', function(orders){
-				if(orders.length == 0){
-					$('#ordersAjax').html('<tr><td class="danger text-danger text-center">Aucune commande...</td></tr>');
-				}
-				else{
-					var resHTML = '';
-					$.each(orders, function(index, value) {
-						resHTML+= '<tr>';
-						resHTML+= '<td>'+value.id+'</td>';
-						resHTML+= '<td>'+value.date_create+'</td>';
-						resHTML+= '<td>'+value.lastname+'</td>';
-						resHTML+= '<td>'+value.firstname+'</td>';
-						resHTML+= '<td><div class="form-group-sm"><select class=" form-control statusChange" data-id="'+value.id+'">';
-						resHTML+= '<option value="en cours"'+(value.status == 'en cours' ? ' selected' : '')+'>En cours</option>';
-						resHTML+= '<option value="pret"'+(value.status == 'pret' ? ' selected' : '')+'>Prête</option>'
-						resHTML+= '<option value="livre"'+(value.status == 'livre' ? ' selected' : '')+'>Livrée</option>'
-						resHTML+= '<option value="annule"'+(value.status == 'annule' ? ' selected' : '')+'>Annulée</option>'
-						resHTML+= '</select></div></td>';
-						// resHTML+= '<td><a href="<?= $this->url('admin_showadmin') ?>/order-details/'+value.id+'">Visualiser</a></td>';
-						resHTML+= '<td><a href="<?= $this->url('admin_send_order') ?>" class="mailOrder" data-id="'+value.user_id+'">Envoyer</a></td>';
-						resHTML+= '</tr>';
-						
-					});
-					$('#ordersAjax').html(resHTML);
-				}
-			});
-		}
+		$('li.disabled a').attr('href', '#');
 
-		loadOrders();
+		ajax_change('select.statusChange', '<?= $this->url('admin_change_status') ?>');
+	
+		// Envoi un mail
+		mail_order();
 
-        $(function(){
+	});
 
-			// Modifier un état
-            $('body').on('change', 'select.statusChange', function(e){
-                e.preventDefault();
-
-				var $statusChange = $(this);
-
-				$.ajax({
-					method: 'post',
-					url: '<?= $this->url('admin_change_status') ?>',
-					data: {order_id: $statusChange.data('id'), order_status: $statusChange.find(':selected').val()},
-					dataType: 'json',
-					success: function(result){
-						switch (result.status) {
-							case 'error':
-								swal('', result.message, result.status);
-								loadOrders();
-								break;
-							
-							case 'success':
-								$statusChange.parent().addClass('has-success has-feedback');
-								break;
-						}
-					}
-				});
-            });
-
-            // Envoi un mail
-            $('.mailOrder').click(function(e){
-                e.preventDefault();
-
-                var $this = $(this);
-
-                swal({
-                    title: "Commande",
-                    text: "Voulez-vous envoyer un mail au client ?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                    }, function () {
-                        setTimeout(function () {
-                            $.ajax({
-                                method: 'post',
-                                url: $this.attr('href'),
-                                data: {user_id: $this.data('id')},
-                                dataType: 'json',
-                                success: function(result){
-                                    swal('', result.message, result.status);
-                                }
-                            });
-                        }, 1000);
-                });
-
-            })
-
-        });
-
-	</script>
+</script>
 <?php $this->stop('script') ?>

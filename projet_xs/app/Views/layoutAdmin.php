@@ -96,7 +96,7 @@
 			<!-- Bootstrap SweetAlert JS -->
 		    <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
 		    
-			<script src="<?= $this->assetUrl('js/admin.js') ?>"></script>
+			<script src="<?= $this->assetUrl('js/script.js') ?>"></script>
 
 			<?= $this->section('script') ?>
 			<script type="text/javascript">

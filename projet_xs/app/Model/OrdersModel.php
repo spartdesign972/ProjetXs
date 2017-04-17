@@ -2,7 +2,7 @@
 namespace Model;
 
 
-class OrdersModel extends \W\Model\Model
+class OrdersModel extends MasterModel
 {
 /**
 	 * Récupère une ligne de la table en fonction d'un identifiant
@@ -21,10 +21,17 @@ class OrdersModel extends \W\Model\Model
 		return $sth->fetchAll();
 	}
 
-	public function findAllWithUsers($orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
+	public function findAllWithUsers($groupBy = '', $orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
 	{
 
-		$sql = 'SELECT o.*, u.lastname, u.firstname, u.username, u.email FROM orders as o JOIN users as u ON o.user_id = u.id';
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS o.*, u.lastname, u.firstname, u.username, u.email FROM orders as o JOIN users as u ON o.user_id = u.id';
+		if (!empty($groupBy)){
+			//sécurisation des paramètres, pour éviter les injections SQL
+			if(!preg_match('#^[a-zA-Z0-9_$]+$#', $groupBy)){
+				die('Error: invalid orderBy param');
+			}
+			$sql .= ' GROUP BY '.$groupBy;
+		}
 		if (!empty($orderBy)){
 
 			//sécurisation des paramètres, pour éviter les injections SQL

@@ -182,16 +182,16 @@ class AdminController extends MasterController
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $user_id = (int) $_POST['user_id'];
+      $user_id = (int) $_POST['id'];
 
 			$usersModel = new UsersModel();
 			$roleAvailables = $usersModel->findAllRoles();
 
-			if(isset($_POST['user_role']) && !empty($_POST['user_role']) && in_array($_POST['user_role'], $roleAvailables)){
+			if(isset($_POST['option']) && !empty($_POST['option']) && in_array($_POST['option'], $roleAvailables)){
 
-      	$user_role = $_POST['user_role'];
+      	$user_role = $_POST['option'];
 
 				if($usersModel->update(['role' => $user_role], $user_id)){
 					$this->showJson(['status' => 'success', 'message' => 'Le rôle de l\'Utilisateur #'.$user_id.' a bien été changé en '.$user_role]);
@@ -416,13 +416,12 @@ class AdminController extends MasterController
   {
 		$this->allowTo('admin');
 
-    if(isset($_GET['json']) && $_GET['json']){
-			$ordersModel = new OrdersModel();			
-		  $this->showJson($ordersModel->findAllWithUsers());
-    }
-    else{
-			$this->show('admin/orders');
-		}
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+		
+		$params = $this->paginate($page, $limit, new OrdersModel(), 'findAllWithUsers');
+
+		$this->show('admin/orders', $params);
 	}
 
 	/**
@@ -432,16 +431,16 @@ class AdminController extends MasterController
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['order_id']) && !empty($_POST['order_id']) && is_numeric($_POST['order_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $order_id = (int) $_POST['order_id'];
+      $order_id = (int) $_POST['id'];
 			
 			$ordersModel = new OrdersModel();
 			$statusAvailables = $ordersModel->findAllStatus();
 
-			if(isset($_POST['order_status']) && !empty($_POST['order_status']) && in_array($_POST['order_status'], $statusAvailables)){
+			if(isset($_POST['option']) && !empty($_POST['option']) && in_array($_POST['option'], $statusAvailables)){
 
-      	$order_status = $_POST['order_status'];
+      	$order_status = $_POST['option'];
 
 				if($ordersModel->update(['status' => $order_status], $order_id)){
 					$this->showJson(['status' => 'success', 'message' => 'L\'état de la commande #'.$order_id.' a bien été changé en '.$order_status]);

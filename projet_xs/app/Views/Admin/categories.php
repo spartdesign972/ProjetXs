@@ -22,7 +22,7 @@
 		</thead>
 		<tbody>
 			<?php if(count($set) == 0) : ?>
-				<tr><td class="danger text-danger text-center">Aucune catégorie...</td></tr>
+				<tr><td colspan="8" class="danger text-danger text-center">Aucune catégorie...</td></tr>
 			<?php else : foreach ($set as $category) : ?>
 				<tr>
 					<td><?= $category['id'] ?></td>
