@@ -58,7 +58,7 @@
 
 								<li><a href="<?=$this->url('default_home')?>">Accueil</a></li>
 								<li><a href="<?=$this->url('default_custom')?>">Personnalisation</a></li>
-								<li><a href="<?=$this->url('default_showalldesignmembre')?>">Inspiration</a></li>
+								<li><a href="<?=$this->url('default_showalldesignmembre2')?>">Inspiration</a></li>
 								<li><a href="<?=$this->url('default_contact')?>">Nous Situer/Contacter</a></li>
 							</ul>
 							<?php if(empty($w_user)): ?>

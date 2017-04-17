@@ -62,7 +62,18 @@ class ProductsCustomModel extends \W\Model\Model
 	 * @param  string choix de tri
 	 * @return mixed Les données sous forme de tableau associatif
 	 */
-	public function findDesign($order=' ORDER BY U.username ASC'){
+	public function findDesign($order=' ORDER BY U.username ASC', $deb, $nbArt){
+		$sql = 'SELECT P.*, U.username FROM '.$this->table.' as P LEFT JOIN users as U ON U.id = P.user_id WHERE P.public = 1'. $order.' LIMIT '.$deb.','.$nbArt;
+		$sth = $this->dbh->prepare($sql);
+		$sth->execute();
+		return $sth->fetchAll();
+	}
+	/**
+	 * 
+	 * @param  string choix de tri
+	 * @return mixed Les données sous forme de tableau associatif
+	 */
+	public function findDesignOrder($order){
 		$sql = 'SELECT P.*, U.username FROM '.$this->table.' as P LEFT JOIN users as U ON U.id = P.user_id WHERE P.public = 1'. $order;
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
@@ -74,7 +85,7 @@ class ProductsCustomModel extends \W\Model\Model
 		$sql = 'SELECT COUNT(*) AS total FROM '.$this->table.' WHERE public = 1';
 		$sth = $this->dbh->prepare($sql);
 		$sth->execute();
-		$sth->fetch();
+		return $sth->fetch();
 
 	}
 

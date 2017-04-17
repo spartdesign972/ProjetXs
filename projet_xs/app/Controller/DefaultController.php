@@ -752,20 +752,24 @@ class DefaultController extends Controller
     }//Fin de custom
 
 //******************************** Methode pour afficher les design creer par les membres ***********************
-    public function showAlldesignMembres()
+    public function showAlldesignMembres($page=1)
     {
         $nbDesignCount = new ProductsCustomModel();
-        $nbDesign = $nbDesignCount->nbProducts();
-        $nbParPage = 8;
-        $nbPage = ceil($nbDesign['total'] / $nbPaprPage);
+        $nbDesigns = $nbDesignCount->nbProducts();
+        $nbDesign = $nbDesigns['total'];
+        
+        $nbArt = 4;
+        $nbPage = ceil($nbDesign / $nbArt);
+        $curPage = $page;
 
+        $deb = ($curPage - 1) * $nbArt;
 
         $order       = '';
         $listdesigns = new ProductsCustomModel();
-        $design      = $listdesigns->findDesign($order);
+        $design      = $listdesigns->findDesign($order, $deb, $nbArt);
         $params      = [
             'design' => $design,
-            'nbDesign' => $nbDesign,
+            'nbPage' => $nbPage,
         ];
         $this->show('default/designMembre', $params);
     }
@@ -783,7 +787,7 @@ class DefaultController extends Controller
         if ($column == 'username') {
             $order = ' ORDER BY U.username';
         } elseif ($column == 'like') {
-            $order = ' ORDER BY P.like';
+            $order = ' ORDER BY P.likes_count';
         } elseif ($column == 'date') {
             $order = ' ORDER BY P.date_create';
         }
@@ -795,7 +799,7 @@ class DefaultController extends Controller
         }
 
         $listdesigns = new ProductsCustomModel();
-        $design      = $listdesigns->findDesign($order);
+        $design      = $listdesigns->findDesignOrder($order);
         $params      = [
             'design' => $design,
         ];
@@ -805,7 +809,6 @@ class DefaultController extends Controller
 
     public function membreDesignMembres($id)
     {
-
         $listdesigns = new ProductsCustomModel();
         $design      = $listdesigns->findUserDesign($id);
         $params      = [

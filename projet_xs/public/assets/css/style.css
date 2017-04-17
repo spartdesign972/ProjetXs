@@ -381,6 +381,10 @@ iframe {
     margin-bottom: 1rem;
 }
 
+.canva-aff{
+    min-height: 500px!important;
+    height: 520px;
+}
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =

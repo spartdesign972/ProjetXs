@@ -6,7 +6,8 @@ $w_routes = array(
     ['GET|POST', '/i-like', 'Default#i_like', 'i_like'],
 
     //Route qui affiche la liste des design mis a disposition par le utilisateurs
-    ['GET|POST', '/creation-des-membres', 'Default#showAlldesignMembres', 'default_showalldesignmembre'],
+    ['GET|POST', '/creation-des-membres/[i:page]', 'Default#showAlldesignMembres', 'default_showalldesignmembre'],
+    ['GET|POST', '/creation-des-membres', 'Default#showAlldesignMembres', 'default_showalldesignmembre2'],
 
     ['GET|POST', '/creation-des-membres/[:column]/[:ord]', 'Default#designMembres', 'default_designmembre'],
 
