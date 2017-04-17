@@ -39,17 +39,12 @@ class CartController extends Controller
             $product   = $itemModel->find($id);
 
             // Mise à jour de la Qté si déjà présent dans le panier
-            $cartCount = 0;
-            foreach ($_SESSION['cart']['id'] as $key => $value) {
-                if ($id == $value) {
-                    $_SESSION['cart']['qty'][$key]++;
-                    break;
-                }
-                $cartCount++;
+            $position = array_search($id,  $_SESSION['cart']['id']);
+            if($position !== false){
+                $_SESSION['cart']['qty'][$position]++;
             }
             // Ajout si absent du panier
-            if ($cartCount == count($_SESSION['cart']['id'])) {
-
+            else{
                 $_SESSION['cart']['id'][]             = $id;
                 $_SESSION['cart']['libelleProduit'][] = $product['design_label'];
                 $_SESSION['cart']['ref'][]            = $product['product_reference'];
@@ -61,6 +56,7 @@ class CartController extends Controller
             $this->showJson([
                 'status'  => 'success',
                 'message' => 'Design ajouté au panier',
+                'position'=> $position
             ]);
 
         }
@@ -87,10 +83,11 @@ class CartController extends Controller
                 ]);
             } else {
                 // mise à jour de la quantité
-                foreach ($_SESSION['cart']['id'] as $key => $value) {
-                    if ($post['design_id'] == $value) {
-                        $_SESSION['cart']['qty'][$key] = $post['qty'];
-                        break;
+                if($post['qty'] > 0){
+
+                    $position = array_search($post['design_id'],  $_SESSION['cart']['id']);
+                    if($position !== false){
+                        $_SESSION['cart']['qty'][$position] = $post['qty'];
                     }
                 }
 
