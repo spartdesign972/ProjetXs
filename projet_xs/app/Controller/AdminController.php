@@ -55,6 +55,15 @@ class AdminController extends Controller
         }
     }
 
+		private function paginate($page, $limit, $model, $modelMethod)
+		{
+				$params['page'] 	= $page;
+				$params['limit'] 	= $limit;
+				$params['set'] 		= $model->{$modelMethod}('id', 'id', 'ASC', $limit, ($page - 1) * $limit);
+				$params['total'] 	= $model->lastFoundRows();
+
+				return $params;
+		}
 
 	/**
 	 * Vérifie les droits d'accès de l'utilisateur en fonction de son rôle
@@ -170,13 +179,12 @@ class AdminController extends Controller
 	{
     $this->allowTo('admin');
     
-    if(isset($_GET['json']) && $_GET['json']){
-		  $selectUsers = new UsersModel();
-		  $this->showJson($selectUsers->findAll());
-    }
-    else{
-      $this->show('admin/users');
-    }
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+		
+		$params = $this->paginate($page, $limit, new UsersModel(), 'findAll');
+
+    $this->show('admin/users', $params);
 	}
 
 	/**
@@ -204,11 +212,11 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['user_id']) && !empty($_POST['user_id']) && is_numeric($_POST['user_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $user_id = (int) $_POST['user_id'];
-
+      $user_id = (int) $_POST['id'];
 			$usersModel = new UsersModel();
+			
       if($usersModel->delete($user_id)){
         $this->showJson(['status' => 'success', 'message' => 'Utilisateur #'.$user_id.' supprimé']);
       }
@@ -256,13 +264,12 @@ class AdminController extends Controller
 	{
     $this->allowTo('admin');
     
-    if(isset($_GET['json']) && $_GET['json']){
-		  $productsModel = new ProductsModel();
-		  $this->showJson($productsModel->findAllWithCategory());
-    }
-    else{
-      $this->show('admin/products');
-    }
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+
+		$params = $this->paginate($page, $limit, new ProductsModel(), 'findAllWithCategory');
+
+    $this->show('admin/products', $params);
 	}
 
 	/**
@@ -273,7 +280,7 @@ class AdminController extends Controller
 		$this->allowTo('admin');
 
 		$productsCategoryModel = new ProductsCategoryModel();
-		$categories = $productsCategoryModel->findAllGroupByName();
+		$categories = $productsCategoryModel->findAll('name');
 
 		$categories_id = [];
 		foreach($categories as $category){
@@ -319,11 +326,11 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['prod_id']) && !empty($_POST['prod_id']) && is_numeric($_POST['prod_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $prod_id = (int) $_POST['prod_id'];
-
+      $prod_id = (int) $_POST['id'];
 			$productsModel = new ProductsModel();
+
       if($productsModel->delete($prod_id)){
         $this->showJson(['status' => 'success', 'message' => 'Produit #'.$prod_id.' supprimé']);
       }
@@ -339,14 +346,13 @@ class AdminController extends Controller
 	public function categories()
 	{
     $this->allowTo('admin');
-    
-    if(isset($_GET['json']) && $_GET['json']){
-		  $productsCategoryModel = new ProductsCategoryModel();
-		  $this->showJson($productsCategoryModel->findAll());
-    }
-    else{
-      $this->show('admin/categories');
-    }
+
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+
+		$params = $this->paginate($page, $limit, new ProductsCategoryModel(), 'findAll');
+
+		$this->show('admin/categories', $params);
 	}
 
 	/**
@@ -440,9 +446,9 @@ class AdminController extends Controller
   {
 		$this->allowTo('admin');
 
-    if(isset($_POST['category_id']) && !empty($_POST['category_id']) && is_numeric($_POST['category_id'])){
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
 
-      $category_id = (int) $_POST['category_id'];
+      $category_id = (int) $_POST['id'];
 
 			$productsCategoryModel = new productsCategoryModel();
       if($productsCategoryModel->delete($category_id)){

@@ -739,7 +739,7 @@ class DefaultController extends Controller
 //Affichage de la page
 
             $list = new ProductsCategoryModel();
-            $list = $list->findAllGroupByName();
+            $list = $list->findAll('name');
 
             $params = [
                 'list' => $list,

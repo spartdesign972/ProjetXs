@@ -134,6 +134,7 @@
 		  	<script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
 		  	
 			<script src="<?= $this->assetUrl('js/cart.js') ?>"></script>
+			<script src="<?= $this->assetUrl('js/like.js') ?>"></script>
 			
 			<script type="text/javascript">
 				$(document).ready(function() {
@@ -149,39 +150,9 @@
 						}
 					}
 					$(window).resize(positionfooter);
-					$('.my-like').each(function(){
-						// Chargement du bouton Like
-						var $likeButton = $(this);
-						var resHTML = '';
-						$.ajax({
-							method: 'post',
-							url: '<?= $this->url('i_like') ?>',
-							data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id'), action: 'search'},
-							dataType: 'json',
-							success: function(result){
-								if(result.status == 'success') {
-									$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
-								}
-							}
-						});
 
-						// Click sur bouton Like
-						$likeButton.click(function(e){
-							e.preventDefault();
-							$.ajax({
-								method: 'post',
-								url: $likeButton.find('a').attr('href'),
-								data: {user_id: $likeButton.data('user'), prod_id: $likeButton.data('id')},
-								dataType: 'json',
-								success: function(result){
-									if(result.status == 'success') {
-										$likeButton.html('<a href="<?= $this->url('i_like') ?>" class="btn btn-default" role="button"> <i class="fa fa-heart like-'+result.my_like+'" aria-hidden="true"></i></a>');
-										$likeButton.prev('.nb-like').html(result.likes_count + ' <i class="fa fa-heart" aria-hidden="true"></i>')
-									}
-								}
-							});
-						});
-					})
+					to_like('<?= $this->url('i_like') ?>');
+
 				});
 			</script>
 			<?= $this->section('script') ?>

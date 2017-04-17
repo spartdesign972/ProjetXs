@@ -4,10 +4,17 @@ namespace Model;
 class ProductsModel extends \W\Model\Model
 {
 
-	public function findAllWithCategory($orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
+	public function findAllWithCategory($groupBy = '', $orderBy = '', $orderDir = 'ASC', $limit = null, $offset = null)
 	{
 
-		$sql = 'SELECT p.*, pc.category, pc.name FROM ' . $this->table . ' as p JOIN products_category as pc ON p.category_id = pc.id';
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS p.*, pc.category, pc.name FROM ' . $this->table . ' as p JOIN products_category as pc ON p.category_id = pc.id';
+		if (!empty($groupBy)){
+			//sécurisation des paramètres, pour éviter les injections SQL
+			if(!preg_match('#^[a-zA-Z0-9_$]+$#', $groupBy)){
+				die('Error: invalid orderBy param');
+			}
+			$sql .= ' GROUP BY '.$groupBy;
+		}
 		if (!empty($orderBy)){
 
 			//sécurisation des paramètres, pour éviter les injections SQL
@@ -37,6 +44,13 @@ class ProductsModel extends \W\Model\Model
 		$sth->execute();
 
 		return $sth->fetchAll();
+	}
+
+	public function lastFoundRows() {
+		
+		$resultFoundRows = $this->dbh->query('SELECT found_rows()');
+		
+		return $resultFoundRows->fetchColumn();
 	}
 
 }
