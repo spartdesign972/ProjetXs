@@ -34,7 +34,8 @@
         "respect/validation": "^1.1",
         "intervention/image": "^2.3",
         "behat/transliterator": "^1.2",
-        "Respect/Validation": "^1.1"
+        "Respect/Validation": "^1.1",
+        "mikehaertl/phpwkhtmltopdf": "^2.2"
     },
     "autoload": {
         "psr-4": {

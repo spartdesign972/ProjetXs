@@ -27,7 +27,8 @@
 
 #page-content-wrapper {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   padding-top: 50px;
   padding-left: 20px;
   padding-right: 20px;
@@ -59,12 +60,18 @@
 .sidebar-nav li {
   line-height: 40px;
 }
+.sidebar-nav li.active{
+  background-color: #41484c;
+}
 
 .sidebar-nav li a {
   color: #fff;
   display: block;
   text-decoration: none;
   text-align: center;
+}
+.sidebar-nav li a.active{
+  color: rgba(228, 112, 3, 1.0);
 }
 
 .sidebar-nav li a span:before {
@@ -75,9 +82,18 @@
   width: 20px;
   line-height: 18px;
 }
+.navbar-inverse .navbar-brand{
+    color: #9d9d9d;
+    cursor: default;
+}
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:active{
+    color: #9d9d9d;
+    cursor: default;
+}
 
 .sidebar-nav li a:hover,
-.sidebar-nav li.active {
+.sidebar-nav li a:active {
   color: rgba(228, 112, 3, 1.0);
   background: rgba(255,255,255,0.2);
   text-decoration: none;

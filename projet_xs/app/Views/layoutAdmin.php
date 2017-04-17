@@ -4,11 +4,11 @@
 		<meta charset="UTF-8">
 		<title><?= $this->e($title) ?></title>
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/bootstrap.min.css') ?> ">
-		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('css/font-awesome.min.css') ?>">
 		<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps|Gochi+Hand|PT+Sans" rel="stylesheet">
 		<!-- Bootstrap SweetAlert CSS -->
 	    <link rel="stylesheet" type="text/css" href="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.css') ?>">
+		<link rel="stylesheet" href="<?= $this->assetUrl('css/styleAdmin.css') ?>">
 
 		<?= $this->section('link') ?>
 	</head>
@@ -25,7 +25,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="#">ProjectXs-Admin</a>
+							<a class="navbar-brand text-muted" href="#">ProjectXs-Admin</a>
 							<a id="menu-toggle" href="#" class="btn btn-menu btn-lg">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                   </a>
@@ -43,46 +43,45 @@
 							</ul>
 								<ul class="nav navbar-nav navbar-right">
 								<li><a href="<?=$this->url('admin_logout')?>"><i class="fa fa-user-circle-o user" aria-hidden="true"></i> Déconnexion</a></li>
-								</li>
 							</ul>
 							</div><!-- /.navbar-collapse -->
 						</div>
 					</nav>
 					<?= $this->section('header') ?>
 
-				<div id="wrapper" data-spy="scroll" data-target="#spy" class="">
+				<div id="wrapper">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href=" <?=$this->url('default_home')  ?> "><i class="fa fa-home fa-2x"></i> Acceuil</a>
+                        <a href="<?=$this->url('default_home') ?>"><i class="fa fa-home fa-2x"></i> Acceuil</a>
                     </li>
-                    <li>
-                        <a href="<?= $this->url('admin_users') ?>" data-scroll>
+                    <li <?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_users') ?>"<?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
                             <span>Utilisateurs</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#anch2" data-scroll>
-                            <span>lien 2</span>
+                    <li <?php if($title == 'Produits'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_products') ?>"<?php if($title == 'Produits'): ?>class="active"<?php endif; ?>>
+                            <span>Produits</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#anch3" data-scroll>
-                            <span>lien 3</span>
+                    <li <?php if($title == 'Catégories'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_categories') ?>" <?php if($title == 'Catégories'): ?>class="active"<?php endif; ?>>
+                            <span>Catégories</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="#anch4" data-scroll>
-                            <span>lien  4</span>
+                    <li <?php if($title == 'Commandes'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_orders') ?>"<?php if($title == 'Commandes'): ?>class="active"<?php endif; ?>>
+                            <span>Commandes</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-
+<?php var_dump($title) ?>
         <!-- Page content -->
         <div id="page-content-wrapper">
             <?= $this->section('main_content') ?>
@@ -90,12 +89,14 @@
 
     </div>
 			<footer>
-				<?= $this->section('footer') ?>
+				
 			</footer>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/jquery.min.js') ?>"></script>
 			<script type="text/javascript" src="<?= $this->assetUrl('js/bootstrap.min.js') ?>"></script>
 			<!-- Bootstrap SweetAlert JS -->
 		    <script src="<?= $this->assetUrl('../../bower_components/bootstrap-sweetalert/dist/sweetalert.min.js') ?>"></script>
+		    
+			<script src="<?= $this->assetUrl('js/admin.js') ?>"></script>
 
 			<?= $this->section('script') ?>
 			<script type="text/javascript">

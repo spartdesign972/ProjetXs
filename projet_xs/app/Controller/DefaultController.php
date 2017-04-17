@@ -2,75 +2,87 @@
 
 namespace Controller;
 
-
-
-use \Model\ProductsCustomModel;
-
-
 use Behat\Transliterator\Transliterator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Model\ContactFormModel;
-use Respect\Validation\Validator as v;
-use \W\Controller\Controller;
+use Model\LikesModel;
 use Model\UsersModel;
+use Respect\Validation\Validator as v;
+use \Model\ProductsCategoryModel;
+use \Model\ProductsCustomModel;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
-class DefaultController extends Controller
+
+class DefaultController extends MasterController
 {
-	private $mail;
+    /**
+     * AJAX de gestion de likes
+     */
+    public function i_like()
+    {
+        if (!empty($_POST)) {
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
 
-	private function mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML)
-	{
-		$app = getApp();
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->numeric()->validate($post['user_id'])) ? 'Erreur: User ID invalide' : null,
+                (!v::notEmpty()->numeric()->validate($post['prod_id'])) ? 'Erreur: Product Custom ID invalide' : null,
+            ];
+            $errors = array_filter($err);
 
-		//Create a new PHPMailer instance
-		$this->mail = new \PHPMailer;
-		//Tell PHPMailer to use SMTP
-		$this->mail->isSMTP();
-		$this->mail->CharSet = 'utf-8';
-		//Set the hostname of the mail server
-		$this->mail->Host = $app->getConfig('phpmailer_host');
-		// if your network does not support SMTP over IPv6
-		//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-		$this->mail->Port = $app->getConfig('phpmailer_port');
-		//Set the encryption system to use - ssl (deprecated) or tls
-		$this->mail->SMTPSecure = $app->getConfig('phpmailer_SMTPSecure');
-		//Whether to use SMTP authentication
-		$this->mail->SMTPAuth = $app->getConfig('phpmailer_SMTPAuth');
-		//Username to use for SMTP authentication - use full email address for gmail
-		$this->mail->Username = $app->getConfig('phpmailer_username');
-		//Password to use for SMTP authentication
-		$this->mail->Password = $app->getConfig('phpmailer_password');
+            if (count($errors) !== 0) {
+                $this->showJson([
+                    'status'  => 'error',
+                    'message' => implode('<br>', $errors),
+                ]);
+            } else {
 
-		//Set who the message is to be sent from
-		$this->mail->setFrom($fromAddress, $fromName);
-		//Set who the message is to be sent to
-		$this->mail->addAddress($toAddress, $toName);
-		//Set the subject line
-		$this->mail->Subject = $subject;
-		//Read an HTML message body from an external file, convert referenced images to embedded,
-		//convert HTML into a basic plain-text alternative body
-		$this->mail->msgHTML($msgHTML);
-		//send the message, check for errors
-		if (!$this->mail->send()) {
-			echo "Mailer Error: " . $this->mail->ErrorInfo;
-		}
-	}
+                $data = [
+                    'user_id'           => (int) $post['user_id'],
+                    'product_custom_id' => (int) $post['prod_id'],
+                ];
+
+                $likesModel = new LikesModel();
+                $like       = $likesModel->findLikeByUserAndProd($data['user_id'], $data['product_custom_id']);
+
+                if (isset($post['action']) && $post['action'] == 'search') {
+
+                    $this->showJson([
+                        'status'  => 'success',
+                        'my_like' => empty($like) ? 'no' : 'yes',
+                    ]);
+                } else {
+
+                    $productsCustomModel = new ProductsCustomModel();
+                    $productCustom       = $productsCustomModel->find($data['product_custom_id']);
+
+                    $result = empty($like) ? $likesModel->insert($data) : $likesModel->delete($like['id']);
+
+                    $likesCount = empty($like) ? ++$productCustom['likes_count'] : --$productCustom['likes_count'];
+                    $productsCustomModel->update(['likes_count' => $likesCount], $data['product_custom_id']);
+
+                    $this->showJson([
+                        'status'      => 'success',
+                        'my_like'     => empty($like) ? 'yes' : 'no',
+                        'likes_count' => $likesCount,
+                    ]);
+                }
+            }
+        }
+    }
 
     /**
      * Page d'accueil par défaut
      */
     public function home()
     {
-        $this->show('default/home');
+        $productsCustomModel = new ProductsCustomModel();
+        $productsSelection   = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 3);
+
+        $this->show('default/home', ['productsSelection' => $productsSelection]);
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function showcart()
-    {
-        $this->show('default/cart');
-    }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Page de connection/identification
@@ -78,9 +90,9 @@ class DefaultController extends Controller
     public function connect()
     {
         $errorsText = '';
-        $logUser = $this->getUser();
+        $logUser    = $this->getUser();
 
-        if(!empty($logUser)){
+        if (!empty($logUser)) {
             $this->redirectToRoute('default_home');
         }
         // si le post n'est pas vide, on récupère les données "nettoyées"
@@ -97,22 +109,21 @@ class DefaultController extends Controller
             $errors = array_filter($err);
             if (count($errors) === 0) {
                 $authentificationModel = new AuthentificationModel();
-                if(empty($authentificationModel->isValidLoginInfo($post['email'], $post['password']))){
+                if (empty($authentificationModel->isValidLoginInfo($post['email'], $post['password']))) {
                     $errorsText = 'Identifiants invalides';
 
-                }else{
+                } else {
 
-                    $usersModel  = new UsersModel();
+                    $usersModel = new UsersModel();
                     $authentificationModel->logUserIn($usersModel->getUserByUsernameOrEmail($post['email']));
                     $this->redirectToRoute('default_home');
 
                 }
-            }
-            else{
+            } else {
                 $errorsText = implode('<br>', $errors);
             }
-        } 
-        $this->show('User/connect',['errorsText' => $errorsText]);
+        }
+        $this->show('User/connect', ['errorsText' => $errorsText]);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -122,15 +133,15 @@ class DefaultController extends Controller
     public function password()
     {
         $authentificationModel = new AuthentificationModel();
-        $logUser = $this->getUser();
+        $logUser               = $this->getUser();
 
-        if(empty($logUser)){
+        if (empty($logUser)) {
             $this->redirectToRoute('default_home');
         }
 
-        $errorsText = '';
+        $errorsText  = '';
         $successText = '';
-        if(!empty($_POST)){
+        if (!empty($_POST)) {
             // nettoyage des données
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
@@ -142,40 +153,37 @@ class DefaultController extends Controller
             ];
             $errors = array_filter($err);
 
-            
-            if(count($errors) !== 0){
+            if (count($errors) !== 0) {
                 $errorsText = implode('<br>', $errors);
-            }
-            elseif($post['confirm'] !== $post['new']) {
+            } elseif ($post['confirm'] !== $post['new']) {
                 $errorsText = 'Les Mots de passe ne correspondent pas.';
-            }
-            elseif(empty($authentificationModel->isValidLoginInfo($logUser['email'], $post['old']))){
+            } elseif (empty($authentificationModel->isValidLoginInfo($logUser['email'], $post['old']))) {
                 $errorsText = 'L\'Ancien mot de passe est incorrect.';
             }
             // données valides
             else {
                 $usersModel = new UsersModel();
-                $data = [
-                    'password'  => $authentificationModel->hashPassword($post['new']),
+                $data       = [
+                    'password' => $authentificationModel->hashPassword($post['new']),
                 ];
 
-                if($usersModel->update($data, $logUser['id'])) {
+                if ($usersModel->update($data, $logUser['id'])) {
                     $successText = 'Le mot de passe a bien été changé !';
                 }
             }
         }
         $this->show('user/password', ['errorsText' => $errorsText, 'successText' => $successText]);
     }
-    
+
     /**
      * Page d'oubli de mot de passe
      */
     public function forgot_password()
     {
-        $errorsText = '';
+        $errorsText  = '';
         $successText = '';
 
-        if(!empty($_POST)){
+        if (!empty($_POST)) {
             // nettoyage des données
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
@@ -185,7 +193,7 @@ class DefaultController extends Controller
             ];
             $errors = array_filter($err);
 
-            if(count($errors) !== 0){
+            if (count($errors) !== 0) {
                 $errorsText = implode('<br>', $errors);
             }
 
@@ -195,25 +203,24 @@ class DefaultController extends Controller
 
                 $user = $usersModel->getUserByUsernameOrEmail($post['email']);
 
-                if(empty($user)) {
+                if (empty($user)) {
                     $errorsText = 'Utilisateur inexistant';
-                }
-                else {
+                } else {
 
                     $fromAddress = 'noreply@factory-xs.com';
-                    $fromName = 'Tshirt Factory XS';
-                    $toAddress = $user['email'];
-                    $toName = $user['firstname'].' '.$user['lastname'];
-                    $subject = 'Nouveau mot de passe';
-                    $msgHTML = '<html><head><title>Nouveau mot de passe</title></head>';
+                    $fromName    = 'Tshirt Factory XS';
+                    $toAddress   = $user['email'];
+                    $toName      = $user['firstname'] . ' ' . $user['lastname'];
+                    $subject     = 'Nouveau mot de passe';
+                    $msgHTML     = '<html><head><title>Nouveau mot de passe</title></head>';
                     $msgHTML .= '<body><p>Veuillez cliquer sur le lien ci-dessous pour générer un nouveau mot de passe</p>';
-                    $msgHTML .= '<a href="/'.$_SERVER['HTTP_HOST'].$this->generateUrl('new_password').'?email='.$user['email'].'&token='.$user['token'].'">Nouveau mot de passe</a>';
+                    $msgHTML .= '<a href="/' . $_SERVER['HTTP_HOST'] . $this->generateUrl('new_password') . '?email=' . $user['email'] . '&token=' . $user['token'] . '">Nouveau mot de passe</a>';
                     $msgHTML .= '</body></html>';
 
                     $this->mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML);
-                    
+
                     $successText = "La procédure vous a été envoyé par mail";
-                    header('refresh:3;url='.$this->generateUrl('login'));
+                    header('refresh:3;url=' . $this->generateUrl('login'));
                 }
             }
         }
@@ -223,27 +230,26 @@ class DefaultController extends Controller
     /**
      * Page de modification du mot de passe
      */
-    public function new_password() 
+    public function new_password()
     {
         $logUser = $this->getUser();
         $user;
 
-        if(isset($_GET['email']) && isset($_GET['token']) && empty($logUser)) {
+        if (isset($_GET['email']) && isset($_GET['token']) && empty($logUser)) {
 
             $usersModel = new UsersModel();
-            $user = $usersModel->getUserByEmailAndToken($_GET['email'], $_GET['token']);
+            $user       = $usersModel->getUserByEmailAndToken($_GET['email'], $_GET['token']);
 
-            if(empty($user)){
+            if (empty($user)) {
                 $this->redirectToRoute('default_home');
             }
-        }
-        else {
+        } else {
             $this->redirectToRoute('default_home');
         }
 
-        $errorsText = '';
+        $errorsText  = '';
         $successText = '';
-        if(!empty($_POST)){
+        if (!empty($_POST)) {
             // nettoyage des données
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
@@ -254,31 +260,28 @@ class DefaultController extends Controller
             ];
             $errors = array_filter($err);
 
-            
-            if(count($errors) !== 0){
+            if (count($errors) !== 0) {
                 $errorsText = implode('<br>', $errors);
-            }
-            elseif($post['confirm'] !== $post['new']) {
+            } elseif ($post['confirm'] !== $post['new']) {
                 $errorsText = 'Les mots de passe ne correspondent pas.';
             }
             // données valides
             else {
                 $authentificationModel = new AuthentificationModel();
-                $usersModel = new UsersModel();
-                $data = [
-                    'password'  => $authentificationModel->hashPassword($post['new']),
-                    'token'     => StringUtils::randomString(),
+                $usersModel            = new UsersModel();
+                $data                  = [
+                    'password' => $authentificationModel->hashPassword($post['new']),
+                    'token'    => StringUtils::randomString(),
                 ];
 
-                if($usersModel->update($data, $user['id'])) {
+                if ($usersModel->update($data, $user['id'])) {
                     $successText = 'Le mot de passe a bien été changé !';
-                    header('refresh:3;url='.$this->generateUrl('login'));
+                    header('refresh:3;url=' . $this->generateUrl('login'));
                 }
             }
         }
         $this->show('user/newPassword', ['errorsText' => $errorsText, 'successText' => $successText]);
     }
-
 
     public function Logout()
     {
@@ -286,7 +289,7 @@ class DefaultController extends Controller
         $user->logUserOut();
         $this->redirectToRoute('default_home');
     }
- 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function contact()
     {
@@ -322,7 +325,7 @@ class DefaultController extends Controller
                 // $result = '<div class="alert alert-danger">' .  . '</div>';
             }
         }
-        $this->show('User/contact');
+        $this->show('default/contact');
 
     }
 
@@ -331,9 +334,9 @@ class DefaultController extends Controller
     {
         //-Declaration des diff variables
         $post       = [];
-        $upload_dir = 'assets/upload/';
+        $upload_dir = 'assets/avatars/';
         $maxSize    = (1024 * 1000) * 2;
-        $extAllowed = ['jpg','jpeg','png','gif'];
+        $extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
 
         // si le post n'est pas vide, on récupère les données "nettoyées"
         if (!empty($_POST)) {
@@ -346,23 +349,23 @@ class DefaultController extends Controller
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
                 (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
                 (!v::notEmpty()->length(8, 30)->validate($post['password'])) ? 'Le mot de passe est invalide' : null,
-                (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
+                (!v::notEmpty()->length(2, 60)->validate($post['street'])) ? 'La rue est invalide' : null,
+                (!v::notEmpty()->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
                 (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le code postal est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
             ];
 
             $errors = array_filter($err);
 
-//-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
+            //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
             if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == 0) {
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                
-                $x = explode('.',$_FILES['avatar']['name']);
-                if(in_array($x[1],$extAllowed)){
-                    
+
+                $x = explode('.', $_FILES['avatar']['name']);
+                if (in_array($x[1], $extAllowed)) {
+
                     $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
                     if ($img->filesize() > $maxSize) {
                         //-Si la taille de l'image est superieure à la dimension donnée
@@ -389,8 +392,7 @@ class DefaultController extends Controller
                         $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
                         $img->save($upload_dir . $save_name . $ext);
                     }
-                }
-                else{
+                } else {
                     $errors[] = 'L\'avatar est une image invalide';
                 }
             }
@@ -412,7 +414,8 @@ class DefaultController extends Controller
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
                     'avatar'    => $save_name,
-                    'token'    => StringUtils::randomString(),
+                    'token'     => StringUtils::randomString(),
+                    'role'      => 'user',
                 ];
                 $User = new UsersModel();
                 if ($User->insert($datas)) {
@@ -444,6 +447,7 @@ class DefaultController extends Controller
         $post       = [];
         $upload_dir = 'upload/';
         $maxSize    = (1024 * 1000) * 2;
+        $extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
         $errors     = [];
         $result     = '';
 
@@ -451,15 +455,14 @@ class DefaultController extends Controller
         if (!empty($_POST)) {
             $post = array_map('trim', array_map('strip_tags', $_POST));
 
-
             $err = [
                 //-On verifie si l'input n'est pas vide, si il ne comporte pas de caracteres qu'on ne veut pas, et si la taille de la chaine est comprise entre 2 et 30 caracteres.
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['lastname'])) ? 'Le nom de famille est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['firstname'])) ? 'Le prénom est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['username'])) ? 'Le pseudo est invalide' : null,
                 (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
-                (!v::notEmpty()->length(2, 30)->validate($post['street'])) ? 'La rue est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
+                (!v::notEmpty()->length(2, 60)->validate($post['street'])) ? 'La rue est invalide' : null,
+                (!v::notEmpty()->length(2, 30)->validate($post['city'])) ? 'La ville est invalide' : null,
                 (!v::notEmpty()->length(2, 10)->validate($post['zipcode'])) ? 'Le code postal est invalide' : null,
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['country'])) ? 'Le pays est invalide' : null,
             ];
@@ -471,9 +474,9 @@ class DefaultController extends Controller
                 if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
                     mkdir($upload_dir, 0755); // on le cree
                 }
-                
-                $x = explode('.',$_FILES['avatar']['name']);
-                if(in_array($x[1],$extAllowed)){
+
+                $x = explode('.', $_FILES['avatar']['name']);
+                if (in_array($x[1], $extAllowed)) {
                     $img = Image::make($_FILES['avatar']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
                     if ($img->filesize() > $maxSize) {
                         //-Si la taille de l'image est superieure à la dimension donnée
@@ -500,10 +503,10 @@ class DefaultController extends Controller
                         $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['avatar']['name']));
                         $img->save($upload_dir . $save_name . $ext);
                     }
-                }else{
-                    
+                } else {
+
                     $errors[] = 'L\'avatar est une image invalide';
-                    
+
                 }
             }
 
@@ -520,7 +523,8 @@ class DefaultController extends Controller
                     'city'      => ucfirst($post['city']),
                     'zipcode'   => $post['zipcode'],
                     'country'   => ucfirst($post['country']),
-                    // 'avatar'    => $save_name,
+                    'avatar'    => $save_name,
+                    'token'     => StringUtils::randomString(),
                 ];
                 $User = new UsersModel();
                 if ($User->update($datas, $loggedUser['id'])) {
@@ -528,15 +532,15 @@ class DefaultController extends Controller
 
                 }
 
-                // $this->showJson(['status' => 'success', 'message' => 'Vous avez été modifié avec succès']);
+                $this->showJson(['status' => 'success', 'message' => 'Vous avez été modifié avec succès']);
                 // $result  = '<div class="alert alert-success">Vous avez été modifié avec succès</div>';
                 // $this->flash('Bonjour vous etes bien inscrit', 'info');
 
             } else {
-                // $this->showJson(['status' => 'error', 'message' => implode('<br>', $errors)]);
+                $this->showJson(['status' => 'error', 'message' => implode('<br>', $errors)]);
                 // $result = '<div class="alert alert-danger">' . $errors  . '</div>';
             }
-            echo $result;
+            // echo $result;
         }
         $param = [
             'userModif' => $newUser,
@@ -545,136 +549,192 @@ class DefaultController extends Controller
         $this->show('User/modifInfos', $param);
     }
 
-    
-///////////////////////////////////////////////////////////////////////////////////////////  
-    
+///////////////////////////////////////////////////////////////////////////////////////////
+
     //Page de personnalisation de tShirt
-    public function custom(){
-        
-        $params=[];
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-        //-Declaration des diff variables 
-    $upload_dir = 'assets/upload/';
-    $maxSize    = (1024 * 1000) * 2;
-        
-        if(!empty($_POST)){
-            if(isset($_POST['img'])){
+    public function custom()
+    {
+
+        $upload_dir = 'assets/upload/'; //Dossier d'upload
+
+        //Upload de l'image
+        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
+
+            //Déclaration des variables
+
+            $maxSize    = (1024 * 1000) * 2; //Taille Maximal du fichier uploadé
+            $extAllowed = ['jpg', 'jpeg', 'png', 'gif']; //Extensions acceptés pour l'upload
+
+            if (!is_dir($upload_dir)) { //-Si le dossier de destination n'existe pas
+                mkdir($upload_dir, 0755); // on le crée
+            }
+
+            $x = explode('.', $_FILES['picture']['name']); //Récupérer le nom de l'extension du fichier
+            if (in_array($x[1], $extAllowed)) {
+//Vérifier si l'extension du fichier source est accepté
+                $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
+
+                if ($img->filesize() > $maxSize) {
+                    //-Si la taille de l'image est superieure à la dimension donnée
+                    $errors[] = 'Image trop lourde, 2 Mo maximum';
+                }
+
+                if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
+                    //-On verifie si l'image est valide en verifiant son mimetype
+                    $errors[] = 'L\'image n\'a pas un format invalide';
+                } else {
+                    switch ($img->mime()) {
+                        case 'image/jpg':
+                        case 'image/jpeg':
+                        case 'image/pjpeg':
+                            $ext = '.jpg';
+                            break;
+
+                        case 'image/png':
+                            $ext = '.png';
+                            break;
+                        case 'image/gif':
+                            $ext = '.gif';
+                            break;
+                    }
+
+                    $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
+                    $img->save($upload_dir . $save_name . $ext);
+                    $custom              = $upload_dir . $save_name . $ext;
+                    $_SESSION['picture'] = [
+                        'source' => $save_name . $ext,
+                    ];
+                    //echo $_SESSION['picture']['source'];
+                    echo '<script>
+                    fabric.Image.fromURL(\'' . $custom . '\',function(img){
+                    img = img;
+                    img.scaleToWidth(200);
+                    canvas.add(img);
+                    console.log(\'ajouter\');
+                    //canvas.remove(img);
+                    });
+                    </script>';
+
+                }
+
+            } else {
+            //L'extension du fichier source n'est pas accepté
+
+                $errors[] = 'L\'image a un format invalide';
+
+                }
+                
+                
+                
+            }//Fin de l'upload d'image
+            elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
                 
                 $img = $_POST['img'];
                 $img = str_replace('data:image/png;base64,', '', $img);
-                
                 $img = str_replace(' ', '+', $img);
                
                 $fileData = base64_decode($img);
-                //saving
+                
                 $name = time().'-model.png';
                 $fileName = $upload_dir.$name;
                 file_put_contents($fileName, $fileData);
                 
-                $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
+                if(isset($_SESSION['picture']['source'])){
+                    if(!isset($_POST['label'])){//Si aucun nom n'est défini, on en crée un
+                        $_POST['label'] = 'Custom-'.time();
+                    }
+                    else{
+                        if(strlen($_POST['label'])<=20){
+
+                        $_POST['label'] = trim(strip_tags($_POST['label']));
+
+                        }
+                    }
                 
-                $infos = [
-                    'user_id'=> '2',//Récupérer dans $_SESSION
-                    'product_reference'=>$reference,
-                    'picture_source'=> $_SESSION['picture_source'],
-                    'model'=>$name,
-                         ];
+                    //Construire la référence à partir du modele,de la taille et la couleur
+                    $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
+
+                    //Informations à transmettre en bdd
+                    $infos = [
+                        'user_id'           => $_SESSION['user']['id'],
+                        'design_label'      => $_POST['label'],
+                        'picture_source'    => $_SESSION['picture']['source'],
+                        'product_reference' => $reference,
+                        'model'             => $name,
+                        'date_create'       => date("Y-m-d H:i:s"),
+                        'price'             => $_POST['price'],
+                             ];
+
+                    $product = new ProductsCustomModel();
+
+                    if($product->insert($infos)){
+
+                        //$success= true;
+                        unset($_SESSION['picture']);
+                        echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
+                    }
+                    }
+                    else{//Aucune image n'a été importé
+
+                        $errors[] = 'Vous devez importer une image avant d\'enregistrer';
+                    }
                 
-                $product = new ProductsCustomModel();
-                
-                if($product->insert($infos)){
+                if (count($errors) > 0){
                     
-                    $success= true;
+                    echo '<p>'.implode('<br>', $errors).'</p>';
+                    
                 }
                 
-            }
-            
-            //getLoggedUser()
-            
-        }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //-On verifie si la super Global $_FILES est definie et qu'elle ne comporte pas d'erreurs.
-        if (isset($_FILES['picture']) && $_FILES['picture']['error'] == 0) {
-            if (!is_dir($upload_dir)) { //-Si le fichier n'existe pas
-              mkdir($upload_dir, 0755); // on le cree
-            }
-            
-            $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
-            if ($img->filesize() > $maxSize) {
-              //-Si la taille de l'image est superieure à la dimension donnée
-              $errors[] = 'Image trop lourde, 2 Mo maximum';
-            }
-            if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
-              //-On verifie si l'image est valide en verifiant son mimetype
-              $errors[] = 'L\'avatar est une image invalide';
-            }
-            else {
-              switch ($img->mime()) {
-                case 'image/jpg':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                  $ext = '.jpg';
-                  break;
+            }//Fin des enregistrements   
 
-                case 'image/png':
-                  $ext = '.png';
-                  break;
-                case 'image/gif':
-                  $ext = '.gif';
-                  break;
-              }
-                
-                $save_name = Transliterator::transliterate(time() . '-' . preg_replace('/\\.[^.\\s]{3,4}$/', '', $_FILES['picture']['name']));
-                $img->save($upload_dir . $save_name . $ext);
-                $custom = $upload_dir . $save_name . $ext;
-                $_SESSION['picture_source'] = $save_name.$ext;
-                
-                echo '<script>
-                fabric.Image.fromURL(\''.$custom.'\',function(img){
-                img.scaleToWidth(200);
-                canvas.add(img);
-                });
-                </script>';
-                
-            }
-          
+//        elseif (isset($_POST['clear'])) {
+////Effacer l'image importé precedemment
+//            
+//            unlink($upload_dir . $_POST['clear']);
+//            unset($_SESSION['picture']);
+//
+//        }
+        else {
+//Affichage de la page
+
+            $list = new ProductsCategoryModel();
+            $list = $list->findAll('name');
+
+            $params = [
+                'list' => $list,
+            ];
+
+            $this->show('default/custom', $params);
+
         }
 
-// 
-//        if(!empty($_SESSION['user'])){//Si il y a un utilsateur connecté
-//            $params[] =[
-//                'log' => true, 
-//            ];
-//        }
-//        else{//Pas d'utilisateur connecté
-//            $params[] =[
-//                'log' => false,  
-//            ];
-//        }
-        
-        
-        if(empty($_POST)){//la super Global $_FILES n'est pas definie
-            
-        $this->show('default/custom');
-            
-        }
-        
     }//Fin de custom
 
+//******************************** Methode pour afficher les design creer par les membres ***********************
+    public function showAlldesignMembres($page=1)
+    {
+        $nbDesignCount = new ProductsCustomModel();
+        $nbDesigns = $nbDesignCount->nbProducts();
+        $nbDesign = $nbDesigns['total'];
+        
+        $nbArt = 4;
+        $nbPage = ceil($nbDesign / $nbArt);
+        $curPage = $page;
 
-    public function showAlldesignMembres(){
+        $deb = ($curPage - 1) * $nbArt;
 
-        $order = '';
+        $order       = '';
         $listdesigns = new ProductsCustomModel();
-        $design      = $listdesigns->findDesign($order);
+        $design      = $listdesigns->findDesign($order, $deb, $nbArt);
         $params      = [
             'design' => $design,
+            'nbPage' => $nbPage,
         ];
         $this->show('default/designMembre', $params);
     }
 
-
-    public function designMembres($column, $ord){
+    public function designMembres($column, $ord)
+    {
 
         // $this->allowTo('admin');
         $loggedUser = $this->getUser();
@@ -683,46 +743,37 @@ class DefaultController extends Controller
 
         $order = '';
 
-            if($column == 'username'){
-                $order = ' ORDER BY U.username';
-            }
+        if ($column == 'username') {
+            $order = ' ORDER BY U.username';
+        } elseif ($column == 'like') {
+            $order = ' ORDER BY P.likes_count';
+        } elseif ($column == 'date') {
+            $order = ' ORDER BY P.date_create';
+        }
 
-            elseif($column == 'like'){
-                $order = ' ORDER BY P.like';
-            }
-            elseif($column == 'date'){
-                $order = ' ORDER BY P.date_create';
-            }
-
-            if($ord == 'asc'){
-                $order.= ' ASC';
-            }
-            elseif($ord == 'desc'){
-                $order.= ' DESC';
-            }
-
-
+        if ($ord == 'asc') {
+            $order .= ' ASC';
+        } elseif ($ord == 'desc') {
+            $order .= ' DESC';
+        }
 
         $listdesigns = new ProductsCustomModel();
-        $design      = $listdesigns->findDesign($order);
+        $design      = $listdesigns->findDesignOrder($order);
         $params      = [
             'design' => $design,
         ];
         $this->show('default/designMembre', $params);
-     
-    }//****************** Fin methode designMembres **********************
 
-      public function membreDesignMembre($id)
+    } //****************** Fin methode designMembres **********************
+
+    public function membreDesignMembres($id)
     {
-
         $listdesigns = new ProductsCustomModel();
         $design      = $listdesigns->findUserDesign($id);
         $params      = [
             'design' => $design,
         ];
-        $this->show('design/designMembre', $params);
+        $this->show('default/designMembre', $params);
     }
 
-
-
-}//******************** fin du controller ****************************
+} //******************** fin du controller ****************************

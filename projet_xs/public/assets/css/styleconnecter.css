@@ -1,5 +1,6 @@
 .carousel-wrapper {
 	margin-top: 120px;
+	z-index: 0;
 }
 
 
@@ -49,9 +50,10 @@
 .navbar-xs .collapse.in{
 	display: block;
 	position: absolute;
-	margin: -7px 0 0 -10px;
+	margin: -10px 0 0 -10px;
 	width: 100%;
 }
+
 .navbar-xs .collapse ul li a{
 	color:  #999;
 }
@@ -74,25 +76,27 @@ avec la bar de nav de l'utilisateur connecter **
 }
 
 .affix {
-    top: 30px;
+    top: 20px;
 }
 
 .carousel-wrapper {
 margin: 0;
 }
 
-.navbar-header-user .navbar-toggle-user {
+.navbar-xs .navbar-header-user .navbar-toggle-user {
     margin-top:0px;
     margin-bottom:0px;
     padding-bottom:0px;
 }
-.navbar-nav {
+.navbar-xs .navbar-nav {
     margin: 0.5px -15px;
 }
 .spacer{
 	visibility: hidden;
 }
-
+.navbar-nav{
+	margin:  0 auto;
+}
 
 
 
@@ -100,16 +104,51 @@ margin: 0;
 	.navbar-xs .collapse.in{
 	display: block;
 	position: absolute;
-	margin: -7px 0 0 -10px;
+	margin: -10px 0 0 -10px;
 	width: 100%;
-}
-.page-header {
-    margin: 20px 0 0 0;
-}
-.navbar.menu{
-	margin-top: 10px;
+	}
+	.page-header {
+	    margin: 20px 0 0 0;
+	}
+	.navbar-xs .navbar.menu{
+		margin-top: 10px;
+	}
+	.navbar-xs .collapse ul li{
+		border: none;
+	}
+	.navbar-xs .navbar-collapse ul{
+		height: 150px;
+	}
+	.navbar-xs .navbar-nav > li > a {
+    font-size: 1em;
+	}
+	.page-header {
+		margin: 30px auto -10px;
+	}
+
 }
 
-
+@media only screen and (min-width: 768px) and (max-width: 1250px){
+	.navbar-xs { min-height:60px !important; height: 30px !important; padding:0 10px 0;}
+	.navbar-xs .navbar-nav > li > a {
+    font-size: 1em;
+	}
+	.navbar-xs .navbar-right{
+		display: inline-block;
+		float: none!important;
+	}
+	.navbar-xs .navbar-right ul{
+		display: inline-block;
+	}
+	.affix{
+		top: 60px;
+		z-index: 10;
+	}
+	.page-header {
+		margin: 60px auto -10px;
+	}
+	.navbar-nav{
+		margin:  -10px auto;
+	}
 
 }

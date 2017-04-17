@@ -5,7 +5,7 @@ namespace Controller;
 use Model\OrdersModel;
 use Model\ProductsCustomModel;
 use \W\Controller\Controller;
-use \W\Model\UsersModel;
+
 
 class UsersController extends \W\Controller\Controller
 {
@@ -22,7 +22,7 @@ class UsersController extends \W\Controller\Controller
 
     public function ListOrders($orderBy = 'id', $orderDir = 'ASC')
     {
-        $this->allowTo('admin');
+        // $this->allowTo('admin');
         $loggedUser = $this->getUser();
 
         $listorders = new OrdersModel();
@@ -40,18 +40,14 @@ class UsersController extends \W\Controller\Controller
         $success = false;
         $error   = [];
 
-        $view  = new OrdersModel();
-        $order = $view->find($id);
-
-        // $listAll = new CommentsModel();
-        // $arti = $id;
-        // $viewComment = $listAll->findAllcomment($arti);
-        // // echo json_encode($viewComment);
-
-        $params = [
-            'view_order' => $order,
-            "success"    => $success,
-            "error"      => $error,
+        $view           = new OrdersModel();
+        $order          = $view->find($id);
+        $panierCommande = json_decode($order['products']);
+        $params         = [
+            'view_order'     => $order,
+            "success"        => $success,
+            "error"          => $error,
+            'panierCommande' => $panierCommande,
         ];
         //affiche un template
         $this->show('User/viewOrder', $params);
@@ -86,8 +82,49 @@ class UsersController extends \W\Controller\Controller
         } else {
             $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
         }
-       
+
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function publicDesign()
+    {
+        if ($_POST["confirm_id"] && !empty($_POST['confirm_id']) && is_numeric($_POST['confirm_id'])) {
+
+            $confirmation = (int) $_POST['state'];
+            $confirm_id = (int) $_POST['confirm_id'];
+
+            $data         = [
+                'public' => $confirmation,
+            ];
+
+            $designPublic = new ProductsCustomModel();
+
+            if ($designPublic->update($data, $confirm_id)) {
+
+            $this->showJson(['status' => 'success', 'message' => 'Votre design est désormais public']);
+            }
+        } else {
+            $confirmation = 0;
+            $this->showJson(['status' => 'error', 'message' => 'l\'update ne passe pas']);
+        }
+
     }
 
+
+    //************** fonction pour generer la facture pdf **********************
+
+
+    public function viewFacturePdf(){
+        // $content = 'http://'.$_SERVER['HTTP_HOST'].$this->generateUrl('admin_pdf_print_fiche', ['id' => $id, 'html' => true]);
+        ob_start();
+            require 'facturePdfTemplate.php'; 
+        $content = ob_get_clean();
+        
+        $pdf = new \mikehaertl\wkhtmlto\Pdf();
+
+        // $pdf->setOptions(['user-style-sheet' => realpath(pdf.css)]);
+        $pdf->addPage($content);
+        $pdf->send();
+    }
 
 }

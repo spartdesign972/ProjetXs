@@ -1,168 +1,185 @@
 <?php
-
 namespace Controller;
 
-
+use Respect\Validation\Validator as v;
+use \Model\ProductsCustomModel;
+use \Model\OrdersModel;
 use \W\Controller\Controller;
 
 class CartController extends Controller
 {
-
-/**
- * Verifie si le panier existe, le créé sinon
- * @return booleen
- */
-    public function creationPanier()
+    public function showcart()
     {
-        if (!isset($_SESSION['panier'])) {
-            $_SESSION['panier']                   = array();
-            $_SESSION['panier']['libelleProduit'] = array();
-            $_SESSION['panier']['qteProduit']     = array();
-            $_SESSION['panier']['prixProduit']    = array();
-            $_SESSION['panier']['verrou']         = false;
-        }
-        
-        $this->show('default/cart');
+        $emptyCart = (!isset($_SESSION['cart']) || empty($_SESSION['cart']['id'])) ? 'Votre panier est vide' : null;
+
+        $this->show('default/cart', ['emptyCart' => $emptyCart]);
     }
 
-/**
- * Ajoute un article dans le panier
- * @param string $libelleProduit
- * @param int $qteProduit
- * @param float $prixProduit
- * @return void
- */
-    public function ajouterArticle($libelleProduit, $qteProduit, $prixProduit)
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public function createcart($id)
     {
-
-        //Si le panier existe
-        if (creationPanier() && !isVerrouille()) {
-            //Si le produit existe déjà on ajoute seulement la quantité
-            $positionProduit = array_search($libelleProduit, $_SESSION['panier']['libelleProduit']);
-
-            if ($positionProduit !== false) {
-                $_SESSION['panier']['qteProduit'][$positionProduit] += $qteProduit;
-            } else {
-                //Sinon on ajoute le produit
-                array_push($_SESSION['panier']['libelleProduit'], $libelleProduit);
-                array_push($_SESSION['panier']['qteProduit'], $qteProduit);
-                array_push($_SESSION['panier']['prixProduit'], $prixProduit);
-            }
+        if (!isset($id) || empty($id) || !is_numeric($id)) {
+            $this->showJson([
+                'status'  => 'error',
+                'message' => 'Erreur : ID invalide',
+            ]);
         } else {
-            echo "Un problème est survenu veuillez contacter l'administrateur du site.";
-        }
-
-    }
-
-/**
- * Modifie la quantité d'un article
- * @param $libelleProduit
- * @param $qteProduit
- * @return void
- */
-    public function modifierQTeArticle($libelleProduit, $qteProduit)
-    {
-        //Si le panier éxiste
-        if (creationPanier() && !isVerrouille()) {
-            //Si la quantité est positive on modifie sinon on supprime l'article
-            if ($qteProduit > 0) {
-                //Recharche du produit dans le panier
-                $positionProduit = array_search($libelleProduit, $_SESSION['panier']['libelleProduit']);
-
-                if ($positionProduit !== false) {
-                    $_SESSION['panier']['qteProduit'][$positionProduit] = $qteProduit;
-                }
-            } else {
-                supprimerArticle($libelleProduit);
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [
+                    'id'             => [],
+                    'libelleProduit' => [],
+                    'ref'            => [],
+                    'qty'            => [],
+                    'image'          => [],
+                    'price'          => [],
+                ];
             }
 
-        } else {
-            echo "Un problème est survenu veuillez contacter l'administrateur du site.";
+            $itemModel = new ProductsCustomModel();
+            $product   = $itemModel->find($id);
+
+            // Mise à jour de la Qté si déjà présent dans le panier
+            $position = array_search($id,  $_SESSION['cart']['id']);
+            if($position !== false){
+                $_SESSION['cart']['qty'][$position]++;
+            }
+            // Ajout si absent du panier
+            else{
+                $_SESSION['cart']['id'][]             = $id;
+                $_SESSION['cart']['libelleProduit'][] = $product['design_label'];
+                $_SESSION['cart']['ref'][]            = $product['product_reference'];
+                $_SESSION['cart']['qty'][]            = 1;
+                $_SESSION['cart']['image'][]          = $product['model'];
+                $_SESSION['cart']['price'][]          = $product['price'];
+            }
+
+            $this->showJson([
+                'status'  => 'success',
+                'message' => 'Design ajouté au panier',
+                'position'=> $position
+            ]);
+
         }
 
     }
 
-/**
- * Supprime un article du panier
- * @param $libelleProduit
- * @return unknown_type
- */
-    public function supprimerArticle($libelleProduit)
+    public function edit_cart()
     {
-        //Si le panier existe
-        if (creationPanier() && !isVerrouille()) {
-            //Nous allons passer par un panier temporaire
-            $tmp                   = array();
-            $tmp['libelleProduit'] = array();
-            $tmp['qteProduit']     = array();
-            $tmp['prixProduit']    = array();
-            $tmp['verrou']         = $_SESSION['panier']['verrou'];
+        if (!empty($_POST)) {
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
 
-            for ($i = 0; $i < count($_SESSION['panier']['libelleProduit']); $i++) {
-                if ($_SESSION['panier']['libelleProduit'][$i] !== $libelleProduit) {
-                    array_push($tmp['libelleProduit'], $_SESSION['panier']['libelleProduit'][$i]);
-                    array_push($tmp['qteProduit'], $_SESSION['panier']['qteProduit'][$i]);
-                    array_push($tmp['prixProduit'], $_SESSION['panier']['prixProduit'][$i]);
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->numeric()->validate($post['design_id'])) ? 'Erreur: Design ID invalide' : null,
+                (!v::notEmpty()->intVal()->validate($post['qty'])) ? 'Erreur: Quantité invalide' : null,
+            ];
+            $errors = array_filter($err);
+
+            if (count($errors) !== 0) {
+                $this->showJson([
+                    'status'  => 'error',
+                    'message' => implode('<br>', $errors),
+                ]);
+            } else {
+                // mise à jour de la quantité
+                if($post['qty'] > 0){
+
+                    $position = array_search($post['design_id'],  $_SESSION['cart']['id']);
+                    if($position !== false){
+                        $_SESSION['cart']['qty'][$position] = $post['qty'];
+                    }
                 }
 
+                $this->showJson([
+                    'status'  => 'success',
+                    'message' => 'Quantité modifiée',
+                ]);
+
             }
-            //On remplace le panier en session par notre panier temporaire à jour
-            $_SESSION['panier'] = $tmp;
-            //On efface notre panier temporaire
-            unset($tmp);
+        }
+    }
+
+    public function remove_cart()
+    {
+        if (!empty($_POST)) {
+            // nettoyage des données
+            $post = array_map('trim', array_map('strip_tags', $_POST));
+
+            // gestion des erreurs
+            $err = [
+                (!v::notEmpty()->numeric()->validate($post['design_id'])) ? 'Erreur: Design ID invalide' : null,
+            ];
+            $errors = array_filter($err);
+
+            if (count($errors) !== 0) {
+                $this->showJson([
+                    'status'  => 'error',
+                    'message' => implode('<br>', $errors),
+                ]);
+            } else {
+                // On crée un panier temporaire
+                $tmp = [
+                    'id'             => [],
+                    'libelleProduit' => [],
+                    'ref'            => [],
+                    'qty'            => [],
+                    'image'          => [],
+                    'price'          => [],
+                ];
+
+                foreach ($_SESSION['cart']['id'] as $key => $value) {
+                    if ($post['design_id'] != $value) {
+
+                        $tmp['id'][]             = $value;
+                        $tmp['libelleProduit'][] = $_SESSION['cart']['libelleProduit'][$key];
+                        $tmp['ref'][]            = $_SESSION['cart']['ref'][$key];
+                        $tmp['qty'][]            = $_SESSION['cart']['qty'][$key];
+                        $tmp['image'][]          = $_SESSION['cart']['image'][$key];
+                        $tmp['price'][]          = $_SESSION['cart']['price'][$key];
+                    }
+                }
+                //On remplace le panier en session par notre panier temporaire à jour
+                $_SESSION['cart'] = $tmp;
+                //On efface notre panier temporaire
+                unset($tmp);
+
+                $this->showJson([
+                    'status'  => 'success',
+                    'message' => 'Design retiré',
+                ]);
+
+            }
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public function order()
+    {
+        $successText = '';
+        $errorsText  = '';
+
+        $datas       = [
+            // colonne sql => valeur à insérer
+            'user_id'     => $_SESSION['user']['id'],
+            'products'    => json_encode($_SESSION['cart']),
+            'total'       => array_sum($_SESSION['cart']['price']),
+            'date_create' => date("Y-m-d H:i:s"),
+        ];
+        $order = new OrdersModel();
+        if ($order->insert($datas)) {
+
+            $successText = 'Votre commande a été ajoutée avec succès';
         } else {
-            echo "Un problème est survenu veuillez contacter l'administrateur du site.";
+            $errorsText = 'Il y a eu un problem à l\'ajout de votre commande';
         }
+        $params = [
+            'successText' => $successText,
+            'errorsText'  => $errorsText,
 
+        ];
+        $this->show('default/messageOrder',$params);
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Montant total du panier
- * @return int
- */
-    public function MontantGlobal()
-    {
-        $total = 0;
-        for ($i = 0; $i < count($_SESSION['panier']['libelleProduit']); $i++) {
-            $total += $_SESSION['panier']['qteProduit'][$i] * $_SESSION['panier']['prixProduit'][$i];
-        }
-        return $total;
-    }
-
-/**
- * Fonction de suppression du panier
- * @return void
- */
-    public function supprimePanier()
-    {
-        unset($_SESSION['panier']);
-    }
-
-/**
- * Permet de savoir si le panier est verrouillé
- * @return booleen
- */
-    public function isVerrouille()
-    {
-        if (isset($_SESSION['panier']) && $_SESSION['panier']['verrou']) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-
-/**
- * Compte le nombre d'articles différents dans le panier
- * @return int
- */
-    public function compterArticles()
-    {
-        if (isset($_SESSION['panier'])) {
-            return count($_SESSION['panier']['libelleProduit']);
-        } else {
-            return 0;
-        }
-
-    }
 }

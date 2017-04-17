@@ -1,53 +1,102 @@
-<?php $this->layout('layout', ['title' => 'Laissez un message'])?>
+<?php $this->layout('layout', ['title' => 'Votre Panier'])?>
 <?php $this->start('main_content')?>
-
 <div class="container">
-<h1>Votre Panier</h1>
+	<h1>Votre Panier</h1>
 	<br>
-<form method="post" action="<?=$this->url(cart_creationPanier) ?>">
-<table class="table table-striped">
-<thead>
-	<tr>
-		<td>Libellé</td>
-		<td>Quantité</td>
-		<td>Prix Unitaire</td>
-		<td>Action</td>
-	</tr>
-</thead>
-<tbody>
-<?php
-if (creationPanier()) {
-    $nbArticles = count($_SESSION['panier']['libelleProduit']);
-    if ($nbArticles <= 0) {
-        echo "<tr><td>Votre panier est vide </ td></tr>";
-    } else {
-        for ($i = 0; $i < $nbArticles; $i++) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['libelleProduit'][$i]) . "</ td>";
-            echo "<td><input type=\"text\" size=\"4\" name=\"q[]\" value=\"" . htmlspecialchars($_SESSION['panier']['qteProduit'][$i]) . "\"/></td>";
-            echo "<td>" . htmlspecialchars($_SESSION['panier']['prixProduit'][$i]) . "</td>";
-            echo "<td><a href=\"" . htmlspecialchars("panier.php?action=suppression&l=" . rawurlencode($_SESSION['panier']['libelleProduit'][$i])) . "\">XX</a></td>";
-            echo "</tr>";
-        }
-
-        echo "<tr><td colspan=\"2\"> </td>";
-        echo "<td colspan=\"2\">";
-        echo "Total : " . MontantGlobal();
-        echo "</td></tr>";
-
-        echo "<tr><td colspan=\"4\">";
-        echo "<input type=\"submit\" value=\"Rafraichir\"/>";
-        echo "<input type=\"hidden\" name=\"action\" value=\"refresh\"/>";
-
-        echo "</td></tr>";
-    }
-}
-?>
-</tbody>
-</table>
-</form>
+	<?php if (!empty($emptyCart)): ?>
+	<div class="alert alert-info"><?=$emptyCart?></div>
+	<?php else: ?>
+	<table class="table jumbotron">
+		<thead>
+			<tr>
+				<td>Libellé</td>
+				<td>Produit</td>
+				<td>Quantité</td>
+				<td>Prix Unitaire</td>
+				<td>Action</td>
+			</tr>
+		</thead>
+		<tbody>
+			<?php if (isset($_SESSION['cart'])): for ($i = 0; $i < count($_SESSION['cart']['id']); $i++): ?>
+				<tr>
+					<td><p><?=$_SESSION['cart']['libelleProduit'][$i];?></p></td>
+					<td>
+						<div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
+							<div class="thumbnail">
+								<img src="<?=$this->assetUrl('upload/' . $_SESSION['cart']['image'][$i]);?>" alt="">
+							</div>
+						</div>
+					</td>
+					<td>
+						<input class="form-control editQty" type="number" min="1" name="qte" data-id="<?=$_SESSION['cart']['id'][$i];?>" value="<?=$_SESSION['cart']['qty'][$i];?>">
+					</td>
+					<td class="designPrice"><?=$_SESSION['cart']['price'][$i] * $_SESSION['cart']['qty'][$i]?></td>
+					<td>
+						<p><a href="<?=$this->url('cart_remove_design')?>" class="btn btn-default removeDesign" data-id="<?=$_SESSION['cart']['id'][$i];?>" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a></p>
+					</td>
+				</tr>
+				<?php endfor;endif;?>
+			<tr class="total">
+				<td><strong>TOTAL</strong></td>
+				<td>
+					<strong>
+						<?php 	$total=0;
+								for($i = 0; $i < count($_SESSION['cart']['libelleProduit']); $i++) {
+									$total += $_SESSION['cart']['qty'][$i] * $_SESSION['cart']['price'][$i];
+								}
+								echo $total; ?> &euro;
+					</strong>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row">
+		<a href="<?=$this->url('user_listDesigns')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
+		<a href="<?=$this->url('cart_order')?>" class="btn btn-info order" role="button">Commander</a>
+	</div>
+	<?php endif;?>
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
-
+<?php $this->insert('inc/_footer') ?>
 <?php $this->stop('footer')?>
+<?php $this->start('script')?>
+<script>
+$(function(){
+		// Modifier une quantité
+		$('body').on('change', 'input.editQty', function(e){
+			e.preventDefault();
+			var $this = $(this);
+			$.ajax({
+				method: 'post',
+				url: '<?= $this->url('cart_edit_qty') ?>',
+				data: {design_id: $this.data('id'), qty: $this.val()},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
+			});
+		});
+
+		// Rétirer un design
+		$('body').on('click', 'a.removeDesign', function(e){
+			e.preventDefault();
+
+			var $this = $(this);
+			$.ajax({
+				method: 'post',
+				url: $this.attr('href'),
+				data: {design_id: $this.data('id')},
+				dataType: 'json',
+				success: function(result){
+					// swal('', result.message, result.status);
+					location.reload();
+				}
+			});
+		});
+
+
+});
+</script>
+<?php $this->stop('script')?>
