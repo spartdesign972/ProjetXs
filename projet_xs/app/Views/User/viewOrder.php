@@ -36,7 +36,7 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
             <?php endforeach ?>
           </td>
           <td><?=$view_order['status'];?></td>
-          <td><?=$view_order['total']; ?></td>
+          <td><?=$view_order['total']. ' €uros' ?></td>
         </tr>
         <?php else: ?>
         Aucune commande trouvée !

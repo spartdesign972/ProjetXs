@@ -13,7 +13,7 @@
 					<th>Date de commande</th>
 					<th>Commande</th>
 					<th>Status</th>
-					<th>Factures</th>
+					<th>Details</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,38 +37,3 @@
 <?php $this->start('footer');?>
 <?php include './inc/footer.php';?>
 <?php $this->stop('footer');?>
-<?php $this->start('script')?>
-	<script>
-
- $(function(){
-
-			// Supprimer une commande
-            $('body').on('click', '.deleteOrder', function(e){
-                e.preventDefault();
-
-				var $this = $(this);
-                swal({
-                    title: "Effacer cette commande",
-                    text: "Voulez-vous continuer ?",
-                    type: "info",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                    }, function () {
-                        setTimeout(function () {
-                            $.ajax({
-                                method: 'post',
-                                url: $this.attr('href'),
-                                data: {order_id: $this.data('id')},
-                                dataType: 'json',
-                                success: function(result){
-                                    swal('', result.message, result.status);
-																		location.reload();
-                                }
-                            });
-                        }, 1000);
-                });
-            });
-          });
-</script>
-<?php $this->stop('script')?>
