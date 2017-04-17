@@ -39,8 +39,7 @@
 		</tbody>
 	</table>
 
-	<?php 	$navigationUrl = $this->url('admin_categories'); 
-			include '_navigation.php'; ?>
+	<?= $this->insert('inc/_navigation', ['navigationUrl' => $this->url('admin_categories'), 'page' => $page, 'total' => $total, 'limit' => $limit]) ?>
 
 <?php $this->stop('main_content') ?>
 
