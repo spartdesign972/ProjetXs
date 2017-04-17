@@ -58,7 +58,7 @@
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer')?>
-<?php include './inc/footer.php';?>
+<?php $this->insert('inc/_footer') ?>
 <?php $this->stop('footer')?>
 <?php $this->start('script')?>
 <script>

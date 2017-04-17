@@ -50,5 +50,5 @@ $this->layout('layout', ['title' => 'Le detail de votre commande'])
 </div>
 <?php $this->stop('main_content')?>
 <?php $this->start('footer');?>
-<?php include './inc/footer.php';?>
+<?php $this->insert('inc/_footer') ?>
 <?php $this->stop('footer');?>
