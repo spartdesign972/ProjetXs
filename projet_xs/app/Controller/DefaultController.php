@@ -120,7 +120,7 @@ class DefaultController extends Controller
     public function home()
     {
         $productsCustomModel = new ProductsCustomModel();
-        $productsSelection   = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 1);
+        $productsSelection   = $productsCustomModel->findAllWithAuthorAndLikes('likes_count', 'DESC', 3);
 
         $this->show('default/home', ['productsSelection' => $productsSelection]);
     }
