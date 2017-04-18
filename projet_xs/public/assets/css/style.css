@@ -453,10 +453,14 @@ iframe {
     .chevron::after{
         content: none;
     }
+    .navbar-nav>li>a {
+    font-size: 1.2em;
+    }
+
 }
 
     
-}
+
 @media only screen and (max-width: 992px) {
     .navbar-default .navbar-nav > li > a{
         font-size: 1.2em!important;
@@ -476,7 +480,8 @@ iframe {
 
 /* min media */
 
-@media only screen and (min-width: 768px){}
-.navbar-nav>li>a {
-    font-size: 1.2em;
+@media only screen and (min-width: 768px){
+
+    
 }
+
