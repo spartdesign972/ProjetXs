@@ -312,7 +312,7 @@ class AdminController extends MasterController
 	{
 		$this->allowTo('admin');
 
-		$upload_dir = 'assets/custom/';
+		$upload_dir = 'assets/img/custom/';
 		$maxSize    = (1024 * 1000) * 2;
 		$extAllowed = ['jpg', 'jpeg', 'png', 'gif'];
 
