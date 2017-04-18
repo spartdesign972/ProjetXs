@@ -16,16 +16,16 @@
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
         <div class="item active">
-          <img src="<?= $this->assetUrl('img/heart.jpg') ?>" alt="Chania" class="img-responsive">
+          <img src="<?= $this->assetUrl('img/slider01.jpg') ?>" alt="Chania">
         </div>
         <div class="item">
-          <img src="<?= $this->assetUrl('img/wall2.jpg') ?>" alt="Chania">
+          <img src="<?= $this->assetUrl('img/slider02.jpg') ?>" alt="Chania">
         </div>
         <div class="item">
           <img src="<?= $this->assetUrl('img/CREATION.jpg') ?>" alt="Flower">
         </div>
         <div class="item">
-          <img src="<?= $this->assetUrl('img/Sans-titre-1.jpg') ?>" alt="Flower">
+          <img src="<?= $this->assetUrl('img/slide03.jpg') ?>" alt="Flower">
         </div>
       </div>
       <!-- Left and right controls -->
@@ -86,6 +86,7 @@
     <div class="col-xs-6 col-sm-3 chevron">
       <li><h2>1</h2><br>Ouvrez le T-shirt Designer et choisissez parmi plus de 170 produits.</li>
     </div>
+<<<<<<< HEAD
     <div class="col-xs-6 col-sm-3 chevron">
       <li><h2>2</h2><br>Trouvez un ou plusieurs designs ou bien importez vos designs, photos ou textes.</li>
       </div>
@@ -138,7 +139,39 @@
                       <?php endif; ?>
                     </div>
                   </div>
+                <?php endforeach; ?>
                 </div>
+
+  </div>
+</section>
+<!--*************************** fin how to *******************************-->
+<!--
+*************************** section selection *************************
+-->
+<section class="selection">
+  <div class="container text-center">
+    <div class="colored">
+      <h1>Sélection de la semaine</h1>
+      <div class="row">
+      
+        <?php foreach($productsSelection as $product) : ?>
+
+        <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
+          <div class="thumbnail greyfilter">
+            <img src="<?= $this->assetUrl('upload/' .$product['model']) ?>" alt="">
+            <div class="caption">
+
+              <h3 class="text-center"><?= $product['design_label'] ?></h3>
+              <p class="design-author-name">Créer par : <a href="<?= $this->url('default_membredesignmembre', ['id'=>$product['user_id']]); ?>" title=""><?= $product['username'] ?></a></p>
+              <!-- <p><a href="#" class="btn btn-default" role="button">Voir le produit</a></p> -->
+
+              <div class="row">
+                <p class="col-xs-6 text-left nb-like"><?= $product['likes_count'] ?> <i class="fa fa-heart" aria-hidden="true"></i></p>
+                <?php if(!empty($w_user)) : ?>
+                  <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?=$product['id'] ?>"></p>
+                  <p class="col-xs-12 text-center"><a href="<?=$this->url('cart_createcart', ['id' => $product['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
+                <?php endif; ?>
+
               </div>
               <?php endforeach; ?>
             </div>

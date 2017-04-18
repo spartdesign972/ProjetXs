@@ -33,7 +33,7 @@
 							</select>
 						</div>
 					</td>
-					<td><a href="<?= $this->url('admin_showadmin') ?>/order-details/<?= $order['id'] ?>">Visualiser</a></td>
+					<td><a href="<?= $this->url('pdf_viewFacturePdf', ['id' => $order['id']]) ?>">Voir la facture</a></td>
 					<td><a href="<?= $this->url('admin_send_order') ?>" class="mailOrder" data-id="<?= $order['user_id'] ?>">Envoyer</a></td>
 				</tr>
 			<?php endforeach; endif; ?>
@@ -52,10 +52,8 @@
 
 		ajax_change('select.statusChange', '<?= $this->url('admin_change_status') ?>');
 	
-		// Envoi un mail
 		mail_order();
 
 	});
-
 </script>
 <?php $this->stop('script') ?>
