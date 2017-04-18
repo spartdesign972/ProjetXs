@@ -78,7 +78,7 @@
 <!--
 *************************** section how to *************************
 -->
-<section class="howto text-center">
+<section class="howto text-center hidden-xs">
   <h1>Comment personnaliser soi-même un t-shirt ?</h1>
   <div class="container text-center wow bounceInUp">
     <ul>
