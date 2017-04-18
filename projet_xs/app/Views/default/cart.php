@@ -51,7 +51,7 @@
 		</tbody>
 	</table>
 	<div class="row">
-		<a href="<?=$this->url('default_membredesignmembre')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
+		<a href="<?=$this->url('default_showalldesignmembre2')?>" class="btn btn-info"  role="button">Continuer vos achats</a>
 		<a href="<?=$this->url('cart_order')?>" class="btn btn-info order" role="button">Commander</a>
 	</div>
 	<?php endif;?>
