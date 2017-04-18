@@ -3,10 +3,11 @@
 <!--
 ******************************** le slider *********************************
 -->
-<div class="container">
+<div class="container text-center">
   <div class="row">
 
-    <p class="col-xs-12 text-center">Trier par :
+    <p class="col-xs-12 text-center">Trier par :</p>
+    <p>
       <a href="<?= $this->url('default_designmembre', ['column' => 'username','ord' => 'asc' ]); ?>" class="btn btn-info">Pseudo <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_designmembre', ['column' => 'username','ord' => 'desc' ]); ?>" class="btn btn-primary">Pseudo <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_designmembre', ['column' => 'like','ord' => 'asc' ]); ?>" class="btn btn-info">Like <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
@@ -17,7 +18,7 @@
     </p>
 
   </div>
-  
+
   <div class="colored">
     <h1 class="text-center">Liste des design</h1>
     <div class="row">
@@ -33,7 +34,7 @@
               <?php if(!empty($w_user)) : ?>
               <p class="col-xs-6 text-right my-like" data-user="<?= $w_user['id'] ?>" data-id="<?= $designsFinal['id'] ?>"></p>
             </a></p>
-            <p class="text-center"><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
+            <p class="col-xs-12 text-center"><a href="<?=$this->url('cart_createcart', ['id' => $designsFinal['id']]) ?>" class="btn btn-default addCart" role="button">Ajouter au panier</a></p>
             <?php endif; ?>
           </div>
         </div>
@@ -41,6 +42,7 @@
     </div>
     <?php endforeach;?>
   </div>
+
   <?php if(isset($nbPage)): ?>
     <nav aria-label="Page navigation" class="text-center">
       <ul class="pagination">
@@ -57,6 +59,7 @@
   <?php endif; ?>
   </div>
 </div>
+<div class="clearfix"></div>
 <?php $this->stop('main_content') ?>
 <?php $this->start('footer') ?>
 <?php $this->insert('inc/_footer') ?>

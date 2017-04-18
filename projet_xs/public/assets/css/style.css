@@ -245,8 +245,8 @@ iframe {
 .carousel-wrapper {
     position: relative;
     min-width: 100%;
-    height: 400px;
-    background-color: #222222;
+    height: auto;
+    background-color: #1c1c1c;
     overflow: hidden;
 }
 
@@ -259,8 +259,7 @@ iframe {
 
 .carousel {
     height: 100%;
-    /* max-width: 1200px; */
-    /* top:  -120px; */
+    z-index: 1; 
 }
 
 .carousel-inner > .item > img {
@@ -314,15 +313,15 @@ iframe {
     filter: none;
 }
 
-.thumbnail a > img,
-.thumbnail > img {
+.greyfilter a > img,
+.greyfilter > img {
     -webkit-filter: grayscale(100%);
     /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
 }
 
-.thumbnail a > img:hover,
-.thumbnail > img:hover {
+.greyfilter a > img:hover,
+.greyfilter > img:hover {
     -webkit-filter: none;
     filter: none;
 }
@@ -379,12 +378,6 @@ iframe {
 
 .input-group {
     margin-bottom: 1rem;
-}
-
-.canva-aff{
-    min-height: 500px!important;
-    max-height: 520px!important;
-    height: 520px;
 }
 
 /*==================================================
@@ -445,6 +438,7 @@ iframe {
         margin-right: 0;
         margin-left: 0;
     }
+
     
 }
 @media only screen and (max-width: 992px) {
