@@ -245,7 +245,7 @@ iframe {
 .carousel-wrapper {
     position: relative;
     min-width: 100%;
-    height: auto;
+    height: autoy;
     background-color: #1c1c1c;
     overflow: hidden;
 }
