@@ -214,7 +214,7 @@ class DefaultController extends MasterController
                     $subject     = 'Nouveau mot de passe';
                     $msgHTML     = '<html><head><title>Nouveau mot de passe</title></head>';
                     $msgHTML .= '<body><p>Veuillez cliquer sur le lien ci-dessous pour générer un nouveau mot de passe</p>';
-                    $msgHTML .= '<a href="/' . $_SERVER['HTTP_HOST'] . $this->generateUrl('new_password') . '?email=' . $user['email'] . '&token=' . $user['token'] . '">Nouveau mot de passe</a>';
+                    $msgHTML .= '<a href="http://localhost' . $this->generateUrl('new_password') . '?email=' . $user['email'] . '&token=' . $user['token'] . '">Nouveau mot de passe</a>';
                     $msgHTML .= '</body></html>';
 
                     $this->mailer($fromAddress, $fromName, $toAddress, $toName, $subject, $msgHTML);
