@@ -95,7 +95,7 @@
         <li><h2>4</h2><br>Ajoutez le t-shirt au panier, validez et vous recevrez votre commande quelques jours après.</li>
       </div>
     </ul>
-    <a class="btn  btn-primary " href="#">Personnaliser un t-shirt</a>
+    <a class="btn  btn-primary " href="<?=$this->url('default_custom'); ?>">Personnaliser un t-shirt</a>
   </div>
 </section>
 
