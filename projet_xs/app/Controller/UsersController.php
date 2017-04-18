@@ -71,9 +71,9 @@ class UsersController extends \W\Controller\Controller
     {
         // $this->allowTo('admin');
 
-        if ($_POST['design_id'] && !empty($_POST['design_id']) && is_numeric($_POST['design_id'])) {
+        if ($_POST['id'] && !empty($_POST['id']) && is_numeric($_POST['id'])) {
 
-            $design_id = (int) $_POST['design_id'];
+            $design_id = (int) $_POST['id'];
 
             $deletedesign = new ProductsCustomModel();
             if ($deletedesign->delete($design_id)) {
@@ -108,23 +108,6 @@ class UsersController extends \W\Controller\Controller
             $this->showJson(['status' => 'error', 'message' => 'l\'update ne passe pas']);
         }
 
-    }
-
-
-    //************** fonction pour generer la facture pdf **********************
-
-
-    public function viewFacturePdf(){
-        // $content = 'http://'.$_SERVER['HTTP_HOST'].$this->generateUrl('admin_pdf_print_fiche', ['id' => $id, 'html' => true]);
-        ob_start();
-            require 'facturePdfTemplate.php'; 
-        $content = ob_get_clean();
-        
-        $pdf = new \mikehaertl\wkhtmlto\Pdf();
-
-        // $pdf->setOptions(['user-style-sheet' => realpath(pdf.css)]);
-        $pdf->addPage($content);
-        $pdf->send();
     }
 
 }

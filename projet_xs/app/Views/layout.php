@@ -135,6 +135,7 @@
 		  	
 			<script src="<?= $this->assetUrl('js/cart.js') ?>"></script>
 			<script src="<?= $this->assetUrl('js/like.js') ?>"></script>
+			<script src="<?= $this->assetUrl('js/script.js') ?>"></script>
 			
 			<script type="text/javascript">
 				$(document).ready(function() {

@@ -21,7 +21,7 @@
 		</thead>
 		<tbody>
 			<?php if(count($set) == 0) : ?>
-				<tr><td class="danger text-danger text-center">Aucun produit...</td></tr>
+				<tr><td colspan="6" class="danger text-danger text-center">Aucun produit...</td></tr>
 			<?php else : foreach ($set as $product) : ?>
 				<tr>
 					<td><?= $product['id'] ?></td>

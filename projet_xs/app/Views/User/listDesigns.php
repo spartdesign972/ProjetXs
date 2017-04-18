@@ -41,69 +41,43 @@
 $(function(){
 
 		// Supprimer un design
-					$('body').on('click', '.deleteDesign', function(e){
-							e.preventDefault();
-			var $this = $(this);
-							swal({
-									title: "Effacer ce design",
-									text: "Voulez-vous continuer ?",
-									type: "info",
-									showCancelButton: true,
-									closeOnConfirm: false,
-									showLoaderOnConfirm: true
-									}, function () {
-											setTimeout(function () {
-													$.ajax({
-															method: 'post',
-															url: $this.attr('href'),
-															data: {design_id: $this.data('id')},
-															dataType: 'json',
-															success: function(result){
-																	swal('', result.message, result.status);
-																	location.reload();
+		ajax_delete('a.deleteDesign', 'Effacer ce design');
 
-															}
-													});
-											}, 1000);
-							});
-					});
+		// // confirmation pour rendre public
+		// $('body').on('click', '.confirm', function(e){
+		// 		e.preventDefault();
+		// 		var $this = $(this);
+		// 		if($this.data('value') == 0){
+		// 			var val = 1;
+		// 			var mess = "Vous vous apprêter à rendre ce design public";
+		// 		}else if($this.data('value') == 1){
+		// 			var val = 0;
+		// 			var mess = "Vous vous apprêter a ne plus rendre ce design publique";
+		// 		}
 
+		// 		swal({
+		// 				title: mess,
+		// 				text: "Voulez-vous continuer ?",
+		// 				type: "info",
+		// 				showCancelButton: true,
+		// 				closeOnConfirm: false,
+		// 				showLoaderOnConfirm: true
+		// 				}, function () {
+		// 						setTimeout(function () {
+		// 								$.ajax({
+		// 										method: 'post',
+		// 										url: $this.attr('href'),
+		// 										data: {confirm_id: $this.data('id'), state: val},
+		// 										dataType: 'json',
+		// 										success: function(result){
+		// 												swal('', result.message, result.status);
+		// 												location.reload();
 
-					// confirmation pour rendre public
-					$('body').on('click', '.confirm', function(e){
-							e.preventDefault();
-							var $this = $(this);
-							if($this.data('value') == 0){
-								var val = 1;
-								var mess = "Vous vous apprêter à rendre ce design public";
-							}else if($this.data('value') == 1){
-								var val = 0;
-								var mess = "Vous vous apprêter a ne plus rendre ce design publique";
-							}
-							console.log(val);
-							swal({
-									title: mess,
-									text: "Voulez-vous continuer ?",
-									type: "info",
-									showCancelButton: true,
-									closeOnConfirm: false,
-									showLoaderOnConfirm: true
-									}, function () {
-											setTimeout(function () {
-													$.ajax({
-															method: 'post',
-															url: $this.attr('href'),
-															data: {confirm_id: $this.data('id'), state: val},
-															dataType: 'json',
-															success: function(result){
-																	swal('', result.message, result.status);
-																	location.reload();
-
-															}
-													});
-											}, 1);
-							});
-					});
-			});
+		// 										}
+		// 								});
+		// 						}, 1);
+		// 		});
+		// });
+});
 </script>
 <?php $this->stop('script')?>

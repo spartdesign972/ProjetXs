@@ -2,8 +2,8 @@
 namespace Controller;
 
 use Respect\Validation\Validator as v;
-use \Model\ProductsCustomModel;
 use \Model\OrdersModel;
+use \Model\ProductsCustomModel;
 use \W\Controller\Controller;
 
 class CartController extends Controller
@@ -39,12 +39,12 @@ class CartController extends Controller
             $product   = $itemModel->find($id);
 
             // Mise à jour de la Qté si déjà présent dans le panier
-            $position = array_search($id,  $_SESSION['cart']['id']);
-            if($position !== false){
+            $position = array_search($id, $_SESSION['cart']['id']);
+            if ($position !== false) {
                 $_SESSION['cart']['qty'][$position]++;
             }
             // Ajout si absent du panier
-            else{
+            else {
                 $_SESSION['cart']['id'][]             = $id;
                 $_SESSION['cart']['libelleProduit'][] = $product['design_label'];
                 $_SESSION['cart']['ref'][]            = $product['product_reference'];
@@ -54,9 +54,9 @@ class CartController extends Controller
             }
 
             $this->showJson([
-                'status'  => 'success',
-                'message' => 'Design ajouté au panier',
-                'position'=> $position
+                'status'   => 'success',
+                'message'  => 'Design ajouté au panier',
+                'position' => $position,
             ]);
 
         }
@@ -83,10 +83,10 @@ class CartController extends Controller
                 ]);
             } else {
                 // mise à jour de la quantité
-                if($post['qty'] > 0){
+                if ($post['qty'] > 0) {
 
-                    $position = array_search($post['design_id'],  $_SESSION['cart']['id']);
-                    if($position !== false){
+                    $position = array_search($post['design_id'], $_SESSION['cart']['id']);
+                    if ($position !== false) {
                         $_SESSION['cart']['qty'][$position] = $post['qty'];
                     }
                 }
@@ -159,7 +159,7 @@ class CartController extends Controller
         $successText = '';
         $errorsText  = '';
 
-        $datas       = [
+        $datas = [
             // colonne sql => valeur à insérer
             'user_id'     => $_SESSION['user']['id'],
             'products'    => json_encode($_SESSION['cart']),
@@ -168,7 +168,7 @@ class CartController extends Controller
         ];
         $order = new OrdersModel();
         if ($order->insert($datas)) {
-
+            unset($_SESSION['cart']);
             $successText = 'Votre commande a été ajoutée avec succès';
         } else {
             $errorsText = 'Il y a eu un problem à l\'ajout de votre commande';
@@ -178,7 +178,7 @@ class CartController extends Controller
             'errorsText'  => $errorsText,
 
         ];
-        $this->show('default/messageOrder',$params);
+        $this->show('default/messageOrder', $params);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
