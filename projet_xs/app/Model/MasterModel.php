@@ -61,4 +61,27 @@ class MasterModel extends \W\Model\Model
 		return $resultFoundRows->fetchColumn();
 	}
 
+	public function findAllStatus()
+	{
+		$sql = 'desc ' . $this->table . ' status';
+
+		$sth = $this->dbh->prepare($sql);
+		if($sth->execute()){
+
+			$row = $sth->fetch();
+
+			preg_match('/enum\((.*)\)$/', $row['Type'], $matches);
+			$vals = explode(',', $matches[1]);
+
+			$trimmedvals = [];			
+			foreach($vals as $key => $value) {
+				$value = trim($value, "'");
+				$trimmedvals[] = $value;
+			}
+			return $trimmedvals;
+		}
+
+		return false;
+	}
+
 }

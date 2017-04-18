@@ -298,7 +298,7 @@ class DefaultController extends MasterController
             $err  = [
                 //-On verifie si l'input n'est pas vide, si il ne comporte pas de caracteres qu'on ne veut pas, et si la taille de la chaine est comprise entre 2 et 30 caracteres.
                 (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['lastname'])) ? 'Le nom de famille est invalide' : null,
-                (!v::notEmpty()->alpha('-.')->length(2, 30)->validate($post['subject'])) ? 'L\'objet du message est invalide' : null,
+                (!v::notEmpty()->length(2, 30)->validate($post['subject'])) ? 'L\'objet du message est invalide' : null,
                 (!v::notEmpty()->email()->validate($post['email'])) ? 'L\'adresse email est invalide' : null,
                 (!v::notEmpty()->length(2)->validate($post['comment'])) ? 'Le message est invalide' : null,
             ];
@@ -313,6 +313,8 @@ class DefaultController extends MasterController
                     'subject' => ucfirst($post['subject']),
                     'email'   => $post['email'],
                     'message' => $post['comment'],
+                    'status'  => 'non lu',
+                    'date'    => date("Y-m-d H:i:s")
                 ];
 
                 $contact = new ContactFormModel();

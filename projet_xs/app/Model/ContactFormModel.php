@@ -1,7 +1,7 @@
 <?php
 namespace Model;
 
-class ContactFormModel extends \W\Model\Model
+class ContactFormModel extends MasterModel
 {
 
 

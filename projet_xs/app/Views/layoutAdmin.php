@@ -78,6 +78,11 @@
                             <span>Commandes</span>
                         </a>
                     </li>
+                    <li <?php if($title == 'Contact'): ?>class="active"<?php endif; ?>>
+                        <a href="<?= $this->url('admin_contacts') ?>"<?php if($title == 'Contact'): ?>class="active"<?php endif; ?>>
+                            <span>Contact</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
