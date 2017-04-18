@@ -86,7 +86,7 @@
     <div class="col-xs-6 col-sm-3 chevron">
       <li><h2>1</h2><br>Ouvrez le T-shirt Designer et choisissez parmi plus de 170 produits.</li>
     </div>
-<<<<<<< HEAD
+
     <div class="col-xs-6 col-sm-3 chevron">
       <li><h2>2</h2><br>Trouvez un ou plusieurs designs ou bien importez vos designs, photos ou textes.</li>
       </div>
