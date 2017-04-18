@@ -8,7 +8,7 @@
   <?php endif;if (!empty($successText)): ?>
   <div class="alert alert-success"><?= $successText ?></div>
   <?php endif;?>
-  <div class="row">
+  <div class="row text-center">
   	<a href="<?=$this->url('users_listOrders')?>" class="btn btn-info" role="button">Liste de vos commandes</a>
   </div>
 </div>
