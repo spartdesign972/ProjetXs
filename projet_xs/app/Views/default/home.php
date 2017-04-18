@@ -110,7 +110,7 @@
       <div class="row"> 
         <?php foreach($productsSelection as $product) : ?>
         <div class="col-sm-12 col-md-4 wow fadeInUp" data-wow-offset="200">
-          <div class="thumbnail">
+          <div class="thumbnail greyfilter">
             <img src="<?= $this->assetUrl('upload/' .$product['model']) ?>" alt="">
             <div class="caption">
               <h3 class="text-center"><?= $product['design_label'] ?></h3>
