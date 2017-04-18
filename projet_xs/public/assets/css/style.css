@@ -9,6 +9,7 @@ body {
     z-index: 0;
 }
 
+
 h1 {
     font-family: 'Gochi Hand', cursive;
     color: #41b6de;
@@ -111,8 +112,28 @@ iframe {
 }
 
 .howto {
-    height: 250px;
+    height: auto;
     background: linear-gradient(rgba(65, 182, 222, 0.9) 0%, rgba(65, 182, 222, 0.9) 100%), url('../img/madras2.jpg') fixed;
+    padding: 10px 0 10px;
+}
+.howto h2{
+    font-family: Consolas, monaco, monospace;
+    margin: 0 0 -20px 0;
+    padding: 0;
+}
+.howto li{
+    list-style: none;
+    padding:0 15px 0;
+    font-weight: bold;
+}
+.chevron::after{
+    content: '>';
+    position: absolute;
+    right: -25px;
+    top: 40px;
+    color: #fff;
+    font-size: 50px;
+    margin: 10px;
 }
 
 .howto h1 {
@@ -404,13 +425,7 @@ iframe {
     }
     p {
         font-size: 1.3em;
-    }
-    .howto {
-        min-height: 420px;
-    }
-    
-
-    
+    } 
 }
 
 
@@ -421,10 +436,6 @@ iframe {
         background-color: #E47003;
         margin-top: -10px;
         font-size: 1.2em!important;
-    }
-    
-    .howto {
-        height: 340px;
     }
     .presentation {
         margin-top: 0px;
@@ -438,6 +449,11 @@ iframe {
         margin-right: 0;
         margin-left: 0;
     }
+
+    .chevron::after{
+        content: none;
+    }
+}
 
     
 }
