@@ -99,3 +99,31 @@ function mail_order() {
     });
 
 }
+
+// Rendre public ou privé
+function change_public(url){
+
+    $('input[name=publicDesign]').change(function(e){
+        e.preventDefault();
+
+        var $this = $(this);
+        var text = ($this.prop('checked') == true) ? "Votre design est désormais public" : "Votre design est désormais privé";
+
+        $.ajax({
+            method: 'post',
+            url: url,
+            data: {design_id: $this.data('id'), status: $this.data('value')},
+            dataType: 'json',
+            success: function(result){
+                swal({
+                    title:'', 
+                    text: text,
+                    type: 'info'
+                }, function() {
+                    location.reload();
+                });
+            }
+        });
+
+    })
+}
