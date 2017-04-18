@@ -88,26 +88,26 @@ class UsersController extends \W\Controller\Controller
 
     public function publicDesign()
     {
-        if ($_POST["confirm_id"] && !empty($_POST['confirm_id']) && is_numeric($_POST['confirm_id'])) {
+        if (isset($_POST["design_id"]) && !empty($_POST['design_id']) && is_numeric($_POST['design_id'])) {
 
-            $confirmation = (int) $_POST['state'];
-            $confirm_id = (int) $_POST['confirm_id'];
+            $design_id = (int) $_POST['design_id'];
 
-            $data         = [
-                'public' => $confirmation,
-            ];
+            if(isset($_POST['status']) && is_numeric($_POST['status'])){
+            
+                $status = (int) $_POST['status'];
 
-            $designPublic = new ProductsCustomModel();
-
-            if ($designPublic->update($data, $confirm_id)) {
-
-            $this->showJson(['status' => 'success', 'message' => 'Votre design est désormais public']);
+                $ProductsCustomModel = new ProductsCustomModel();
+                if($ProductsCustomModel->update(['public' => ($status == 0) ? true : false], $design_id)){
+                    $this->showJson(['status' => 'success', 'message' => 'Etat changé']);
+                }
             }
-        } else {
-            $confirmation = 0;
-            $this->showJson(['status' => 'error', 'message' => 'l\'update ne passe pas']);
+            else{
+                $this->showJson(['status' => 'error', 'message' => 'Erreur: Etat invalide']);
+            }
+        } 
+        else {
+            $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
         }
-
     }
 
 }
