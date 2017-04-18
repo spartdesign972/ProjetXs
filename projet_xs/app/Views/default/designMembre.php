@@ -12,8 +12,8 @@
       <a href="<?= $this->url('default_designmembre', ['column' => 'username','ord' => 'desc' ]); ?>" class="btn btn-primary">Pseudo <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_designmembre', ['column' => 'like','ord' => 'asc' ]); ?>" class="btn btn-info">Like <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_designmembre', ['column' => 'like','ord' => 'desc' ]); ?>" class="btn btn-primary">Like <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-      <a href="<?= $this->url('default_designmembre', ['column' => 'date','ord' => 'asc' ]); ?>" class="btn btn-info">Date <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-      <a href="<?= $this->url('default_designmembre', ['column' => 'date','ord' => 'desc' ]); ?>" class="btn btn-primary">Date <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+      <a href="<?= $this->url('default_designmembre', ['column' => 'date','ord' => 'asc' ]); ?>" class="btn btn-info">Date <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+      <a href="<?= $this->url('default_designmembre', ['column' => 'date','ord' => 'desc' ]); ?>" class="btn btn-primary">Date <i class="fa fa-arrow-down" aria-hidden="true"></i></a>
       <a href="<?= $this->url('default_showalldesignmembre',['page' => 1]); ?>" class="btn btn-primary">Tous</a>
     </p>
 

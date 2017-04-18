@@ -14,7 +14,7 @@
 							<div class="col-md-6 inputGroupContainer">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-									<input name="lastname" placeholder="Nom" class="form-control"  type="text">
+									<input name="lastname" placeholder="Votre Nom" class="form-control"  type="text">
 								</div>
 							</div>
 						</div>
@@ -26,7 +26,7 @@
 							<div class="col-md-6 inputGroupContainer">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-									<input  name="subject" placeholder="subject" class="form-control"  type="text">
+									<input  name="subject" placeholder="Sujet de votre message" class="form-control"  type="text">
 								</div>
 							</div>
 						</div>
@@ -38,7 +38,7 @@
 							<div class="col-md-6 inputGroupContainer">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-									<input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
+									<input name="email" placeholder="Adresse Email" class="form-control"  type="text">
 								</div>
 							</div>
 						</div>

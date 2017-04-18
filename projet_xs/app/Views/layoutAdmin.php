@@ -56,7 +56,7 @@
             <nav id="spy">
                 <ul class="sidebar-nav nav">
                     <li class="sidebar-brand">
-                        <a href="<?=$this->url('default_home') ?>"><i class="fa fa-home fa-2x"></i> Acceuil</a>
+                        <a href="<?=$this->url('default_home') ?>"><i class="fa fa-home fa-2x"></i> Accueil</a>
                     </li>
                     <li <?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
                         <a href="<?= $this->url('admin_users') ?>"<?php if($title == 'Utilisateurs'): ?>class="active"<?php endif; ?>>
