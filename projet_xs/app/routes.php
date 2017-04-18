@@ -26,6 +26,7 @@ $w_routes = array(
     ['GET|POST', '/informations', 'Default#modifInfos', 'default_modifInfos'],
 
     ['GET|POST', '/contact', 'Default#contact', 'default_contact'],
+
     // Administration BACK
     ['GET|POST', '/admin', 'Admin#showadmin', 'admin_showadmin'],
     ['GET|POST', '/admin/login', 'Admin#login', 'admin_login'],
@@ -43,6 +44,10 @@ $w_routes = array(
     ['GET|POST', '/admin/orders', 'Admin#orders', 'admin_orders'],
     ['GET|POST', '/admin/change-status', 'Admin#change_status', 'admin_change_status'],
     ['GET|POST', '/admin/send-order', 'Admin#send_order', 'admin_send_order'],
+    ['GET|POST', '/admin/contacts', 'Admin#contacts', 'admin_contacts'],
+    ['GET|POST', '/admin/contact-status', 'Admin#contact_status', 'admin_contact_status'],
+    ['GET|POST', '/admin/contact-details/[i:id]', 'Admin#contact_details', 'admin_contact_details'],
+    ['GET|POST', '/admin/delete-contact', 'Admin#delete_contact', 'admin_delete_contact'],
 
     //Page de personnalisation des Tshirt
     ['GET|POST', '/custom', 'Default#custom', 'default_custom'],

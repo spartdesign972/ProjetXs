@@ -9,6 +9,7 @@ use Model\UsersModel;
 use Model\ProductsModel;
 use Model\ProductsCategoryModel;
 use Model\OrdersModel;
+use Model\ContactFormModel;
 use \W\Security\AuthentificationModel;
 use \W\Security\StringUtils;
 
@@ -483,5 +484,79 @@ class AdminController extends MasterController
     }
 
 	}
+
+	public function contacts()
+	{
+			$this->allowTo('admin');
+
+		$page		= (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+		$limit 	= (isset($_GET['limit']) && is_numeric($_GET['limit'])) ? (int) $_GET['limit'] : 10;
+		
+		$params = $this->paginate($page, $limit, new ContactFormModel(), 'findAll');
+
+		$this->show('admin/contacts', $params);
+	}
+
+  public function contact_status()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
+
+      $contact_id = (int) $_POST['id'];
+			
+			$contactFormModel = new ContactFormModel();
+			$statusAvailables = $contactFormModel->findAllStatus();
+
+			if(isset($_POST['option']) && !empty($_POST['option']) && in_array($_POST['option'], $statusAvailables)){
+
+      	$contact_status = $_POST['option'];
+
+				if($contactFormModel->update(['status' => $contact_status], $contact_id)){
+					$this->showJson(['status' => 'success', 'message' => 'L\'état du message de contact #'.$contact_id.' a bien été changé en '.$contact_status]);
+				}
+			}
+			else{
+				$this->showJson(['status' => 'error', 'message' => 'Erreur: Etat invalide']);	
+			}
+    }
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+  }
+
+	public function contact_details($id)
+	{
+		$this->allowTo('admin');
+
+    if(isset($id) && !empty($id) && is_numeric($id)){
+
+			$contactFormModel = new ContactFormModel();
+
+			$contactFormModel->update(['status' => 'lu'], $id);
+			$this->show('admin/contact-details', ['contact' => $contactFormModel->find($id)]);
+		}
+		else{
+			$this->redirectToRoute('admin_contacts');
+		}
+	}
+
+  public function delete_contact()
+  {
+		$this->allowTo('admin');
+
+    if(isset($_POST['id']) && !empty($_POST['id']) && is_numeric($_POST['id'])){
+
+      $contact_id = (int) $_POST['id'];
+
+			$contactFormModel = new ContactFormModel();
+      if($contactFormModel->delete($contact_id)){
+        $this->showJson(['status' => 'success', 'message' => 'Message de contact #'.$contact_id.' supprimé']);
+      }
+    }
+    else {
+      $this->showJson(['status' => 'error', 'message' => 'Erreur: ID invalide']);
+    }
+  }
 
 }
