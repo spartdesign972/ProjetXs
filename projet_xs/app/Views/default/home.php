@@ -67,7 +67,7 @@
           </div>
           <div class="wow slideInLeft">
             <img src="<?= $this->assetUrl('img/img_pres5.jpg') ?>" alt="" class="img-thumbnail">
-            <img src="<?= $this->assetUrl('img/img_pres6.jpg') ?>" alt="" class="img-thumbnail">
+            <img src="<?= $this->assetUrl('img/img_pres1.jpg') ?>" alt="" class="img-thumbnail">
           </div>
         </div>
       </div>

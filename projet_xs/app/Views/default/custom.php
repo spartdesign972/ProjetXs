@@ -68,6 +68,7 @@ $this->start('link');
          }
          
          .lightbox{
+             display: table;
              position:absolute;
              z-index: 9999;
              width:100%;
@@ -76,13 +77,16 @@ $this->start('link');
          }
          
          .lightbox > div {
-             display:block;
+             display:table-cell;
              margin:auto;
-             background:rgb(255,255,255);
+             
              width:80%;
+             vertical-align:middle;
          }
          
          .lightbox > div > p {
+             padding: 20px;
+             background:rgb(255,255,255);
              color : rgba(228, 112, 3, 1.0);
          }
          
@@ -107,6 +111,9 @@ $this->start('link');
              color: whitesmoke;
          }
          
+         #close{
+             width:25%;
+         }
          
          #target{
              display:none;
@@ -324,7 +331,7 @@ $this->start('link');
                 <form id="uploadImage" method="post" action="<?=$this->url('default_custom')?>"  enctype="multipart/form-data">
                      <input type="hidden" name="MAX_FILE_SIZE" value="2097152" /> 
                     <input type="file" name="picture" placeholder="Choisir">
-                    <input type="submit" value="Charger l'image">                 
+                    <input type="submit" value="Importer l'image">                 
                 </form>
 <?php
   
@@ -430,11 +437,11 @@ $this->start('link');
 -->
 			      		<tr>
 			      			<td><strong>Total</strong></td>
-			      			<td id="total" align="right"><strong><?=$list[0]['price']+4.99?></strong></td>
+			      			<td id="total" align="right"><strong><?=(int) $list[0]['price']+4.99?></strong></td>
 			      		</tr>
 			      	</table>			
 			      </p>
-<!--					<button type="button" class="btn btn-large btn-block btn-success" name="addToTheBag" id="addToTheBag">Commander</button>-->
+
 <?php
   
     if(!empty($_SESSION['user'])){
@@ -479,7 +486,7 @@ Le javascript
 <script>
 
     $(function() {
-        
+        //Référence par défaut
         var reference = {model:'BC-TU004', size:'XL', color:'00'};
         
   // Pour l'ajout d'une image
@@ -496,8 +503,24 @@ Le javascript
           // dataType: 'json', // selon le retour attendu
           data: data,
           success: function(resultat) {
-            $('#result').html(resultat);
+              
+              if(resultat.status == true){
+                  
+                  $('#result').html(resultat.message);
             $('#uploadImage').hide();
+                  
+              }else if(resultat.status == false){
+                  
+                  $('body').prepend(resultat.message);
+                    $('#box').attr('class','lightbox');
+                    $('#new').attr('href','<?= $this->url('default_custom') ?>');
+                    $('#viewAll').attr('href','<?= $this->url('user_listDesigns') ?>');
+                    $('#close').on('click',function(){
+                        $('#box').remove();               
+                    });
+                  
+              }
+              
           }
         });
       });
@@ -521,7 +544,7 @@ Le javascript
             $('#modelName').html(txt);
             $('#modelPrice').html(price);
             $('#total').html(total);
-            $('#tshirtFacing').attr('src','/projetXs/projet_xs/public/assets/img/custom/'+view);
+            $('#tshirtFacing').attr('src','<?=$this->assetUrl('img/custom/')  ?>'+view);
         }
         
         reference[key] = value;
@@ -557,11 +580,18 @@ Le javascript
                       price     : $('#total').text(),
                   }
                 }).done(function(o) {
-                    $('body').prepend(o);
+                  
+                    $('body').prepend(o.message);
                     $('#box').attr('class','lightbox');
                     $('#new').attr('href','<?= $this->url('default_custom') ?>');
                     $('#viewAll').attr('href','<?= $this->url('user_listDesigns') ?>');
+                    $('#close').on('click',function(){
+                        $('#box').remove();               
                 });
+                  
+                    
+                    });
+                
               
               }//Fin de rendered
             
@@ -570,18 +600,6 @@ Le javascript
 
             
     });//Fin de $(#enregistrer).click
-        
- 
-//Pour le téléchargement de l'image 
-//    $('#telecharger').click(function(){
-//        
-////        $("#tcanvas").get(0).toBlob(function(blob){
-////           console.log(blob);
-////            saveAs(blob, "myIMG.png");
-////        });
-//        
-//    });
-    
         
 //POur effacer l'image
     $('#reset').on('click',function(){

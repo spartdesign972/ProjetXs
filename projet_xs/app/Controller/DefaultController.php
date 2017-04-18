@@ -556,7 +556,7 @@ class DefaultController extends MasterController
     //Page de personnalisation de tShirt
     public function custom()
     {
-
+        $errors = [];
         $upload_dir = 'assets/upload/'; //Dossier d'upload
 
         //Upload de l'image
@@ -567,6 +567,8 @@ class DefaultController extends MasterController
             $maxSize    = (1024 * 1000) * 2; //Taille Maximal du fichier uploadé
             $extAllowed = ['jpg', 'jpeg', 'png', 'gif']; //Extensions acceptés pour l'upload
 
+            if($_FILES['picture']['size'] < $maxSize){
+
             if (!is_dir($upload_dir)) { //-Si le dossier de destination n'existe pas
                 mkdir($upload_dir, 0755); // on le crée
             }
@@ -576,15 +578,15 @@ class DefaultController extends MasterController
 //Vérifier si l'extension du fichier source est accepté
                 $img = Image::make($_FILES['picture']['tmp_name']); //- créer une nouvelle ressource d'image à partir du fichier
 
-                if ($img->filesize() > $maxSize) {
-                    //-Si la taille de l'image est superieure à la dimension donnée
-                    $errors[] = 'Image trop lourde, 2 Mo maximum';
-                }
+//                if ($img->filesize() > $maxSize) {
+//                    //-Si la taille de l'image est superieure à la dimension donnée
+//                    $errors[] = 'Votre Image est trop lourde, 2 Mo maximum';
+//                }
 
                 if (!v::image()->validate($_FILES['picture']['tmp_name'])) {
                     //-On verifie si l'image est valide en verifiant son mimetype
-                    $errors[] = 'L\'image n\'a pas un format invalide';
-                } else {
+                $errors[] = 'Le format du fichier que vous avez choisi n\'est pas utilisable.<br> Les formats acceptés sont: .jpg    .jpeg    .png    .gif ';
+                } else {//On détermine l'extension que portera le fichier sur le serveur
                     switch ($img->mime()) {
                         case 'image/jpg':
                         case 'image/jpeg':
@@ -607,7 +609,7 @@ class DefaultController extends MasterController
                         'source' => $save_name . $ext,
                     ];
                     //echo $_SESSION['picture']['source'];
-                    echo '<script>
+                    $message = '<script>
                     fabric.Image.fromURL(\'' . $custom . '\',function(img){
                     img = img;
                     img.scaleToWidth(200);
@@ -616,18 +618,33 @@ class DefaultController extends MasterController
                     //canvas.remove(img);
                     });
                     </script>';
-
+                    $checkImg = true;
                 }
 
             } else {
             //L'extension du fichier source n'est pas accepté
 
-                $errors[] = 'L\'image a un format invalide';
+                $errors[] = 'Le format du fichier que vous avez choisi n\'est pas utilisable.<br> Les formats acceptés sont: .jpg    .jpeg    .png    .gif ';
 
                 }
+            }else{//Vérification de la taille depuis $_files
                 
-                
-                
+                $errors[] = 'Votre fichier est trop lourd, La taille doit être de 2 Mo maximum';
+            }
+        }
+        elseif(isset($_FILES['picture']) && $_FILES['picture']['error']){
+          switch($_FILES['picture']['error']){
+              case 1: 
+              case 2: 
+                  $errors[] = 'Votre fichier est trop lourd, La taille doit être de 2 Mo maximum';
+                break;
+              case 3: 
+                  $errors[] = 'Le fichier n\'a été que partiellement téléchargé';
+                break;
+              default: 
+                  $errors[] = 'Une erreur est survenue lors de l\'upload du fichier';
+                  break;
+          }  
             }//Fin de l'upload d'image
             elseif(isset($_POST['img'])){//Enregistrement de la création et import d'infos dans la bdd
                 
@@ -642,17 +659,14 @@ class DefaultController extends MasterController
                 file_put_contents($fileName, $fileData);
                 
                 if(isset($_SESSION['picture']['source'])){
-                    if(!isset($_POST['label'])){//Si aucun nom n'est défini, on en crée un
+                    
+                    
+                    if(strlen($_POST['label']) < 20){
+                        if(empty($_POST['label'])){//Si aucun nom n'est défini, on en crée un
                         $_POST['label'] = 'Custom-'.time();
                     }
-                    else{
-                        if(strlen($_POST['label'])<=20){
-
                         $_POST['label'] = trim(strip_tags($_POST['label']));
 
-                        }
-                    }
-                
                     //Construire la référence à partir du modele,de la taille et la couleur
                     $reference = $_POST['ref1'].$_POST['ref2'].$_POST['ref3'];
 
@@ -673,19 +687,27 @@ class DefaultController extends MasterController
 
                         //$success= true;
                         unset($_SESSION['picture']);
-                        echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
+                        
+                        $message = '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
+                        
+                        $saveImg = true;
+//                        echo '<div id="box"><div><p>Votre création a été enregistrée</p><img src="'.$fileName.'"><a href="'.$fileName.'" download>Télécharger votre création</a><a id="new" href="#">Nouvelle création</a><a id="viewAll" href="">Voire toutes mes créations</a></div></div>';
                     }
+
+                        }
+                        else{
+                            
+                            $errors[] = 'Votre Nom doit contenir moins de 20 caractères';
+                            
+                        }
+                    
+                
+                    
                     }
                     else{//Aucune image n'a été importé
 
                         $errors[] = 'Vous devez importer une image avant d\'enregistrer';
                     }
-                
-                if (count($errors) > 0){
-                    
-                    echo '<p>'.implode('<br>', $errors).'</p>';
-                    
-                }
                 
             }//Fin des enregistrements   
 
@@ -696,6 +718,14 @@ class DefaultController extends MasterController
 //            unset($_SESSION['picture']);
 //
 //        }
+        if (count($errors) > 0){
+                    $this->showJson(['status' => false, 'message' => '<div id="box"><div><p>'.implode('<br>', $errors).'<br><input id="close" type="button" value="Ok"></p></div></div>']);
+                    
+                    
+                } elseif(isset($checkImg) || isset($saveImg)){
+                    
+                   $this->showJson(['status' => true, 'message' => $message]);
+        }
         else {
 //Affichage de la page
 
